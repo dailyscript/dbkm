@@ -1,3 +1,7 @@
+#KumbiaPHP
+default/app/config/databases.ini
+default/app/temp/*
+
 # Numerous always-ignore extensions
 *.diff
 *.err
