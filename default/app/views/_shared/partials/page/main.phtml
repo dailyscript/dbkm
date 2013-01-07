@@ -1,0 +1,13 @@
+<?php Menu::load(Session::get('perfil_id')); ?>
+<div class="main-nav-wrapper hidden-phone hidden-tablet">
+    <div class="navbar navbar-fixed-top main-nav">
+        <div class="navbar-inner">
+            <div class="container-fluid ">                        
+                <div class="nav-collapse">
+                    <?php echo Menu::getMain('desktop'); ?>                    
+                </div>
+            </div>                    
+        </div>
+    </div> 
+    <?php echo Menu::getItems(); ?>                       
+</div>

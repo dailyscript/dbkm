@@ -1,0 +1,37 @@
+<?php Menu::load(Session::get('perfil_id')); ?>
+
+<div class="navbar navbar-fixed-top user-nav">	
+            <div class="navbar-inner">		
+		<div class="container">			                    			
+                    <?php echo DwHtml::link('principal', '<i class="icon-globe icon-expand"></i>'.APP_NAME, array('class'=>'brand')); ?>
+                    <a class="btn btn-navbar" href="#" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <div class="pull-right">
+                        <ul class="nav pull-right">
+                            <li class="dropdown">						
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-user"></i> <?php echo Session::get('login'); ?> <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><?php echo DwHtml::link('cuenta/perfil', 'Perfil'); ?></li>
+                                    <li><?php echo DwHtml::link('cuenta/ajustes', 'Ajustes'); ?></li>
+                                    <li class="divider"></li>
+                                    <li><?php echo DwHtml::link('login/salir', 'Salir', array('class'=>'no-ajax'), 'icon-off'); ?></li>
+                                </ul>						
+                            </li>
+                        </ul>	                        
+                    </div>                    
+                </div>
+                
+                <div class="hidden-desktop">                    
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <?php echo Menu::getMain('phone'); ?>
+                        </ul>
+                    </div>
+                </div><!-- fin contenedor menú-->
+            </div>
+        </div>
