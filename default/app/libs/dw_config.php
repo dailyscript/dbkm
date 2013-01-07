@@ -8,7 +8,7 @@
  * @category    Sistema
  * @package     Libs
  * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co) 
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
 class DwConfig {

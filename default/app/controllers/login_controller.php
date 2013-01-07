@@ -7,8 +7,7 @@
  * @category    
  * @package     Controllers 
  * @author      Iván D. Meléndez (ivan.melendez@dailycript.com.co)
- * @copyright   Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co)
- * @revision     1.0
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
 Load::lib('dw_security');
@@ -28,7 +27,7 @@ class LoginController extends AppController {
     /**
      * Método que se ejecuta antes de cualquier acción
      */
-    public function before_filter() {
+    protected function before_filter() {
         View::template('login');        
     }
     

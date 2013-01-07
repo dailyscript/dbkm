@@ -10,7 +10,55 @@ require_once CORE_PATH . 'kumbia/kumbia_view.php';
  * @category KumbiaPHP
  * @package View
  */
-class View extends KumbiaView
-{
+class View extends KumbiaView {
+    
+    /**
+     * Método que muestra el contenido de una vista
+     */
+    public static function content() {        
+        //Verifico si hay mensajes
+        if(DwMessage::has()) {
+            DwMessage::output();
+        }                
+        parent::content();
+    }
+    
+    /**
+     * Método para mostrar los mensajes e impresiones del request
+     */
+    public static function notify($all=true) {
+        if($all) {
+            return self::partial('dw_message');
+        } else {
+            return self::partial('dw_message', false, array('id'=>rand(1,5000)));
+        }
+    }
+    
+    /**
+     * Método para mostrar el proceso actual en las vistar
+     */
+    public static function process($modulo, $proceso=null, $title=true) {
+        return self::partial('dw_process', false, array('modulo'=>$modulo, 'proceso'=>$proceso, 'titulo'=>$title));
+    }
+    
+    /**
+     * Método para las execpciones
+     */
+    public static function exception(KumbiaException $e) {
+        if(PRODUCTION) {
+            $counter = (Session::has('exception_counter')) ? Session::get('exception_counter') : 1;
+            Session::set('exception_counter', $counter++);
+            DwMessage::warning('Oops! hemos realizado algún procedimiento mal... <br />Inténtalo nuevamente!');
+        } else {
+            DwMessage::error($e->getMessage());
+            DwMessage::error("Detalle del error: ".$e->getTraceAsString());
+        }                                            
+        if(Session::has('exception_counter')) {
+            if(Session::get('exception_counter') > 2) {
+                DwMessage::info('Si el problema persiste contacta con el administrador del sistema.');
+                Sesion::set('exception_counter', 0);
+            }
+        }
+    }
 
 }

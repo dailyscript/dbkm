@@ -1,0 +1,62 @@
+<?php
+
+if(!isset($url)) {     
+    extract(Router::get());
+    $url = "$controller/$action";
+    if($module) {
+        $url = "$module/$url";
+    }
+    if($parameters) {
+        $params = join('/', $parameters);
+        $params = explode('pag', $params);
+        if($params[0]) {
+            $url = "$url/".trim($params[0], '/');
+        }
+    }        
+} else {
+   $url = trim($url, '/');
+}
+
+?>
+
+<div class="row-fluid">
+    <div class="span3">
+        <div class="pagination" style="height: auto !important; margin-top: 10px;">
+            <p>Total registros encontrados: <b><?= $page->size; ?></b></p>
+            <p>Tiempo: <b><?= number_format(round((microtime(1)-START_TIME),4),4),' seg.'?></b></p>
+        </div>
+    </div>
+    <div class="span9 pagination">
+        <div class="pagination-centered">
+            <ul>
+                <?php 
+                if(isset($page->items)) {
+                    
+                    if($page->prev) {        
+                        echo "<li>".DwHtml::link($url."/pag.$page->prev/", "« ", array('title'=>'Página anterior'))."</li>";
+                    }
+
+                    for($i = $page->current - 4; $i <= $page->current + 4; $i++) {
+                        if($i<1) {
+                            continue;
+                        }
+                        if($i > $page->total_page) {
+                            break;
+                        }
+                        if($i == $page->current) {
+                            echo '<li class="active">'.DwHtml::link("$url/pag.$i/", $i, array('title'=>"Página $i de $page->total_page")).'</li>';
+                        } else {
+                            echo '<li>'.DwHtml::link("$url/pag.$i/", $i, array('title'=>"Página $i de $page->total_page")).'</li>';
+                        }       
+                    }
+
+                    if($page->next) {       
+                        echo "<li>".DwHtml::link($url."/pag.$page->next/", "»", array('title'=>'Página siguiente'))."</li>";                
+                    } 
+                } 
+                ?>
+            </ul>
+        </div>
+    </div>
+</div>
+

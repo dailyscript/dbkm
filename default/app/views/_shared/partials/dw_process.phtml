@@ -1,0 +1,14 @@
+<div clasS="page-header">
+    <?php if(!empty($title)) { ?>
+    <script type="text/javascript">  
+        DwTitle('<?= $proceso; ?>');
+    </script>
+    <?php } ?>
+    <h4><?php echo ucfirst($modulo); ?>
+    <?php 
+    if(isset($proceso) && $proceso!=null) { 
+        $proceso = explode(' |', $proceso);
+        echo "<small>",ucfirst(trim($proceso[0])),"</small>";
+    } ?>
+    </h4>    
+</div>

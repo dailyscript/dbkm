@@ -7,8 +7,7 @@
  * @category    
  * @package     Libs 
  * @author      Iván D. Meléndez (ivan.melendez@dailycript.com.co)
- * @copyright   Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co)
- * @revision     1.0
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
 class DwRedirect extends Redirect {

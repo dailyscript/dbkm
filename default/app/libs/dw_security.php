@@ -6,8 +6,7 @@
  *
  * @package     Libs
  * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2010 Dailyscript Team (http://www.dailyscript.com.co)
- * @version     1.0
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
 class DwSecurity {

@@ -2,14 +2,13 @@
 /**
  * Dailyscript - Web | App | media
  *
- * Extension para el manejo de mensajes. 
+ * Extension para el manejo de mensajes sin hacer uso del "echo" en los controladores o modelos
  *
  * @category    Flash
  * @author      Iván D. Meléndez
  * @package     Helpers
- * @copyright   Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co)
- * @revision    1.1
- * 
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
+ *  
  * Se utiliza en el método content de la clase view.php
  * if(DwMessage::has()) {
  *      DwMessage::output();
