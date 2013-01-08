@@ -21,8 +21,9 @@ class DwRedirect {
      * @param integer $statusCode código http de la respuesta, por defecto 302
      */
     public static function to($route = null, $seconds = null, $statusCode = 302) {  
-        $route = PUBLIC_PATH.trim($route, '/').'/';        
-        if(APP_AJAX) { //Si se redirecciona estando la app en ajax
+        $route = trim($route, '/').'/';
+        if(APP_AJAX) { //Si se redirecciona estando la app en ajax            
+            $route = PUBLIC_PATH.$route;
             View::redirect($route);            
         } else {
             Redirect::to($route, $seconds, $statusCode);

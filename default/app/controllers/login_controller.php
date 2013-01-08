@@ -43,7 +43,7 @@ class LoginController extends BackEndController {
      */
     public function entrar() {        
         if(Input::hasPost('login') && Input::hasPost('password') && Input::hasPost('mode')) {
-            if(Usuario::setSession('open')) {
+            if(Usuario::setSession('open', Input::post('login'), Input::post('password'))) {
                 return DwRedirect::to('/');                
             }                       
         } else if(DwAuth::isLogged()) {

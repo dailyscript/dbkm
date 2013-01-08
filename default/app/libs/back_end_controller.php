@@ -19,6 +19,9 @@ require_once CORE_PATH . 'kumbia/controller.php';
 //Cargo los parámetros de configuración
 DwConfig::Load();
 
+//Cargo los modelos
+Load::models('sistema/usuario', 'sistema/menu');
+
 class BackEndController extends Controller {
     
     /**
