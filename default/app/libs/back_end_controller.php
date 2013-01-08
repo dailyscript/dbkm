@@ -67,7 +67,7 @@ class BackEndController extends Controller {
                     View::error();//TODO: crear el método error()
                 } else {        
                     //Si la petición es con ajax, cambio la vista
-                    DwRedirect::toLogin('login/entrar/');
+                    DwRedirect::toLogin('sistema/login/entrar/');
                 }
                 return false;
             } 
