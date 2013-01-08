@@ -26,8 +26,8 @@ class View extends KumbiaView {
     /**
      * Método para mostrar los mensajes e impresiones del request
      */
-    public static function notify($all=true) {
-        if($all) {
+    public static function notify($unique=true) {
+        if($unique) {
             return self::partial('dw_message');
         } else {
             return self::partial('dw_message', false, array('id'=>rand(1,5000)));
@@ -59,6 +59,35 @@ class View extends KumbiaView {
                 Sesion::set('exception_counter', 0);
             }
         }
+    }
+    
+    /**
+     * Método que muestra una vista para redireccionar si se trabaja con ajax la app
+     */
+    public static function redirect($url) {
+        View::select(NULL, NULL);
+        return self::partial('dw_redirect', false, array('url'=>$url));
+    }
+    
+    /**
+     * Método para redireccionar usando AJAX hacia el login
+     * @TODO: revisar que reciba la dirección
+     */
+    public static function redirectToLogin($url=NULL) {
+        self::$_path = '_shared/errors/';
+        self::select('dw_session', null);
+    }
+    
+    
+    /**
+     * Método para mostrar la respuesta de la vista
+     * de una petición con ajax
+     * @return boolean false
+     */
+    public static function ajax() {        
+        self::$_path = '_shared/errors/';
+        self::select('dw_ajax', null);
+        return false;
     }
 
 }

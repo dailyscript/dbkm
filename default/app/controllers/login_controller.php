@@ -12,7 +12,7 @@
 
 Load::lib('dw_security');
 
-class LoginController extends AppController {
+class LoginController extends BackEndController {
     
     /**
      * Limite de parámetros por acción
@@ -22,33 +22,32 @@ class LoginController extends AppController {
     /**
      * Nombre de la página
      */
-    public $page_title = 'Entrar';        
+    public $page_title = 'Entrar';
     
     /**
      * Método que se ejecuta antes de cualquier acción
      */
     protected function before_filter() {
-        View::template('login');        
+        View::template('login');
     }
     
     /**
      * Método principal     
      */
     public function index() {        
-        return Redirect::toAction('entrar/');
+        return DwRedirect::toAction('entrar/');
     }
     
     /**
      * Método para iniciar sesión
      */
-    public function entrar() {
+    public function entrar() {        
         if(Input::hasPost('login') && Input::hasPost('password') && Input::hasPost('mode')) {
             if(Usuario::setSession('open')) {
-                return Redirect::to('/');
-                //return Router::route_to('controller: principal', 'action: load');
+                return DwRedirect::to('/');                
             }                       
         } else if(DwAuth::isLogged()) {
-            return Redirect::to('/');
+            return DwRedirect::to('/');
         }
     }
     
@@ -62,7 +61,8 @@ class LoginController extends AppController {
         if(Usuario::setSession('close')) {
             DwMessage::valid("La sesión ha sido cerrada correctamente.");
         }
-        return Router::toAction('entrar/');
+        return DwRedirect::toAction('entrar/');
     }
+    
 }
 

@@ -1,0 +1,5 @@
+<?php View::notify(false); ?>
+<script type="text/javascript">
+    $(function() { setTimeout(function() { window.location.href = "<?php PUBLIC_PATH.'login/entrar/'; ?>"; } , 3000); });
+</script>
+<?php echo DwDialog::alert('No has iniciado sesión o ha caducado.', 'subtext: Por favor, identifícate nuevamente: <strong>'. Html::link('login/entrar/', 'Iniciar sesión', null).' </strong>', 'title: La sessión ha caducado', 'name: usuarioEntrar', 'autoOpen: true'); ?>
