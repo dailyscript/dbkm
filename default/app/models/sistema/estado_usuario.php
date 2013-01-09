@@ -4,11 +4,11 @@
  *
  * Clase que gestiona todos los estados de los usuarios
  *
- * @category    Sistema
+ * @category
  * @package     Models
- * @subpackage  Usuarios
- * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)  
  */
 
 class EstadoUsuario extends ActiveRecord {
@@ -19,9 +19,9 @@ class EstadoUsuario extends ActiveRecord {
     const BLOQUEADO = 'BLOQUEADO';
 
     /**
-     * Método que se ejecuta antes de inicializar cualquier acción
+     * Método para definir las relaciones y validaciones
      */
-    public function initialize() {
+    protected function initialize() {
         $this->belongs_to('usuario');        
     }
 

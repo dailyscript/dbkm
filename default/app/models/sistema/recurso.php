@@ -4,10 +4,10 @@
  *
  * Clase que gestiona todo lo relacionado con los recursos del sistema
  *
- * @category    Sistema
+* @category
  * @package     Models
- * @subpackage  Usuarios
- * @author      Iván D. Meléndez
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
@@ -18,9 +18,9 @@ class Recurso extends ActiveRecord {
     const INACTIVO = 2;
     
     /**
-     * Método principal
+     * Método para definir las relaciones y validaciones
      */
-    public function initialize() {        
+    protected function initialize() {        
         $this->has_many('recurso_usuario');        
     }
     

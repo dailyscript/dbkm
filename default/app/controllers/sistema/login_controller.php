@@ -12,7 +12,7 @@
 
 Load::lib('dw_security');
 
-class LoginController extends BackEndController {
+class LoginController extends BackendController {
     
     /**
      * Limite de parámetros por acción

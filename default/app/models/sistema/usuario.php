@@ -4,9 +4,10 @@
  *
  * Descripcion: Modelo para el manejo de usuarios
  *
- * @category    
+ * @category
  * @package     Models
- * @author      Iván D. Meléndez
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
@@ -14,6 +15,9 @@ Load::models('sistema/estado_usuario', 'sistema/perfil', 'sistema/recurso', 'sis
 
 class Usuario extends ActiveRecord {
     
+    /**
+     * Método para definir las relaciones y validaciones
+     */
     protected function initialize() {
         $this->belongs_to('persona');
         $this->belongs_to('perfil');

@@ -5,16 +5,19 @@
  * Clase que gestiona todo lo relacionado con los
  * recursos de los usuarios con su respectivo grupo
  *
- * @category    Sistema
+ * @category
  * @package     Models
- * @subpackage  Usuarios
- * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)  
  */
 
 class RecursoPerfil extends ActiveRecord {
     
-    public function initialize() {
+    /**
+     * Método para definir las relaciones y validaciones
+     */
+    protected function initialize() {
         $this->belongs_to('recurso');
         $this->belongs_to('usuario');
     }

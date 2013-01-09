@@ -22,7 +22,7 @@ DwConfig::Load();
 //Cargo los modelos
 Load::models('sistema/usuario', 'sistema/menu');
 
-class BackEndController extends Controller {
+class BackendController extends Controller {
     
     /**
     * Titulo de la página
@@ -52,7 +52,7 @@ class BackEndController extends Controller {
          * Si el método de entrada es ajax, el tipo de respuesta es sólo la vista
          */
         if(Input::isAjax()) {
-            View::template(null);
+            View::template(null);                        
         }
         
         /**
@@ -65,8 +65,7 @@ class BackEndController extends Controller {
                 //Verifico que no sea una ventana emergente
                 if($this->module_name == 'reporte') {
                     View::error();//TODO: crear el método error()
-                } else {        
-                    //Si la petición es con ajax, cambio la vista
+                } else {                            
                     DwRedirect::toLogin('sistema/login/entrar/');
                 }
                 return false;

@@ -22,7 +22,9 @@ class DwMessage {
      * Variable que contiene los diferentes mensajes repetitivos para mostrarlos en el método fixed
      * @var array
      */
-    protected static $_msg = array();
+    protected static $_msg = array( 'error_form'        =>array('error'     =>'Se ha producido un error al registrar la información. <br />Verifica los datos e intenta nuevamente.'),
+                                    'error_key_form'    =>array('error'     =>'Se ha producido un error en la validación del formulario. Verifica los datos e intenta nuevamente.'),
+                                    'error_key_url'     =>array('error'     =>'Acceso denegado. La url de la barra de direcciones es incorrecta.'));
 
     /**
      * Mensajes almacenados en un request

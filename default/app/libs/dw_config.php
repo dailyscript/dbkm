@@ -128,6 +128,15 @@ class DwConfig {
         define('MOBILE', $detect->isMobile());
         define('TABLET', $detect->isTablet());
         define('DESKTOP', (!MOBILE && !TABLET) ? TRUE : FALSE);
+                
+        //Establezco el nombre de la empesa o cliente de la aplicación         
+        $empresa = Load::model('config/empresa')->getInformacionEmpresa();
+        if(!defined('APP_CLIENT')) {
+            define('APP_CLIENT', (empty($empresa->siglas)) ? 'Empresa LTDA' : $empresa->siglas);
+        }
+        if(!defined('APP_CLIENT_LOGO')) {
+            define('APP_CLIENT_LOGO', (empty($empresa->logo)) ? NULL : $empresa->logo);
+        }        
     }
     
 }

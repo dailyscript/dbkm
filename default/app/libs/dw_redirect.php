@@ -20,9 +20,9 @@ class DwRedirect {
      * @param integer $seconds segundos que se esperarán antes de redirigir
      * @param integer $statusCode código http de la respuesta, por defecto 302
      */
-    public static function to($route = null, $seconds = null, $statusCode = 302) {  
+    public static function to($route = null, $seconds = null, $statusCode = 302) {          
         $route = trim($route, '/').'/';
-        if(APP_AJAX) { //Si se redirecciona estando la app en ajax            
+        if(APP_AJAX && Input::isAjax()) { //Si se redirecciona estando la app en ajax                        
             $route = PUBLIC_PATH.$route;
             View::redirect($route);            
         } else {
@@ -79,7 +79,7 @@ class DwRedirect {
      */
     public static function toLogin($path='sistema/login/entrar/') {
         $path = trim($path, '/').'/';
-        if(APP_AJAX) { //Si se redirecciona estando la app en ajax            
+        if(APP_AJAX && Input::isAjax()) { //Si se redirecciona estando la app en ajax
             View::redirectToLogin($path);
         } else {            
             Redirect::to($path);

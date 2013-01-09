@@ -10,7 +10,7 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
-class PrincipalController extends BackEndController {
+class PrincipalController extends BackendController {
 
     public function index() {
         

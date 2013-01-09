@@ -4,10 +4,10 @@
  *
  * Clase que gestiona los menús de los usuarios según los recursos asignados
  *
- * @category    Sistema
+ * @category
  * @package     Models
- * @subpackage  Usuarios
- * @author      Iván D. Meléndez
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
@@ -27,9 +27,9 @@ class Menu extends ActiveRecord {
     protected static $_items = null;
         
     /**
-     * Método principal
+     * Método para definir las relaciones y validaciones
      */
-    public function initialize() {        
+    protected function initialize() {        
         $this->has_many('menu');
         $this->belongs_to('recurso');
     }

@@ -4,10 +4,11 @@
  *
  * Descripcion: Clase que gestiona los perfiles de usuarios
  *
- * @category    
+ * @category
  * @package     Models
- * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
+ * @subpackage
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co)
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
 class Perfil extends ActiveRecord {
@@ -18,7 +19,10 @@ class Perfil extends ActiveRecord {
     
     const INACTIVO = 2;
     
-    public function initialize() {
+    /**
+     * Método para definir las relaciones y validaciones
+     */
+    protected function initialize() {
         $this->has_many('usuario');
         $this->has_many('recurso_perfil');
     }

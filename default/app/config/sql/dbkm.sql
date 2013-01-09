@@ -75,6 +75,68 @@ LOCK TABLES `backup` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ciudad`
+--
+
+DROP TABLE IF EXISTS `ciudad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ciudad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la ciudad',
+  `ciudad` varchar(45) NOT NULL COMMENT 'Nombre de la cuidad',
+  `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
+  `modificado_in` datetime DEFAULT NULL COMMENT 'Fecha de la última modificación',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ciudad`
+--
+
+LOCK TABLES `ciudad` WRITE;
+/*!40000 ALTER TABLE `ciudad` DISABLE KEYS */;
+INSERT INTO `ciudad` VALUES (1,'OCAÑA','2013-01-01 00:00:01',NULL);
+/*!40000 ALTER TABLE `ciudad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `empresa`
+--
+
+DROP TABLE IF EXISTS `empresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `empresa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la empresa',
+  `razon_social` varchar(100) NOT NULL COMMENT 'Nombre de la empresa',
+  `siglas` varchar(45) DEFAULT NULL COMMENT 'Siglas del nombre de la empresa',
+  `nit` varchar(15) NOT NULL COMMENT 'Número de identificación tributaria de la empresa',
+  `dv` int(2) DEFAULT NULL COMMENT 'Digito de verificación del NIT',
+  `representante_legal` varchar(100) NOT NULL COMMENT 'Nombre del representante legal de la empresa',
+  `nuip` bigint(20) NOT NULL COMMENT 'Número de identificación personal',
+  `tipo_nuip_id` int(1) NOT NULL COMMENT 'Tipo de identificación',
+  `pagina_web` varchar(45) DEFAULT NULL,
+  `logo` varchar(45) DEFAULT NULL,
+  `registrado_at` varchar(45) DEFAULT NULL,
+  `modificado_in` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_empresa_tipo_nuip_idx` (`tipo_nuip_id`),
+  CONSTRAINT `fk_empresa_tipo_nuip` FOREIGN KEY (`tipo_nuip_id`) REFERENCES `tipo_nuip` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `empresa`
+--
+
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1.091.652.165',6,'IVAN DAVID MELENDEZ',1091652165,1,'dailyscript.com.co',NULL,'2013-01-01 00:00:01',NULL);
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `estado_usuario`
 --
 
@@ -176,9 +238,14 @@ CREATE TABLE `persona` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(100) DEFAULT NULL,
+  `nuip` bigint(20) NOT NULL COMMENT 'Número de identificación personal',
+  `tipo_nuip_id` int(11) NOT NULL COMMENT 'Tipo de identificación',
   `registrado_at` datetime DEFAULT NULL,
   `modificado_in` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `fotografia` varchar(45) DEFAULT NULL COMMENT 'Fotografía',
+  PRIMARY KEY (`id`),
+  KEY `fk_persona_tipo_nuip1_idx` (`tipo_nuip_id`),
+  CONSTRAINT `fk_persona_tipo_nuip1` FOREIGN KEY (`tipo_nuip_id`) REFERENCES `tipo_nuip` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las personas que interactúan con el sistema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -188,7 +255,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'ERROR','ERROR','2013-01-01 00:00:01',NULL),(2,'IVAN DAVID','MELENDEZ','2013-01-01 00:00:01',NULL);
+INSERT INTO `persona` VALUES (1,'ERROR','ERROR',1010101010,1,'2013-01-01 00:00:01',NULL,NULL),(2,'IVAN DAVID','MELENDEZ',1091652165,1,'2013-01-01 00:00:01',NULL,NULL);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,6 +321,67 @@ INSERT INTO `recurso_perfil` VALUES (1,2,1,'2013-01-01 00:00:01',NULL);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sucursal`
+--
+
+DROP TABLE IF EXISTS `sucursal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sucursal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificación de la sucursal',
+  `empresa_id` int(11) NOT NULL COMMENT 'Identificador de la empresa',
+  `sucursal` varchar(45) NOT NULL COMMENT 'Nombre de la sucursal',
+  `sucursal_slug` varchar(45) DEFAULT NULL COMMENT 'Slug de la sucursal',
+  `direccion` varchar(45) DEFAULT NULL COMMENT 'Dirección de la sucursal',
+  `telefono` varchar(45) DEFAULT NULL COMMENT 'Número del teléfono',
+  `fax` varchar(45) DEFAULT NULL COMMENT 'Número del fax',
+  `celular` varchar(45) DEFAULT NULL COMMENT 'Número de celular',
+  `ciudad_id` int(11) NOT NULL COMMENT 'Identificador de la ciudad',
+  `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
+  `modificado_in` datetime DEFAULT NULL COMMENT 'Fecha de la última modificación',
+  PRIMARY KEY (`id`),
+  KEY `fk_sucursal_empresa_idx` (`empresa_id`),
+  KEY `fk_sucursal_ciudad_idx` (`ciudad_id`),
+  CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sucursal`
+--
+
+LOCK TABLES `sucursal` WRITE;
+/*!40000 ALTER TABLE `sucursal` DISABLE KEYS */;
+INSERT INTO `sucursal` VALUES (1,1,'OFICINA PRINCIPAL','oficina-principal','Dirección','3162404183','3162404183','3162404183',1,'2013-01-01 00:00:01',NULL);
+/*!40000 ALTER TABLE `sucursal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_nuip`
+--
+
+DROP TABLE IF EXISTS `tipo_nuip`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipo_nuip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_nuip` varchar(45) NOT NULL COMMENT 'Nombre del tipo de identificación',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_nuip`
+--
+
+LOCK TABLES `tipo_nuip` WRITE;
+/*!40000 ALTER TABLE `tipo_nuip` DISABLE KEYS */;
+INSERT INTO `tipo_nuip` VALUES (1,'C.C.'),(2,'C.E.'),(3,'PAS.'),(4,'T.I.'),(5,'N.D.');
+/*!40000 ALTER TABLE `tipo_nuip` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `usuario`
 --
 
@@ -262,6 +390,7 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identificador del usuario',
+  `sucursal_id` int(11) DEFAULT NULL COMMENT 'Identificador a la sucursal a la cual pertenece',
   `persona_id` int(11) NOT NULL COMMENT 'Identificador de la persona',
   `login` varchar(45) NOT NULL COMMENT 'Nombre de usuario',
   `password` varchar(45) NOT NULL COMMENT 'Contraseña de acceso al sistea',
@@ -273,8 +402,10 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`),
   KEY `fk_usuario_perfil_idx` (`perfil_id`),
   KEY `fk_usuario_persona_idx` (`persona_id`),
+  KEY `fk_usuario_sucursal_idx` (`sucursal_id`),
   CONSTRAINT `fk_usuario_perfil` FOREIGN KEY (`perfil_id`) REFERENCES `perfil` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_usuario_persona` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_usuario_persona` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_usuario_sucursal` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursal` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los usuarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -284,7 +415,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,'default',1,'2013-01-01 00:00:01',NULL),(2,2,'admin','61be2a14e813011cde599926dcc72c2c',1,'default',1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,'default',1,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -297,4 +428,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-03 19:07:17
+-- Dump completed on 2013-01-08 18:21:35
