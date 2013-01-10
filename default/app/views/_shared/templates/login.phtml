@@ -25,7 +25,7 @@
     </head>
     <body>
     
-        <?php View::partial('page/header_login'); ?>
+        <?php View::partial('backend/header_login'); ?>
         
         <div id="dw-shell-load">                         
             <div id="dw-console"></div>             
@@ -34,7 +34,7 @@
             </div>                        
         </div>
         
-        <?php View::partial('page/footer'); ?>
+        <?php View::partial('backend/footer'); ?>
         
         <div id="dw-loading-content" class="alpha60"></div>
         <div id="dw-spinner" class="preview dw-corner-all dw-shadow-dark"></div>
@@ -50,7 +50,7 @@
             });                         
         </script>
         
-        <?php echo Tag::js('jquery/jquery.bootstrap.min').PHP_EOL; ?>
+        <?php echo Tag::js('bootstrap/bootstrap.min').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.kumbiaphp').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.keyfilter').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.dwload').PHP_EOL; ?>

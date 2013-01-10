@@ -54,13 +54,13 @@ class LoginController extends BackendController {
     /**
      * Método para cerrar sesión
      */
-    public function salir($js='') {
-        if($js == 'no-script') {
-            DwMessage::info('Activa el uso de JavaScript en su navegador para poder continuar.');
-        }        
+    public function salir($js='') {        
         if(Usuario::setSession('close')) {
             DwMessage::valid("La sesión ha sido cerrada correctamente.");
         }
+        if($js == 'no-script') {
+            DwMessage::info('Activa el uso de JavaScript en su navegador para poder continuar.');
+        }        
         return DwRedirect::toAction('entrar/');
     }
     

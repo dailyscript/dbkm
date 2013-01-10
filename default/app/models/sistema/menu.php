@@ -13,7 +13,14 @@
 
 class Menu extends ActiveRecord {
     
+    /**
+     * Constante para definir un menú como activo
+     */
     const ACTIVO = 1;
+    
+    /**
+     * Constante para definir un menú como inactivo
+     */
     const INACTIVO = 2;
     
     /**
@@ -50,7 +57,7 @@ class Menu extends ActiveRecord {
             $join.= 'INNER JOIN recurso_perfil ON recurso.id = recurso_perfil.perfil_id ';            
             $conditions = "recurso_perfil.perfil_id = $perfil AND menu.activo = ".self::ACTIVO;
         }        
-        $order = 'menu.posicion ASC';
+        $order = 'menu.posicion ASC';        
         if(self::$_main==NULL) {            
             $conditions2 = $conditions." AND menu.menu_id IS NULL";
             self::$_main = $obj->find("columns: $columns", "$join", "conditions: $conditions2", "order: $order");            
@@ -71,18 +78,18 @@ class Menu extends ActiveRecord {
         $main = '';
         if($view=='phone') {
             foreach(self::$_main as $menu) {
-                $text = $menu->menu.'<b class="caret"></b>';
+                $text = $menu->menu.'<b class="caret"></b>';                 
                 $main.= '<li class="dropdown">';
-                $main.= DwHtml::link($menu->url, $text, array('class'=>'dropdown-toggle no-load', 'data-toggle'=>'dropdown'));
+                $main.= DwHtml::link('#', $text, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), NULL, FALSE);
                 if(array_key_exists($menu->menu, self::$_items)) {
                     $main.= '<ul class="dropdown-menu">';
                     foreach(self::$_items[$menu->menu] as $item) {                        
-                        $active = ($item->url==$route) ? 'active' : null;
-                        $main.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $menu->icon).'</li>';
+                        $active = ($item->url==$route) ? 'active' : null;                        
+                        $main.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icon, FALSE).'</li>';
                     }
                     $main.= '</ul>';                    
                 }
-                $main.= '</li>'.PHP_EOL;
+                $main.= '</li>'.PHP_EOL;                
             }
         } else {   
             $main.= '<ul class="nav">'.PHP_EOL;
@@ -100,7 +107,7 @@ class Menu extends ActiveRecord {
      * Método para obtener los items de cada menú en modo 'desktop'
      * @return string
      */
-    public static function getItems() {
+    public static function getItems() {        
         $route = trim(Router::get('route'), '/');
         $str = '';        
         foreach(self::$_items as $menu => $items) {
@@ -115,7 +122,7 @@ class Menu extends ActiveRecord {
             $str.= '</ul>'.PHP_EOL;
             $str.= '</div>'.PHP_EOL;
         }
-        return $str;
+        return $str;         
     }
     
 }

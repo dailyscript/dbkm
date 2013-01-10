@@ -11,7 +11,9 @@
  */
 
 class PrincipalController extends BackendController {
-
+    
+    public $page_title = 'Página Principal';
+    
     public function index() {
         
     }

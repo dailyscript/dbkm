@@ -10,11 +10,13 @@ $(document).ready(function() { if (typeof window.history.pushState == 'function'
 
 $(function() {
     $('body').on('click', '.dw-ajax', function(e) {        
-        e.preventDefault();        
-        var este = $(this);        
+        e.preventDefault();
+        var este = $(this);
         if(este.hasClass('no-ajax')) {
-            location.href = ""+este.attr('href')+"";
-        }                
+            if(este.attr('href') != '#' && este.attr('href') != '#/' && este.attr('href') != '#!/') {
+                location.href = ""+este.attr('href')+"";                
+            }            
+        }
         if(este.hasClass('no-load') || este.hasClass('dw-confirm') || este.hasClass('dw-dialog')) {
             return false;
         }        

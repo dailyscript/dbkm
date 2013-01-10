@@ -21,18 +21,18 @@ class DwHtml extends Html {
      * @param type $loadAjax
      * @return type
      */
-    public static function link ($action, $text, $attrs = NULL, $icon='', $loadAjax = TRUE) {
+    public static function link ($action, $text, $attrs = NULL, $icon='', $loadAjax = APP_AJAX) {
         if (is_array($attrs)) {
-            if(APP_AJAX or $loadAjax) {
+            if($loadAjax) {
                 $attrs['class'] = (empty($attrs['class'])) ? 'dw-ajax' : $attrs['class']. ' dw-ajax';
             }
             $attrs = Tag::getAttrs($attrs);
         }
-        $action = trim($action, '/').'/';
+        $action = ($action!='#') ? PUBLIC_PATH.trim($action, '/').'/' : '#';        
         if($icon) {
             $text = "<i class=\"$icon icon-expand\"></i> $text";
-        }
-        return '<a href="' . PUBLIC_PATH . "$action\" $attrs >$text</a>";
+        }        
+        return "<a href=\"$action\" $attrs >$text</a>";
     }
     
     
@@ -45,7 +45,7 @@ class DwHtml extends Html {
      * @param boolean $loadAjax
      * @return type
      */
-    public static function button($action, $text = NULL, $attrs = NULL, $icon='', $loadAjax = TRUE) {
+    public static function button($action, $text = NULL, $attrs = NULL, $icon='', $loadAjax = APP_AJAX) {
         if (is_array($attrs)) {
             if($loadAjax) {
                 if(empty($attrs['class'])) {
