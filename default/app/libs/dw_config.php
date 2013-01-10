@@ -114,8 +114,8 @@ class DwConfig {
                 if(in_array($valor, array('On','Off'))) {
                     $valor = ($valor=='On') ? TRUE : FALSE;
                 }
-                if($variable=='APP_AJAX') {                    
-                    $valor = (Session::get('app_ajax') && ($valor)) ? TRUE : FALSE;                    
+                if($variable=='APP_AJAX') {                      
+                    $valor = (Session::get('app_ajax') && ($valor)) ? TRUE : FALSE;
                     define($variable, $valor);
                 } else {
                     define($variable, $valor);
