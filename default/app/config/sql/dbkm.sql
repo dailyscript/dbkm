@@ -181,7 +181,7 @@ CREATE TABLE `menu` (
   `posicion` int(11) DEFAULT '0' COMMENT 'Posisión dentro de otros items',
   `icono` varchar(45) DEFAULT NULL COMMENT 'Icono a mostrar ',
   `activo` int(1) NOT NULL DEFAULT '1' COMMENT 'Menú activo o inactivo',
-  `visible` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el menú es visible o no',
+  `visivilidad` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el menú se muestra en el backend o en el frontend',
   PRIMARY KEY (`id`),
   KEY `fk_menu_recurso_idx` (`recurso_id`),
   KEY `fk_menu_menu_idx` (`menu_id`),
@@ -305,8 +305,8 @@ CREATE TABLE `recurso_perfil` (
   PRIMARY KEY (`id`),
   KEY `fk_recurso_perfil_recurso_idx` (`recurso_id`),
   KEY `fk_recurso_perfil_perfil_idx` (`perfil_id`),
-  CONSTRAINT `fk_recurso_perfil_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_recurso_perfil_perfil` FOREIGN KEY (`perfil_id`) REFERENCES `perfil` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_recurso_perfil_perfil` FOREIGN KEY (`perfil_id`) REFERENCES `perfil` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_recurso_perfil_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos del usuario en el sistema segun su perfl';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -342,8 +342,8 @@ CREATE TABLE `sucursal` (
   PRIMARY KEY (`id`),
   KEY `fk_sucursal_empresa_idx` (`empresa_id`),
   KEY `fk_sucursal_ciudad_idx` (`ciudad_id`),
-  CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -428,4 +428,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-08 18:21:35
+-- Dump completed on 2013-01-10 16:43:24
