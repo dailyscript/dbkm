@@ -24,7 +24,16 @@ class DwHtml extends Html {
     public static function link ($action, $text, $attrs = NULL, $icon='', $loadAjax = APP_AJAX) {
         if (is_array($attrs) OR empty($attrs)) {
             if($loadAjax) {
-                $attrs['class'] = (empty($attrs['class'])) ? 'dw-ajax' : $attrs['class']. ' dw-ajax';
+                if(empty($attrs['class'])) {
+                    $attrs['class'] = 'dw-ajax dw-spinner';
+                } else {                    
+                    if(!preg_match("/\bno-ajax\b/i", $attrs['class'])) {
+                        $attrs['class'] = 'dw-ajax '.$attrs['class'];
+                    }                     
+                    if(!preg_match("/\bno-spinner\b/i", $attrs['class'])) {
+                        $attrs['class'] = 'dw-spinner '.$attrs['class'];
+                    }                 
+                }                
             }
             $attrs = Tag::getAttrs($attrs);
         }
@@ -50,8 +59,8 @@ class DwHtml extends Html {
             if($loadAjax) {
                 if(empty($attrs['class'])) {
                     $attrs['class'] = 'dw-ajax dw-spinner';
-                } else {                                                            
-                    if(!preg_match("/\bno-load\b/i", $attrs['class'])) {
+                } else { 
+                    if(!preg_match("/\bno-ajax\b/i", $attrs['class'])) {
                         $attrs['class'] = 'dw-ajax '.$attrs['class'];
                     }                     
                     if(!preg_match("/\bno-spinner\b/i", $attrs['class'])) {
