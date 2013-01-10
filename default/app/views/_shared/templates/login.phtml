@@ -20,8 +20,8 @@
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
         <?php } ?>
         
-        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>  
-        
+        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>              
+            
     </head>
     <body>
     
@@ -38,7 +38,7 @@
         
         <div id="dw-loading-content" class="alpha60"></div>
         <div id="dw-spinner" class="preview dw-corner-all dw-shadow-dark"></div>
-        
+                
         <script type="text/javascript">                                                 
             $(function () {	
                 jQuery.support.placeholder = false;
@@ -47,7 +47,7 @@
                 if (!$.support.placeholder) {
                     $('.field').find ('label').show();
                 }                                
-            });                         
+            });              
         </script>
         
         <?php echo Tag::js('bootstrap/bootstrap.min').PHP_EOL; ?>
@@ -60,7 +60,7 @@
         <!--[if lt IE 9]>
         <?php echo Tag::js('vendors/html5').PHP_EOL; ?>
         <![endif]--> 
-        <?php echo Tag::js('utils/var').PHP_EOL; ?>
+        <?php echo Tag::js('utils/var').PHP_EOL; ?>                
         
         <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?> 
         <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>                        

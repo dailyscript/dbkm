@@ -17,7 +17,7 @@
                             <li><?php echo DwHtml::link('cuenta/perfil', 'Perfil'); ?></li>
                             <li><?php echo DwHtml::link('cuenta/ajustes', 'Ajustes'); ?></li>
                             <li class="divider"></li>
-                            <li><?php echo DwHtml::link('login/salir', 'Salir', array('class'=>'no-ajax'), 'icon-off'); ?></li>
+                            <li><?php echo DwHtml::link('sistema/login/salir', 'Salir', array('class'=>'no-load'), 'icon-off', FALSE); ?></li>
                         </ul>
                     </li>                    
                 </ul>	                        
@@ -25,7 +25,7 @@
         </div>
 
         <div class="hidden-desktop">                    
-            <div class="nav-collapse">
+            <div class="nav-collapse nav-list-phone">
                 <ul class="nav pull-right">
                     <?php echo Menu::getMain('phone'); ?>
                 </ul>

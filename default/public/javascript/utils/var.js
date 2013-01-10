@@ -7,7 +7,7 @@ $("div.dw-message").on({ mouseenter: function(){ $(this).addClass("dw-blur dw-op
 $(function() { $(".btn-back").on('click', function(event) { history.back();}); $(".btn-forward").on('click', function(event) { history.forward();});   });
 /** Enlazo la url **/
 $(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState();} else { DwCheckHash();DwHashChange(); } });
-
+$(function() { $('.nav-list-phone').on('click', '.dropdown-toggle', function(){ $('.nav-list-phone').css('height', 'auto');});})
 $(function() {
     $('body').on('click', '.dw-ajax', function(e) {        
         e.preventDefault();
@@ -34,7 +34,7 @@ $(function() {
         if(val) {            
             if(url!=$.KumbiaPHP.publicPath+'#' && url!=$.KumbiaPHP.publicPath+'#/' && url!='#' && url!='#/') {                         
                 options = { capa: capa, spinner: spinner, msg: message, url: url, change_url: change_url};            
-                if($.dwload(options)) {                              
+                if($.dwload(options)) {                     
                     if(after_load!=null) {                        
                         try { eval(after_load); } catch(e) { }                    
                     }
@@ -46,7 +46,7 @@ $(function() {
 });
 
 /** Mustra/Oculta el spinner **/
-function DwSpinner(action, target) {      
+function DwSpinner(action, target) {     
     if(target==null) { 
         target='dw-spinner'; 
     }                 
@@ -80,9 +80,11 @@ function DwUpdateUrl(url) {
 /**
  * Función que cambia la url, si el navegador lo soporta
  */
-function DwPushState(){         
+function DwPushState(){             
     // Función para enlazar cuando cambia la url de la página.
-    $(window).bind('popstate', function(event) {        
+    $(window).bind('popstate', function(event) {                 
+        if (!window.history.ready && !event.originalEvent.state)
+            return;
         $.dwload({url: location.href});                
     });
 }
