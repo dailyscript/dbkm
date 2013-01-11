@@ -10,54 +10,72 @@
     });    
 </script>
 
-<div class="container-fluid overflow">
+<div class="container-fluid overflow">        
     
-    <?php View::process($page_module, $page_title, $set_title); ?>
-    
-    <?= DwForm::open(); ?>
-        <div class="row-fluid">
-            <div class="span4">
-                <?= DwForm::text('perfil.perfil', NULL, $perfil->perfil, 'Nombre'); ?>
+        <?php if(DESKTOP) { ?>
+        <ul class="nav nav-tabs">
+        <?php } else { ?>
+        <ul class="nav nav-pills nav-stacked">
+        <?php } ?>        
+            <li class="active"><a href="#tab1" data-toggle="tab">Información del perfil</a></li>
+            <li><a href="#tab2" data-toggle="tab">Usuarios asignados</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                
+                <?php View::process($page_module, $page_title, $set_title); ?>
+                
+                <?= DwForm::open(); ?>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <?= DwForm::text('perfil.perfil', NULL, $perfil->perfil, 'Nombre'); ?>
+                        </div>
+                        <div class="span4">
+                            <?= DwForm::text('perfil.perfil', NULL, $perfil->plantilla, 'Plantilla'); ?>
+                        </div>
+                        <div class="span4">
+                            <?= DwForm::text('perfil.perfil', NULL, ($perfil->estado == Perfil::ACTIVO) ? 'ACTIVO' : 'BLOQUEADO', 'Estado'); ?>
+                        </div>
+                    </div>                           
+                <?= DwForm::close(); ?>
+                
             </div>
-            <div class="span4">
-                <?= DwForm::text('perfil.perfil', NULL, $perfil->plantilla, 'Plantilla'); ?>
+            
+            <div class="tab-pane" id="tab2">
+                
+                <?php View::process('Información de usuarios', NULL, FALSE); ?>
+                
+                <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+                    <thead>
+                        <tr>
+                            <th>NUM</th>
+                            <th class="col-collapse" data-search="usuario">USUARIO</th>
+                            <th class="col-collapse" data-search="nombre">NOMBRE</th>
+                            <th class="col-collapse" data-search="apellido">APELLIDO</th>                
+                        </tr>            
+                    </thead>
+                    <tbody>            
+                        <?php foreach($usuarios->items as $usuario): ?>                
+                            <tr>
+                                <td><?= $usuario->counter; ?></td>
+                                <td><?= $usuario->login; ?></td>
+                                <td><?= $usuario->nombre; ?></td>
+                                <td><?= $usuario->apellido; ?></td>
+                            </tr>
+                            <?php $usuarios->counter++; ?>
+                        <?php endforeach; ?>
+                    </tbody>            
+                </table> 
+
+                <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/perfil/ver/$key/$order/")); ?>
+                
             </div>
-            <div class="span4">
-                <?= DwForm::text('perfil.perfil', NULL, ($perfil->estado == Perfil::ACTIVO) ? 'ACTIVO' : 'BLOQUEADO', 'Estado'); ?>
-            </div>
-        </div>        
-    <?= DwForm::close(); ?>
-    
-    <?php View::process('Información de usuarios', NULL, FALSE); ?>
-    
-    <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
-        <thead>
-            <tr>
-                <th>NUM</th>
-                <th class="col-collapse" data-search="usuario">USUARIO</th>
-                <th class="col-collapse" data-search="nombre">NOMBRE</th>
-                <th class="col-collapse" data-search="apellido">APELLIDO</th>                
-            </tr>            
-        </thead>
-        <tbody>            
-            <?php foreach($usuarios->items as $usuario): ?>                
-                <tr>
-                    <td><?= $usuario->counter; ?></td>
-                    <td><?= $usuario->login; ?></td>
-                    <td><?= $usuario->nombre; ?></td>
-                    <td><?= $usuario->apellido; ?></td>
-                </tr>
-                <?php $usuarios->counter++; ?>
-            <?php endforeach; ?>
-        </tbody>            
-    </table> 
-    
-    <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/perfil/ver/$key/$order/")); ?>
+        </div>
     
     <div class="row-fluid">
         <div class="form-actions">                
             <?= DwButton::back(); ?>
         </div>
     </div>
-    
+                        
 </div>
