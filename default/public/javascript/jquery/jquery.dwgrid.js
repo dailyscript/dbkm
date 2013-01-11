@@ -162,7 +162,7 @@
 
 $(function() {  
     
-    $('.btn-toolbar-top').on('click', '.btn-form-search', function() {          
+    $('body').on('click', '.btn-toolbar-top .btn-form-search', function() {          
         contenedor = $(this).parents('.btn-toolbar:first').find('.form-search-container:first'); 
         if(contenedor.hasClass('hidden')) {
             contenedor.removeClass('hidden').hide().fadeIn(250);
@@ -173,7 +173,7 @@ $(function() {
         }
     });   
     
-    $('.table-responsive tbody').on('click', 'tr', function() {   
+    $('body').on('click', '.table-responsive tbody tr', function() {          
         elem = $(this).find('td.btn-actions:first');
         accion = (elem.is(':hidden')) ? 'mostrar' : 'ocultar';         
         all = $(this).parent().find('td.btn-actions');
