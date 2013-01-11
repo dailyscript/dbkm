@@ -85,7 +85,7 @@ class Menu extends ActiveRecord {
                     $main.= '<ul class="dropdown-menu">';
                     foreach(self::$_items[$menu->menu] as $item) {                        
                         $active = ($item->url==$route) ? 'active' : null;                        
-                        $main.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icon, FALSE).'</li>';
+                        $main.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, NULL, $item->icon, FALSE).'</li>';
                     }
                     $main.= '</ul>';                    
                 }

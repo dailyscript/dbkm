@@ -3,71 +3,68 @@
  * 
  * se valida según la etiqueta class
  * 
- * <input id="nombre" name="nombre" type="text" class="requerido numerico show-error"/>
+ * <input id="nombre" name="nombre" type="text" class="required numeric show-error"/>
  * <span class="help-error" id="err_nombre"></span>
  * 
  * Muestra los errores en una etiqueta con el id 
  * de la manera err_IdDelInput
  *
- * Copyright (c) 2012 Dailyscript - Team. http://dailyscript.com.co
+ * Copyright (c) 2013 Dailyscript - Team. http://dailyscript.com.co
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  *
  */
 
-Array.prototype.inArray = function(valor) { var i; for (i = 0; i < this.length; i++) { if (this[i] === valor) return true;} return false;};
-
-var elementosErr= []; etiquetas	= ["input", "select", "textarea", "button"];
+//Array.prototype.inToArray = function(valor) { var i; for (i = 0; i < this.length; i++) { if (this[i] === valor) return true;} return false;};
+/*
+var elementosErr = []; 
 //Tipo de validaciones, cada validación en el array corresponde a un método
-validaciones	= ["requerido", "alfabetico", "numerico", "entero", "alfanumerico", "texto", "slug", "fecha", "email", "pagina", "lista", "usuario", "pass", "fotografia", "movil", "telefono", "ipv4"];
-function validForm(formulario, confirmacion) {    
-    var elemento= window.document.forms[formulario].elements;
-    var enviar= true;
+var validaciones = ["requerido",'numeric','integer','ipv4'];
+*/
+var elemErr = [];
+var tagsForm = ["input", "select", "textarea", "button"];
+var validators = ["required", "numeric", "integer"];
+function validForm(form, confirmation) { 
+    if(confirmation!= false) {        
+        if(!confirm('Está seguro de continuar con la operación?')) {
+            return false;
+        }        
+    }    
+    var enviar = true
+    este = $('form[name="'+form+'"]');
     var cont = 0;
-    var longitud= elemento.length;
-    var input;
-    for (i = 0; i < longitud; i++) {
-        if (etiquetas.inArray(elemento[i].tagName.toLowerCase())) {
-            var clases = extraerClases(elemento[i]);
-            if (clases != "" && clases.length != 0) {
-                for (c = 0; c < clases.length; c++) {
-                    if (validaciones.inArray(clases[c])) {
-                        tmp = elemento[i].id;
-                        if (!eval(clases[c] + '(elemento[i].value,"err_" + elemento[i].id)')) {
-                            elementosErr.push("err_" + elemento[i].id);
-                            try {   
-                                contenedor =$("#"+tmp).parent();
-                                if(contenedor.hasClass('controls')) {
-                                    contenedor = contenedor.parent();
-                                }
-                                if(contenedor.hasClass('controls') || contenedor.hasClass('control-group')) {
-                                    contenedor.addClass('error');
-                                }                                
-                            } catch(e) { 
-                                
-                            }
-                            if(cont == 0) {
-                                input = elemento[i];
-                            }
-                            cont++;
-                        } else {                            
-                            try {                                 
-                                contenedor =$("#"+tmp).parent();
-                                if(contenedor.hasClass('controls')) {
-                                    contenedor = contenedor.parent();
-                                }
-                                if(contenedor.hasClass('controls') || contenedor.hasClass('control-group')) {
-                                    contenedor.removeClass('error'); 
-                                }                                
-                                
-                            } catch(e) { }
+    var campos = tagsForm.length;
+    var first_input;
+    for(i = 0 ; i < campos ; i++) {        
+        este.find(tagsForm[i]).each(function(k){
+            var input = $(this);
+            var clases = input.attr('class').split(' ');
+            for(c = 0 ; c < clases.length ; c++) {
+                if($.inArray(clases[c], validators) >= 0) {
+                    fn = clases[c]+'("'+input.attr("id")+'")';                  
+                    contenedor = input.parent();
+                    if(contenedor.hasClass('controls')) {
+                        contenedor = contenedor.parent();
+                    }                                            
+                    if (!eval(fn)) {
+                        elemErr.push("err_" + input.attr("id"));                                                
+                        if(contenedor.hasClass('controls') || contenedor.hasClass('control-group')) {
+                            contenedor.addClass('control-error');
+                        }                        
+                        if(cont == 0) {
+                            first_input = input;
                         }
+                        cont++;
+                    } else {                        
+                        if(contenedor.hasClass('controls') || contenedor.hasClass('control-group')) {
+                            contenedor.removeClass('control-error'); 
+                        }                                                        
                     }
                 }
             }
-        }
-    }
+        });
+    }    
     if (cont > 0) {
         enviar = false;
         try {
@@ -78,22 +75,30 @@ function validForm(formulario, confirmacion) {
         try { 
             limpiarClaves(); 
         } catch(e) { }
-        setTimeout(function(){ $("#"+input.id).focus(); }, 2500);
+        setTimeout(function(){ first_input.focus(); }, 2500);
         return false;
-    }
-    if(confirmacion != false) {        
-        enviar = confirm('Está seguro de continuar con la operación?');
-    }
+    }    
     if(enviar) {
         //@see var,js
         DwSpinner('show');
     }
-    return enviar;       
+    return enviar;
 }
 
-function extraerClases(elemento) { var clases = elemento.className; var listaClases = clases.split(" "); return listaClases; }
-function requerido(valor, idEtiqueta) { if (valor == null || valor.length == 0 || /^\s+$/.test(valor) ) { document.getElementById(idEtiqueta).innerHTML = 'Campo requerido'; return false; }else { document.getElementById(idEtiqueta).innerHTML = '&nbsp;';return true;}}
+function required(input) {
+    este = $('#'+input);
+    if (este.val() == null || este.val().length == 0 || /^\s+$/.test(este.val()) ) {
+        $("#err_"+input).html('Campo requerido');
+        return false;
+    }
+    $("#err_"+input).html('');
+    return true;
+}
 
+function requerido(valor, idEtiqueta) { if (valor == null || valor.length == 0 || /^\s+$/.test(valor) ) { 
+        document.getElementById(idEtiqueta).innerHTML = 'Campo requerido'; return false; }else { document.getElementById(idEtiqueta).innerHTML = '&nbsp;';return true;}}
+
+/*
 function alfabetico(valor, idEtiqueta) {
     if (!(valor == null || valor.length == 0 || /^\s+$/.test(valor))) {
         if (!(/^[a-zA-ZüñÑáéíóúÁÉÍÓÚÜ\s]+$/.test(valor))) {
@@ -167,7 +172,7 @@ function lista(valor, idEtiqueta) {
 function usuario(valor, idEtiqueta) {
     var limiteMenor = 4;
     var limiteMayor = 10;
-    /*^[a-z0-9ü][a-z0-9ü_]{3,9}$/*/
+    //^[a-z0-9ü][a-z0-9ü_]{3,9}$
     if (!(valor == null || valor.length == 0 || /^[a-z0-9_]$/.test(valor))) {
         if ( alfanumerico(valor,idEtiqueta) ){
             if ((valor.length >= limiteMenor) && (valor.length <= limiteMayor)) {
@@ -258,5 +263,5 @@ function celular(valor, idEtiqueta) { var tamano = 10; if (!(valor == null || va
 function fotografia(file, idEtiqueta) {var ext;if (!(file == null || file.length == 0 || /^\s+$/.test(file))) {ext = getFileExtension(file);if(ext != "jpeg" && ext != "jpg" && ext != "png" && ext != "gif") {document.getElementById(idEtiqueta).innerHTML = 'Formato de imagen no válido.';return false;} else {document.getElementById(idEtiqueta).innerHTML = '&nbsp;';return true;}} else { return true; }}
 function getFileExtension(filename) {var i = filename.lastIndexOf(".");return (i > -1) ? filename.substring(i + 1, filename.length).toLowerCase() : "";}
 function ipv4(valor, idEtiqueta) { var patronIp = new RegExp("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$"); if (!(valor == null || valor.length == 0 || /^\s+$/.test(valor))) { if (!(patronIp.test(valor))) { document.getElementById(idEtiqueta).innerHTML = 'Dirección Ipv4 no válida'; return false; } else { valores =   valor.split("."); if(valores[0]<=255 && valores[1]<=255 && valores[2]<=255 && valores[3]<=255) { document.getElementById(idEtiqueta).innerHTML = '&nbsp;'; return true; } else { document.getElementById(idEtiqueta).innerHTML = 'Rango de dirección no válido'; return false; } } } else { return true; } }
+*/
 function limpiarErr() { var total = elementosErr.length;for (var i = 0; i < total; i++)document.getElementById(elementosErr.shift()).innerHTML = '&nbsp;';}
-

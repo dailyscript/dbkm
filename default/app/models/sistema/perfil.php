@@ -31,23 +31,20 @@ class Perfil extends ActiveRecord {
      * Método para obtener el listado de los perfiles del sistema
      * @param type $estado
      * @param type $order
-     * @param type $pag
+     * @param type $page
      * @return type
      */
-    public function getListadoPerfil($estado='todos', $order='', $pag=0) {           
+    public function getListadoPerfil($estado='todos', $order='', $page=0) {                   
         $columns = 'perfil.*, IF(perfil.activo=1, "ACTIVO", "BLOQUEADO") AS estado';
         $conditions = 'perfil.id IS NOT NULL';
         if($estado!='todos') {
             $conditions.= ($estado!=self::INACTIVO) ? " AND estado=".self::ACTIVO : " AND estado=".self::INACTIVO;
         }        
-        $order = explode('.', $order);
-        $col = (isset($order[1])) ? Filter::get($order[1], 'string') : 'perfil';
-        $sort = (isset($order[2])) ? $order[2] : null;
-        $sort = ($sort!='asc' && $sort!='desc') ? 'ASC' : strtoupper($sort);                
-        if($pag) {
-            return $this->paginated_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $col $sort", "page: $pag");
+        $order = $this->get_order($order, 'perfil');        
+        if($page) {            
+            return $this->paginated_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $order", "page: $page");
         }
-        return $this->find_all_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $col $sort");         
+        return $this->find_all_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $order");
     }
     
     /**

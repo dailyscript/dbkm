@@ -84,15 +84,16 @@ class DwForm extends Form {
                     //Verifico si está definida la clase para ajax
                     if(!preg_match("/\bjs-remote\b/i", $attrs['class'])) {
                         $attrs['class'] = 'js-remote '.$attrs['class'];
-                    }                    
+                    }   
+                    $attrs['class'] = 'dw-validate '.$attrs['class'];
                 }
             } else {
                 //Asigno que pertenece a la clase dw-form y si utiliza ajax
-                $attrs['class'] = (APP_AJAX && $type=='form') ? 'dw-form js-remote' : 'dw-form';
+                $attrs['class'] = (APP_AJAX && $type=='form') ? 'dw-form dw-validate js-remote' : 'dw-form';
             }
                         
-            if(APP_AJAX && $type=='form' && $formAjax && !isset($attrs['data-div'])) { //Si es un form con ajax verifico si está definido el data-div
-                $attrs['data-div'] = 'dw-shell-content';
+            if(APP_AJAX && $type=='form' && $formAjax && !isset($attrs['data-to'])) { //Si es un form con ajax verifico si está definido el data-div
+                $attrs['data-to'] = 'dw-shell-content';
             }                                   
             if(!isset($attrs['id'])) { //Verifico si está definido el id
                 $attrs['id'] = 'form-'.self::$_form; 
@@ -158,35 +159,8 @@ class DwForm extends Form {
      * @param type $confirm Indica si el formulario requiere un mensaje de confirmación
      * @return string
      */
-    protected static function _getValidationForm($valid, $extension, $confirm) {                        
-        $validation = '';
-        if($valid) {            
-            static $f = true;
-            if($f == true) {
-                $f = false;
-                //Incluyo el archivo de validación una sola vez
-                //@see javascript/utils/validador.js
-                $validation.= Tag::js('utils/validador').PHP_EOL;                
-            }            
-            $extension = trim($extension, '()');
-            $confirm = ($confirm) ? 'true' : 'false';
-            $validation.= '<script type="text/javascript">$(function() {$("#'.self::$_name['id'].'").submit(function(){ ';
-            //Verifico si necesita utilizar una extensión
-            if($extension) {
-                $validation.= 'if('.$extension.'()) { return validForm(this.name,'.$confirm.'); } else { return false; }';
-            } else {
-                $validation.= 'return validForm(this.name,'.$confirm.');';
-            }
-            $validation .= '});});</script>'; 
-        } else if(!$valid && $extension) {
-            $extension = trim($extension, '()');
-            $confirm = ($confirm) ? 'true' : 'false';
-            $validation.= '<script type="text/javascript">$(function() {$("#'.self::$_name['id'].'").submit(function(){ ';
-            $validation.= "return $extension();";
-            $validation .= '});});</script>'; 
-            
-        }
-        return $validation.PHP_EOL;                
+    protected static function _getValidationForm() { 
+        return '<script type="text/javascript"> $(function() { $("#'.self::$_name['id'].'").on("submit", function(){ este = $(this); before_send = este.attr("before-send"); after_send = este.attr("after-send"); confirmation = este.hasClass("dw-confirm") ? true : false; val = true; if(before_send!=undefined) { try { val = eval(before_send); } catch(e) { } } if(!val) { return false; } val = validForm(este.attr("name"), confirmation); if(!val) { return false; } if(after_send!=undefined) { try { eval(after_send); } catch(e) { } } }); }); </script>'.PHP_EOL;
     }
     
     /**
@@ -233,7 +207,7 @@ class DwForm extends Form {
                 $label.= "<label for=\"$id\" $attrs>$text";
             }            
             //Verifico si es requerido        
-            $label.= (preg_match("/\brequerido\b/i", $req)) ? '<span class="req">*</span>' : '';            
+            $label.= (preg_match("/\brequired\b/i", $req)) ? '<span class="req">*</span>' : '';            
             $label .= "</label>";
         }                               
         return $label;        
@@ -267,24 +241,22 @@ class DwForm extends Form {
      * @param string $action Lugar al que envía
      * @param string $method Método de envío
      * @param string $attrs Atrributos
-     * @param boolean $valid Indica si el formulario se valida
-     * @param boolean $ext Método a cargar por extensión
-     * @param boolean $confirm Indica si el formulario requiere un confirmación
+     * @param boolean $validate Indica si el formulario se valida     
      * @return string
      */
-    public static function open($action=null, $method='post', $attrs=null, $valid=false, $ext='', $confirm=false) {        
+    public static function open($action=null, $method='post', $attrs=null, $validate=false) {                
+        $form = '';
         $attrs = self::_getAttrsClass($attrs, 'form'); //Verifico los atributos
-        $form = self::_getValidationForm($valid, $ext, $confirm); //Verifico las validaciones
+        //Reviso si no carga por ajax
+        if(!preg_match("/\bjs-remote\b/i", $attrs['class']) && $validate) {
+            $form.= self::_getValidationForm(); //Verifico las validaciones
+        }        
         if($method=='') {
             $method= 'post';
-        }        
+        }               
         if(empty($action)) {
-            extract(Router::get());
-            $action = ($module)  ? "$module/$controller/$action/" : "$controller/$action/";            
-            if($parameters) {
-                $action.= join('/', $parameters).'/';                
-            } 
-        }
+            $action = ltrim(Router::get('route'), '/');
+        }              
         $form.= parent::open($action, $method, $attrs);//Obtengo la etiqueta para abrir el formulario
         return $form.PHP_EOL;
     }

@@ -17,7 +17,7 @@
         <style type="text/css">                    
             
         </style>     
-        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>         
+        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>                
         <script type="text/javascript">            
             function DwTitle(title) { if($(document).attr('title') != title) { $(document).attr('title', title); } } 
         </script>
@@ -57,7 +57,9 @@
         <!--[if lt IE 9]>
         <?php echo Tag::js('vendors/html5').PHP_EOL; ?>
         <![endif]--> 
-        <?php echo Tag::js('utils/var').PHP_EOL; ?>
+        <?php echo Tag::js('utils/var').PHP_EOL; ?> 
+        <?php echo Tag::js('utils/validador').PHP_EOL; ?>
+        
         
         <script type="text/javascript">  
             

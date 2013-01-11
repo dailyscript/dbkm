@@ -1,4 +1,4 @@
-<div clasS="page-header">
+<div class="page-header">
     <?php if(!empty($title)) { ?>
     <script type="text/javascript">  
         DwTitle('<?= $proceso; ?>');
@@ -8,7 +8,7 @@
     <?php 
     if(isset($proceso) && $proceso!=null) { 
         $proceso = explode(' |', $proceso);
-        echo "<small>",ucfirst(trim($proceso[0])),"</small>";
+        echo " | <small>",ucfirst(trim($proceso[0])),"</small>";
     } ?>
     </h4>    
 </div>

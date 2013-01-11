@@ -45,10 +45,11 @@ th.data-order > i.active, th.data-order > i:hover { color: #FF9900; }
 .table thead tr a span.caret , td a span.caret { vertical-align: middle !important;}
 .table th a:first-child, td a:first-child { vertical-align: middle !important;}
 
-th.btn-actions { min-width: 150px;width: 150px;}
+th.btn-actions {  width: 200px;}
 th.btn-actions, td.btn-actions {text-align: center;    }
 .btn-actions .btn-small { margin-right: 0.5em;  font-size: 15px; padding: 4px 5px 5px; }
 .btn-icon-only { padding-left: 3px; padding-right: 3px; font-size: 15px; }
+tbody td .btn { padding: 2px 5px !important; min-width: 21px;}
 
 hr.divider { margin: 5px 0px !important;}
 .btn-toolbar .btn { font-size: 12px; /*min-width: 15px;*/ margin-left: 5px !important;}
@@ -60,9 +61,14 @@ hr.divider { margin: 5px 0px !important;}
 .btn-toolbar .dropdown-menu { font-size: 12px;}
 .btn-toolbar form .input-medium { width: 90%; margin-bottom: 3px;}
 .btn-toolbar > .btn-actions { min-height: 30px;}
-.btn-toolbar-top { margin: 0px;}
+.btn-toolbar-top { margin: 0px 0px 5px;}
 .btn-toolbar-top .dropdown-menu li { padding-left: 10px;}
 
+form span.req { color: red !important;display: inline;float: none;font-weight: bold; }
+.form-actions { text-align: right;}
+.control-error .checkbox, .control-error .radio, .control-error input, .control-error select, .control-error textarea { border-color: #B94A48; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;color: #B94A48 !important; }
+.control-error .control-label, .control-error .help-block, .control-error .help-inline { color: #B94A48 !important; }
+.help-block { margin-top: -5px;}
 
 @media (max-width: 640px) {                  
     table {border-bottom: 0px !important;}

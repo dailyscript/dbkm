@@ -22,9 +22,9 @@ class DwHtml extends Html {
      * @return type
      */
     public static function link ($action, $text, $attrs = NULL, $icon='', $loadAjax = APP_AJAX) {
-        if (is_array($attrs) OR empty($attrs)) {
+        if (is_array($attrs) OR empty($attrs)) {            
             if($loadAjax) {
-                if(empty($attrs['class'])) {
+                if(empty($attrs['class'])) {                    
                     $attrs['class'] = 'dw-ajax dw-spinner';
                 } else {                    
                     if(!preg_match("/\bno-ajax\b/i", $attrs['class'])) {
@@ -34,8 +34,10 @@ class DwHtml extends Html {
                         $attrs['class'] = 'dw-spinner '.$attrs['class'];
                     }                 
                 }                
+            }                   
+            if(!empty($attrs)) {
+                $attrs = Tag::getAttrs($attrs);
             }
-            $attrs = Tag::getAttrs($attrs);
         }
         $action = ($action!='#') ? PUBLIC_PATH.trim($action, '/').'/' : '#';        
         if($icon) {
@@ -71,8 +73,10 @@ class DwHtml extends Html {
             $attrs['class'] = 'btn '.$attrs['class'];
             if(!preg_match("/\bdw-text-bold\b/i", $attrs['class'])) {
                 $attrs['class'] = $attrs['class'].' dw-text-bold';
+            }   
+            if(!empty($attrs)) {
+                $attrs = Tag::getAttrs($attrs);
             }            
-            $attrs = Tag::getAttrs($attrs);
         } 
         $action = trim($action, '/').'/';
         $text = (!empty($text) && $icon) ? '<span class="hidden-phone">'.strtoupper($text).'</span>' : strtoupper($text);
@@ -101,4 +105,22 @@ class DwHtml extends Html {
         return '<a href="' . "$url\" $attrs >$text</a>";
     }
         
+    /**
+     * Método para crear un ícono para las acciones del datagrid
+     * @param string $action
+     * @param array $attrs
+     * @param string $type
+     * @param strin $icon
+     * @param boolean $loadAjax
+     * @return string
+     */
+    public static function buttonTable($action, $attrs = NULL, $type='info', $icon='search', $loadAjax = APP_AJAX) {
+        if(empty($attrs)) {
+            $attrs = array();
+            $attrs['class'] = "btn btn-small btn-$type";
+        } else {
+            $attrs['class'] = empty($attrs['class']) ? "btn btn-small btn-$type" : "btn btn-small btn-$type ".$attrs['class'];
+        }
+        return self::button($action, '', $attrs, $icon, $loadAjax);        
+    }
 }

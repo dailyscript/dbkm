@@ -1,13 +1,26 @@
 var ah = $("#dw-shell-load").innerHeight();
 var aw = $("#dw-shell-load").innerWidth();  
-var DwDiv = 'dw-shell-content';         
+var DwDiv = 'dw-shell-content'; 
+/** Resetear formularios **/
+/*
+jQuery.fn.reset = function () {
+  $(this).each (function() { this.reset(); });
+}*/
 /** Message **/
 $("div.dw-message").on({ mouseenter: function(){ $(this).addClass("dw-blur dw-opacity"); }, mouseleave: function(){ $(this).removeClass("dw-blur dw-opacity"); } });
 /** Buttons forward y back **/
 $(function() { $(".btn-back").on('click', function(event) { history.back();}); $(".btn-forward").on('click', function(event) { history.forward();});   });
 /** Enlazo la url **/
 $(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState();} else { DwCheckHash();DwHashChange(); } });
-$(function() { $('.nav-list-phone').on('click', '.dropdown-toggle', function(){ $('.nav-list-phone').css('height', 'auto');});})
+$(function(){ 
+    $('body').on('click', '.btn-list-phone', function(){ 
+        if($('.nav-list-phone').height() == 0) {
+            setTimeout(function(){ 
+                $('.nav-list-phone').css('height', 'auto'), 100
+            });
+        }        
+    });
+})
 $(function() {
     $('body').on('click', '.dw-ajax', function(e) {        
         e.preventDefault();

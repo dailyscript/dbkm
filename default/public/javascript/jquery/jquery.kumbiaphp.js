@@ -90,18 +90,36 @@
 		 * Enviar formularios de manera asincronica, via POST
 		 * Y los carga en un contenedor
 		 */
-		cFRemote: function(event){
+		cFRemote: function(event){                        
 			event.preventDefault();
 			este = $(this);
+                        var val = true;
 			var button = $('[type=submit]', este);
 			button.attr('disabled', 'disabled');
 			var url = este.attr('action');
 			var div = este.attr('data-to');
+                        var before_send = este.attr('before-send');
+                        var after_send = este.attr('after-send'); 
+                        if(before_send!=undefined) {
+                            try { val = eval(before_send); } catch(e) { }
+                        }
+                        if(!val) { 
+                            return false 
+                        }
+                        if(este.hasClass('dw-validate')) { //Para validar el formulario antes de enviarlo
+                            confirmation = este.hasClass('dw-confirm') ? true : false;
+                            if(!validForm(este.attr('name'), confirmation)) {
+                                button.removeAttr('disabled');
+                                return false;
+                            }
+                        }
 			$.post(url, este.serialize(), function(data, status){
 				var capa = $('#'+div);
-				capa.html(data);
-				capa.hide();
-				capa.show('slow');
+                                if(after_send!=null) {
+                                    try { eval(after_send); } catch(e) { }
+                                }				
+                                capa.html(data).hide().fadeIn(500);
+                                DwSpinner('hide');
 				button.attr('disabled', null);
 			});
 		},
@@ -216,7 +234,7 @@
 			$("a.js-fade-out").on('click', this.cFx('fadeOut'));
 
             // Formulario ajax
-			$("form.js-remote").on('submit', this.cFRemote);
+			$("body").on('submit', 'form.js-remote', this.cFRemote);
 
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").on('change', this.cUpdaterSelect);

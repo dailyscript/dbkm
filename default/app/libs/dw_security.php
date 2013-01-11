@@ -48,11 +48,9 @@ class DwSecurity {
      */
     public static function isValidKey($valueKey, $action='', $popup=false) {
         $key = explode('.', $valueKey); 
-        $id = $key[0];
-        unset($key[0]);
-        $key = join('', $key);
+        $id = $key[0];        
         $validKey = self::getKey($id, $action);               
-        $valid = ($validKey === $valueKey) ? $id : null; 
+        $valid = ($validKey === $valueKey) ? TRUE : FALSE; 
         if(!$valid) {
             DwMessage::error('Acceso denegado. La llave de seguridad recibida es incorrecta.');
             if($popup) {

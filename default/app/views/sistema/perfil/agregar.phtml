@@ -1,0 +1,22 @@
+<?php View::notify(); ?>
+
+<div class="container-fluid overflow">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="span12">
+        
+        <?= DwForm::open('', 'post', array('id'=>'formulario', 'name'=>'formulario', 'class'=>'dw-confirm'), TRUE); ?>
+        
+            <?= DwForm::text('perfil.perfil', array('class'=>'required mask-alpha show-error'), NULL, 'Perfil'); ?>
+        
+            <div class="form-actions">
+                <?= DwButton::save('Guardar perfil'); ?>
+                <?= DwButton::reset('formulario'); ?>
+                <?= DwButton::cancel(); ?>
+            </div>
+        
+        <?= DwForm::open(); ?>
+    </div>
+    
+</div>

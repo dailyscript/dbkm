@@ -78,8 +78,8 @@ class DwRedirect {
      * Redirecciona a la página de inicio de sesión     
      */
     public static function toLogin($path='sistema/login/entrar/') {
-        $path = trim($path, '/').'/';
-        if(APP_AJAX && Input::isAjax()) { //Si se redirecciona estando la app en ajax
+        $path = trim($path, '/').'/';        
+        if(Input::isAjax()) { //Si se redireciona mediante una entrada de ajax
             View::redirectToLogin($path);
         } else {            
             Redirect::to($path);
