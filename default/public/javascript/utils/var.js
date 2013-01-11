@@ -25,7 +25,7 @@ $(function() {
                 location.href = ""+este.attr('href')+"";                
             }            
         }
-        if(este.hasClass('no-load') || este.hasClass('dw-confirm') || este.hasClass('dw-dialog')) {
+        if(este.hasClass('no-load') || este.hasClass('dw-confirm') || este.hasClass('dw-dialog') || este.hasClass('js-confirm')) {
             return false;
         }        
         var val = true;

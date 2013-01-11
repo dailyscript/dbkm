@@ -321,6 +321,41 @@ class DwForm extends Form {
     
     
     /**
+     * Método para crear un input tipo textarea
+     * @param string $field Nombre del input
+     * @param array $attrs Atributos del input
+     * @param string $value Valor del input
+     * @param string $label Texto a mostrar en la etiqueta <label>
+     * @param string $help Texto a mostrar como descripcion
+     * @return string
+     */
+    public static function textarea($field, $attrs=null, $value=null, $label='', $help='') {
+        //Tomo los nuevos atributos definidos en las clases
+        $attrs = self::_getAttrsClass($attrs, 'textarea');
+        //Armo el input
+        $input = self::getControls();
+        if(self::$_style=='form-search') {
+            $attrs['placeholder'] = $label;
+        }
+        
+        //Tomo el input del form
+        $input.= parent::textarea($field, $attrs, $value);
+        //Verifico si el formato del formulario muestra el help
+        if(self::$_help_block) {              
+            $input.= self::help($field, $help, $attrs['class']);
+        }       
+        //Cierro el controls
+        $input.= self::getControls();
+        if(!self::$_help_block) {
+            return $input.PHP_EOL;
+        }
+
+        //Verifico si tiene un label
+        $label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs['class'])  : '';        
+        return '<div class="control-group">'.$label.$input.'</div>'.PHP_EOL;                  
+    }
+    
+    /**
      * Método que genera un campo select
      * @param type $field Nombre del input
      * @param array $data Datos a mostrar

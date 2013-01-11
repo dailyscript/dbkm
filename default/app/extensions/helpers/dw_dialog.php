@@ -51,5 +51,5 @@ class DwDialog {
         }
         $modal.= '</script>';
         return $modal.PHP_EOL;
-    }
+    }        
 }

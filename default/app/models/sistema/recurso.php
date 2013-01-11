@@ -24,6 +24,82 @@ class Recurso extends ActiveRecord {
         $this->has_many('recurso_usuario');        
     }
     
+    /**
+     * Método para obtener el listado de los recursos del sistema
+     * @param type $estado
+     * @param type $order
+     * @param type $page
+     * @return type
+     */
+    public function getListadoRecurso($estado='todos', $order='', $page=0) {                           
+        $conditions = 'recurso.id IS NOT NULL';                
+        if($estado!='todos') {
+            $conditions.= ($estado==self::ACTIVO) ? " AND activo=".self::ACTIVO : " AND activo=".self::INACTIVO;
+        }        
+        $order = $this->get_order($order, 'modulo');         
+        if($page) {            
+            return $this->paginated("conditions: $conditions", "order: $order", "page: $page");
+        }
+        return $this->find("conditions: $conditions", "group: $group", "order: $order");
+    }
+    
+    /**
+     * Método para crear/modificar un objeto de base de datos
+     * 
+     * @param string $medthod: create, update
+     * @param array $data: Data para autocargar el modelo
+     * @param array $optData: Data adicional para autocargar
+     * 
+     * return object ActiveRecord
+     */
+    public static function setRecurso($method, $data, $optData=null) {        
+        $obj = new Recurso($data); //Se carga los datos con los de las tablas        
+        if($optData) { //Se carga información adicional al objeto
+            $obj->dump_result_self($optData);
+        }
+        //Verifico que no exista otro recurso, y si se encuentra inactivo lo active
+        $conditions = empty($obj->id) ? "modulo='$obj->modulo' AND controlador='$obj->controlador' AND accion='$obj->accion'" : "modulo='$obj->modulo' AND controlador='$obj->controlador' AND accion='$obj->accion' AND id != '$obj->id'";
+        $old = new Recurso();
+        if($old->find_first($conditions)) {            
+            if($method=='create' && $old->activo != Recurso::ACTIVO) {
+                $obj->id = $old->id;
+                $obj->activo = Recurso::ACTIVO;
+                $method = 'update';
+            } else {
+                DwMessage::info('Ya existe un recurso registrado bajo esos parámetros.');
+                return FALSE;
+            }
+        }
+        return ($obj->$method()) ? $obj : FALSE;
+    }
+    
+    /**
+     * Callback que se ejecuta antes de guardar/modificar
+     */
+    public function before_save() {
+        $this->modulo = Filter::get($this->modulo, 'string');
+        $this->controlador = Filter::get($this->controlador, 'string');
+        $this->accion = Filter::get($this->accion, 'string');
+        if(empty($this->accion)) {
+            $this->accion = '*';
+        }
+        $this->recurso = trim($this->modulo.'/'.$this->controlador.'/'.$this->accion.'/', '/');
+        $this->descripcion = Filter::get($this->descripcion, 'string');
+        if($this->id == 1 OR $this->id == 2) {
+            DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
+            return 'cancel';            
+        }
+    }
+    
+    /**
+     * Callback que se ejecuta antes de eliminar
+     */
+    public function before_delete() {
+        if($this->modulo=='sistema' OR ($this->recurso == '*' && empty($this->controlador)) OR ($this->recurso=='principal/*') ) {
+            return 'cancel';
+        }
+    }
+    
     
 }
 ?>

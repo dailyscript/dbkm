@@ -43,10 +43,37 @@
 		 * @param Object event
 		 */
 		cConfirm: function(event) {
+                        event.preventDefault();
 			var este=$(this);
-			if(!confirm(este.data('msg'))) {
-				event.preventDefault();
-			}
+                        var dialogo = $("#modal_confirmar");
+                        var data_body = este.attr('confirm-body');
+                        var data_title = este.attr('confirm-title');
+                        if(data_title==undefined) {
+                            data_title = 'Confirma';
+                        }
+                        if ($("#modal_confirmar").size() > 0 ){
+                            dialogo.empty();
+                        }
+                        dialogo = $('<div id="modal_confirmar"></div>').addClass('modal fade');
+                        var header = $('<div><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3><i class="icon-warning-sign" style="padding-right:5px; margin-top:5px;"></i>'+data_title+'</h3></div>').addClass('modal-header');
+                        var cuerpo = (data_body!=undefined) ? $('<div><p>'+data_body+'</p></div>').addClass('modal-body') : $('<div><p>Está seguro de continuar con esta operación?</p></div>').addClass('modal-body');
+                        var footer = $('<div></div>').addClass('modal-footer');
+                        dialogo.append(header);
+                        dialogo.append(cuerpo);
+                        dialogo.append(footer);
+                        footer.append('<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>');
+                        if(este.hasClass('dw-ajax')) {
+                            footer.append('<a class="btn btn-success dw-ajax dw-spinner" href="'+este.attr("href")+'">Aceptar</a>');
+                        } else {
+                            footer.append('<button class="btn btn-success">Aceptar</a>');
+                        }                            
+                        $('.btn-success', dialogo).on('click',function(){
+                            dialogo.modal('hide');
+                            if(!($(this).hasClass('dw-ajax'))) {
+                                document.location.href = este.attr('href');                                    
+                            }
+                        });                        
+                        dialogo.modal();
 		},
 
 		/**
@@ -210,7 +237,7 @@
 		 */
 		bind : function() {
             // Enlace y boton con confirmacion
-			$("a.js-confirm, input.js-confirm").on('click', this.cConfirm);
+			$("body").on('click', 'a.js-confirm, input.js-confirm', this.cConfirm);
 
             // Enlace ajax
 			$("a.js-remote").on('click', this.cRemote);

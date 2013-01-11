@@ -17,9 +17,7 @@ class Perfil extends ActiveRecord {
     
     const ACTIVO = 1;
     
-    const INACTIVO = 2;
-    
-    public $logger = true;
+    const INACTIVO = 2;        
     
     /**
      * Método para definir las relaciones y validaciones
