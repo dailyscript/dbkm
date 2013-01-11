@@ -44,7 +44,7 @@ class DwButton {
     public static function reset($form='formulario', $formUpdate=FALSE, $icon='undo') {
         $title = (!$formUpdate) ? 'Limpiar formulario' : 'Retomar valores por defecto';
         $attrs = array();
-        $attrs['class'] = (empty($attrs['class'])) ? 'btn-info' : 'btn-info '.$attrs['class'];
+        $attrs['class'] = 'btn-info';
         $attrs['title'] = $title;            
         $attrs['onclick'] = "document.getElementById('$form').reset();";
         return self::showButton($icon, $attrs, 'limpiar', 'button');
@@ -59,13 +59,32 @@ class DwButton {
      */
     public static function cancel($redir=NULL, $title='', $icon='ban-circle') {
         $attrs = array();
-        $attrs['class'] = (empty($attrs['class'])) ? 'btn-danger' : 'btn-danger '.$attrs['class'];
+        $attrs['class'] = 'btn-danger';
         $attrs['title'] = empty($title) ? 'Cancelar operación' : $title;
         if(empty($redir)) {
             $attrs['class'].= ' btn-back';
             return self::showButton($icon, $attrs, 'cancelar', 'button');
         } else {
             return DwHtml::button($redir, 'CANCELAR', $attrs, $icon); 
+        }
+    }
+    
+    /**
+     * Método para crear un botón para regresar a la página anterior
+     * @param type $redir Página a redirigir al presionar el botón
+     * @param type $title Título a mostrar
+     * @param type $icon Icono a mostrar
+     * @return type
+     */
+    public static function back($redir=NULL, $title='', $icon='backward') {
+        $attrs = array();
+        $attrs['class'] = 'btn-info';
+        $attrs['title'] = empty($title) ? 'Regresar' : $title;
+        if(empty($redir)) {
+            $attrs['class'].= ' btn-back';
+            return self::showButton($icon, $attrs, 'regresar', 'button');
+        } else {
+            return DwHtml::button($redir, 'REGRESAR', $attrs, $icon); 
         }
     }
 

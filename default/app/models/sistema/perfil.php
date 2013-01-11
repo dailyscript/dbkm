@@ -19,6 +19,8 @@ class Perfil extends ActiveRecord {
     
     const INACTIVO = 2;
     
+    public $logger = true;
+    
     /**
      * Método para definir las relaciones y validaciones
      */
@@ -35,16 +37,23 @@ class Perfil extends ActiveRecord {
      * @return type
      */
     public function getListadoPerfil($estado='todos', $order='', $page=0) {                   
-        $columns = 'perfil.*, IF(perfil.activo=1, "ACTIVO", "BLOQUEADO") AS estado';
-        $conditions = 'perfil.id IS NOT NULL';
-        if($estado!='todos') {
-            $conditions.= ($estado!=self::INACTIVO) ? " AND estado=".self::ACTIVO : " AND estado=".self::INACTIVO;
+        $columns = 'perfil.*, COUNT(usuario.id) AS usuarios';        
+        $join = 'LEFT JOIN usuario ON perfil.id = usuario.perfil_id ';
+        $conditions = 'perfil.id IS NOT NULL';        
+        if($estado=='acl') {
+            $conditions.= " AND perfil.estado = ".self::ACTIVO;
+        } else{
+            $conditions.= " AND perfil.id > 1";            
+            if($estado!='todos') {
+                $conditions.= ($estado==self::ACTIVO) ? " AND estado=".self::ACTIVO : " AND estado=".self::INACTIVO;                
+            }
         }        
-        $order = $this->get_order($order, 'perfil');        
+        $order = $this->get_order($order, 'perfil'); 
+        $group = 'perfil.id';
         if($page) {            
-            return $this->paginated_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $order", "page: $page");
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order", "page: $page");
         }
-        return $this->find_all_by_sql("SELECT $columns FROM $this->source WHERE $conditions ORDER BY $order");
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order");
     }
     
     /**
@@ -56,12 +65,39 @@ class Perfil extends ActiveRecord {
      * 
      * return object ActiveRecord
      */
-    public static function setPerfil($method, $data, $optData=null) {
-        $obj = new Perfil($data);
-        if($optData) {
+    public static function setPerfil($method, $data, $optData=null) {        
+        $obj = new Perfil($data); //Se carga los datos con los de las tablas        
+        if($optData) { //Se carga información adicional al objeto
             $obj->dump_result_self($optData);
+        }                               
+        //Verifico que no exista otro perfil, y si se encuentra inactivo lo active
+        $conditions = empty($obj->id) ? "perfil = '$obj->perfil'" : "perfil = '$obj->perfil' AND id != '$obj->id'";
+        $old = new Perfil();
+        if($old->find_first($conditions)) {            
+            if($method=='create' && $old->estado != Perfil::ACTIVO) {
+                $obj->id = $old->id;
+                $obj->estado = Perfil::ACTIVO;
+                $method = 'update';
+            } else {
+                DwMessage::info('Ya existe un perfil registrado bajo ese nombre.');
+                return FALSE;
+            }
         }
         return ($obj->$method()) ? $obj : FALSE;
+    }
+    
+    /**
+     * Callback que se ejecuta antes de guardar/modificar
+     */
+    public function before_save() {
+        $this->perfil = Filter::get($this->perfil, 'string');
+        $this->plantilla = DwUtils::getSlug(Filter::get($this->plantilla, 'string'), '_');                
+        if(!empty($this->id)) {
+            if($this->id == Perfil::SUPER_USUARIO) {
+                DwMessage::warning('Lo sentimos, pero este perfil no se puede editar.');
+                return 'cancel';
+            }
+        }
     }
     
     /**

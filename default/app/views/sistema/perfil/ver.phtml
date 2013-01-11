@@ -1,0 +1,63 @@
+<?php View::notify(); ?>
+
+<script type="text/javascript">  
+    $(function() {
+        $('table').dwGrid({             
+            form_search: false,
+            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+            order_action: $.KumbiaPHP.publicPath+"sistema/perfil/ver/<?= $key; ?>/"
+        });
+    });    
+</script>
+
+<div class="container-fluid overflow">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <?= DwForm::open(); ?>
+        <div class="row-fluid">
+            <div class="span4">
+                <?= DwForm::text('perfil.perfil', NULL, $perfil->perfil, 'Nombre'); ?>
+            </div>
+            <div class="span4">
+                <?= DwForm::text('perfil.perfil', NULL, $perfil->plantilla, 'Plantilla'); ?>
+            </div>
+            <div class="span4">
+                <?= DwForm::text('perfil.perfil', NULL, ($perfil->estado == Perfil::ACTIVO) ? 'ACTIVO' : 'BLOQUEADO', 'Estado'); ?>
+            </div>
+        </div>        
+    <?= DwForm::close(); ?>
+    
+    <?php View::process('Información de usuarios', NULL, FALSE); ?>
+    
+    <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+        <thead>
+            <tr>
+                <th>NUM</th>
+                <th class="col-collapse" data-search="usuario">USUARIO</th>
+                <th class="col-collapse" data-search="nombre">NOMBRE</th>
+                <th class="col-collapse" data-search="apellido">APELLIDO</th>                
+            </tr>            
+        </thead>
+        <tbody>            
+            <?php foreach($usuarios->items as $usuario): ?>                
+                <tr>
+                    <td><?= $usuario->counter; ?></td>
+                    <td><?= $usuario->login; ?></td>
+                    <td><?= $usuario->nombre; ?></td>
+                    <td><?= $usuario->apellido; ?></td>
+                </tr>
+                <?php $usuarios->counter++; ?>
+            <?php endforeach; ?>
+        </tbody>            
+    </table> 
+    
+    <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/perfil/ver/$key/$order/")); ?>
+    
+    <div class="row-fluid">
+        <div class="form-actions">                
+            <?= DwButton::back(); ?>
+        </div>
+    </div>
+    
+</div>

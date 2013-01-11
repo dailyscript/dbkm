@@ -25,6 +25,8 @@
             <tr>
                 <th>NUM</th>
                 <th class="col-collapse" data-search="perfil">PERFIL</th>
+                <th class="col-collapse" data-search="plantilla">PLANTILLA</th>
+                <th class="col-collapse" data-search="usuarios">USUARIOS</th>
                 <th class="col-collapse" data-search="estado">ESTADO</th>
                 <th class="btn-actions no-responsive">ACCIONES</th>
             </tr>            
@@ -33,15 +35,22 @@
             <?php foreach($perfiles->items as $perfil): ?>
                 <?php $key_show = DwSecurity::getKey($perfil->id, 'show_perfil'); ?>                
                 <?php $key_upd = DwSecurity::getKey($perfil->id, 'upd_perfil'); ?>
-                <?php $key_del = DwSecurity::getKey($perfil->id, 'del_perfil'); ?>
+                <?php $key_inac = DwSecurity::getKey($perfil->id, 'inactivar_perfil'); ?>
+                <?php $key_reac = DwSecurity::getKey($perfil->id, 'reactivar_perfil'); ?>
                 <tr>
                     <td><?= $perfiles->counter; ?></td>
                     <td><?= $perfil->perfil; ?></td>
-                    <td><?= $perfil->estado; ?></td>
+                    <td><?= $perfil->plantilla; ?></td>
+                    <td><?= $perfil->usuarios; ?></td>
+                    <td><?= ($perfil->estado == Perfil::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
                     <td>                        
-                        <?= DwHtml::buttonTable("sistema/perfil/ver/$key_show/", null, 'info', 'search'); ?>                        
-                        <?= DwHtml::buttonTable("sistema/perfil/editar/$key_upd/", null, 'info', 'edit'); ?>
-                        <?= DwHtml::buttonTable("sistema/perfil/eliminar/$key_del/", null, 'danger', 'remove'); ?>                        
+                        <?= DwHtml::buttonTable('Ver perfil', "sistema/perfil/ver/$key_show/", null, 'info', 'search'); ?>                        
+                        <?= DwHtml::buttonTable('Modificar perfil', "sistema/perfil/editar/$key_upd/", null, 'info', 'edit'); ?>
+                        <?php if($perfil->estado == Perfil::ACTIVO) { ?>
+                            <?= DwHtml::buttonTable('Inactivar perfil', "sistema/perfil/estado/inactivar/$key_inac/", null, 'success', 'flag'); ?>
+                        <?php } else { ?>
+                            <?= DwHtml::buttonTable('Reactivar perfil', "sistema/perfil/estado/reactivar/$key_reac/", null, 'danger', 'flag'); ?>
+                        <?php } ?>
                     </td>                    
                 </tr>
                 <?php $perfiles->counter++; ?>
@@ -49,6 +58,6 @@
         </tbody>            
     </table> 
     
-    <?php View::partial('paginators/default', false, array('page'=>$perfiles)); ?>
+    <?php View::partial('paginators/default', false, array('page'=>$perfiles, 'url'=>"sistema/perfil/listar/$order/")); ?>
     
 </div>

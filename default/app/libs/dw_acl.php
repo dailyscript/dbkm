@@ -36,7 +36,7 @@ class DwAcl {
     public function __construct() {
         self::$_acl = Acl2::factory('simple');  
         $perfil = new Perfil();
-        $perfiles = $perfil->getListadoPerfil();
+        $perfiles = $perfil->getListadoPerfil('acl');
         $this->_setPerfiles($perfiles);        
     }
     
@@ -46,7 +46,7 @@ class DwAcl {
      */
     protected function _setPerfiles($perfiles) {
         foreach ($perfiles as $perfil) {
-            if ($perfil->activo==Perfil::ACTIVO) {                 
+            if ($perfil->estado==Perfil::ACTIVO) {                 
                 self::$_acl->user($perfil->id, array($perfil->id));                
                 $plantilla = empty($perfil->plantilla) ? 'default' : $perfil->plantilla;                
                 $this->_setTemplate($perfil->id, $plantilla);

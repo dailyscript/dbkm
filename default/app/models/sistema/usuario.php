@@ -91,6 +91,25 @@ class Usuario extends ActiveRecord {
     }  
     
     
+    /**
+     * Método para listar los usuarios por perfil
+     */
+    public function getUsuarioPorPerfil($perfil, $order='', $page=0) {
+        $perfil = Filter::get($perfil, 'int');
+        if(empty($perfil)) {
+            return NULL;
+        }
+        $columns = 'usuario.*, persona.nombre, persona.apellido, perfil.perfil';
+        $join = 'INNER JOIN persona ON persona.id = usuario.persona_id ';
+        $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
+        $conditions = "perfil.id = $perfil";
+        $order = $this->get_order($order, 'nombre');        
+        if($page) {
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
+        } 
+        return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
+    }
+    
     
     /**
      * Método para crear/modificar un objeto de base de datos

@@ -6,7 +6,7 @@ Autor
 -------------------------------------------------------
 Dailyscript - Web | App | Media 
 Iván D. Meléndez (ivan.melendez@dailycript.com.co)
-Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co)
+Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
 -------------------------------------------------------
 License
 -------------------------------------------------------
@@ -65,7 +65,8 @@ hr.divider { margin: 5px 0px !important;}
 .btn-toolbar-top .dropdown-menu li { padding-left: 10px;}
 
 form span.req { color: red !important;display: inline;float: none;font-weight: bold; }
-.form-actions { text-align: right;}
+.form-actions { text-align: right; }
+.form-actions .btn { font-size: 12px; }
 .control-error .checkbox, .control-error .radio, .control-error input, .control-error select, .control-error textarea { border-color: #B94A48; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;color: #B94A48 !important; }
 .control-error .control-label, .control-error .help-block, .control-error .help-inline { color: #B94A48 !important; }
 .help-block { margin-top: -5px;}

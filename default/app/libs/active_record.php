@@ -24,9 +24,9 @@ class ActiveRecord extends KumbiaActiveRecord  {
      */
     protected function get_order($s, $default=NULL) {
         $s = explode('.', $s);        
-        $column  = (empty($s[1])) ? $default : Filter::get($s[1], 'string');
-        $type = (empty($r[2])) ? NULL : strtoupper($s[2]);        
-        return ($type!='ASC' && $type!='DES') ? $column.' ASC' : $column.' '.$type;        
+        $column  = (empty($s[1])) ? $default : Filter::get($s[1], 'string');        
+        $type = (empty($s[2])) ? NULL : strtoupper($s[2]);        
+        return ($type!='ASC' && $type!='DESC') ? $column.' ASC' : $column.' '.$type;        
     }
     
     /**

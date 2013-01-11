@@ -424,4 +424,24 @@ class DwForm extends Form {
         $btn.= $text;
         return "<button type=\"submit\" $attrs>$btn</button>";        
     }
+    
+    /**
+     * Método para generar un hidden con el id y otro con el id_key
+     * @param string $field Modelo.campo del hidden
+     * @param string $value Valor del campo
+     * @return string 
+     */
+    public static function hiddenKey($field, $value, $textKey='form_key') {                
+        $input = parent::hidden($field, array('class'=>''), $value).PHP_EOL;
+        extract(self::_getFieldName($field));        
+        str_replace('[',  '', $name, $checked);
+        if($checked) {            
+            $field = str_replace(array("[","]"), '_', $name)."key";            
+        } else {
+            $field = "{$field}_key";
+        }                                        
+        $value = DwSecurity::getKey($value, $textKey);
+        $input.= parent::hidden($field, null, $value).PHP_EOL;
+        return $input;         
+    }
 }

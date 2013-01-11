@@ -114,13 +114,15 @@ class DwHtml extends Html {
      * @param boolean $loadAjax
      * @return string
      */
-    public static function buttonTable($action, $attrs = NULL, $type='info', $icon='search', $loadAjax = APP_AJAX) {
+    public static function buttonTable($title, $action, $attrs = NULL, $type='info', $icon='search', $loadAjax = APP_AJAX) {
         if(empty($attrs)) {
             $attrs = array();
             $attrs['class'] = "btn btn-small btn-$type";
         } else {
             $attrs['class'] = empty($attrs['class']) ? "btn btn-small btn-$type" : "btn btn-small btn-$type ".$attrs['class'];
         }
+        $attrs['title'] = $title;
+        $attrs['rel'] = 'tooltip';
         return self::button($action, '', $attrs, $icon, $loadAjax);        
     }
 }

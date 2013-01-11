@@ -1,23 +1,18 @@
 var ah = $("#dw-shell-load").innerHeight();
 var aw = $("#dw-shell-load").innerWidth();  
 var DwDiv = 'dw-shell-content'; 
-/** Resetear formularios **/
-/*
-jQuery.fn.reset = function () {
-  $(this).each (function() { this.reset(); });
-}*/
+/** Ajax Cursor **/
+$("body").ajaxStart(function() { $("body").css("cursor", "wait"); }).ajaxStop(function() { $("body").css("cursor", "default"); });
 /** Message **/
 $("div.dw-message").on({ mouseenter: function(){ $(this).addClass("dw-blur dw-opacity"); }, mouseleave: function(){ $(this).removeClass("dw-blur dw-opacity"); } });
 /** Buttons forward y back **/
-$(function() { $(".btn-back").on('click', function(event) { history.back();}); $(".btn-forward").on('click', function(event) { history.forward();});   });
+$(function() { $("body").on('click', '.btn-back', function(event) { history.back();}); $("body").on('click', '.btn-forward', function(event) { history.forward();});   });
 /** Enlazo la url **/
 $(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState();} else { DwCheckHash();DwHashChange(); } });
 $(function(){ 
     $('body').on('click', '.btn-list-phone', function(){ 
         if($('.nav-list-phone').height() == 0) {
-            setTimeout(function(){ 
-                $('.nav-list-phone').css('height', 'auto'), 100
-            });
+            setTimeout(function(){ $('.nav-list-phone').css('height', 'auto') }, 100);
         }        
     });
 })
@@ -50,8 +45,8 @@ $(function() {
                 if($.dwload(options)) {                     
                     if(after_load!=null) {                        
                         try { eval(after_load); } catch(e) { }                    
-                    }
-                }        
+                    }                     
+                }                 
             }            
         } 
         return true;
@@ -95,9 +90,9 @@ function DwUpdateUrl(url) {
  */
 function DwPushState(){             
     // Función para enlazar cuando cambia la url de la página.
-    $(window).bind('popstate', function(event) {                 
-        if (!window.history.ready && !event.originalEvent.state)
-            return;
+    $(window).bind('popstate', function(event) {                   
+        if (!event.originalEvent.state)//Para Chrome
+            return;        
         $.dwload({url: location.href});                
     });
 }

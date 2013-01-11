@@ -22,9 +22,10 @@ class DwMessage {
      * Variable que contiene los diferentes mensajes repetitivos para mostrarlos en el método fixed
      * @var array
      */
-    protected static $_msg = array( 'error_form'        =>array('error'     =>'Se ha producido un error al registrar la información. <br />Verifica los datos e intenta nuevamente.'),
-                                    'error_key_form'    =>array('error'     =>'Se ha producido un error en la validación del formulario. Verifica los datos e intenta nuevamente.'),
-                                    'error_key_url'     =>array('error'     =>'Acceso denegado. La url de la barra de direcciones es incorrecta.'));
+    protected static $_msg = array( 'error_form'        =>array('error', 'Se ha producido un error al registrar la información. <br />Verifica los datos e intenta nuevamente.'),
+                                    'error_key_form'    =>array('error', 'Se ha producido un error en la validación del formulario. Verifica los datos e intenta nuevamente.'),
+                                    'error_key_url'     =>array('error', 'Acceso denegado. La url de la barra de direcciones es incorrecta.'),
+                                    'id_no_found'       =>array('info', 'No se ha podido establecer la información del registro. <br />Verfica el proceso e inenta nuevamente.'));
 
     /**
      * Mensajes almacenados en un request
@@ -131,7 +132,7 @@ class DwMessage {
      */
     public static function get($msg, $logger=false) {
         $message = self::$_msg[$msg];
-        self::set($message[1], $message[2], $logger);        
+        self::set($message[0], $message[1], $logger);        
     }    
     
 }

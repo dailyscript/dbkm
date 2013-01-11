@@ -32,23 +32,26 @@ function validForm(form, confirmation) {
         }        
     }    
     var enviar = true
-    este = $('form[name="'+form+'"]');
+    var form = $('form[name="'+form+'"]');
     var cont = 0;
     var campos = tagsForm.length;
-    var first_input;
-    for(i = 0 ; i < campos ; i++) {        
-        este.find(tagsForm[i]).each(function(k){
+    var first_input;    
+    for(i = 0 ; i < campos ; i++) {                 
+        form.find(tagsForm[i]).each(function(k) {
             var input = $(this);
+            if(input.attr('class') == undefined) {
+                return false;
+            }            
             var clases = input.attr('class').split(' ');
             for(c = 0 ; c < clases.length ; c++) {
                 if($.inArray(clases[c], validators) >= 0) {
-                    fn = clases[c]+'("'+input.attr("id")+'")';                  
+                    fn = clases[c]+'("'+input.attr("id")+'")';                         
                     contenedor = input.parent();
                     if(contenedor.hasClass('controls')) {
                         contenedor = contenedor.parent();
-                    }                                            
+                    }
                     if (!eval(fn)) {
-                        elemErr.push("err_" + input.attr("id"));                                                
+                        elemErr.push("err_" + input.attr("id"));                     
                         if(contenedor.hasClass('controls') || contenedor.hasClass('control-group')) {
                             contenedor.addClass('control-error');
                         }                        
@@ -62,8 +65,8 @@ function validForm(form, confirmation) {
                         }                                                        
                     }
                 }
-            }
-        });
+            }            
+        });        
     }    
     if (cont > 0) {
         enviar = false;
@@ -81,13 +84,13 @@ function validForm(form, confirmation) {
     if(enviar) {
         //@see var,js
         DwSpinner('show');
-    }
+    }    
     return enviar;
 }
 
-function required(input) {
-    este = $('#'+input);
-    if (este.val() == null || este.val().length == 0 || /^\s+$/.test(este.val()) ) {
+function required(input) {      
+    field = $('#'+input);
+    if (field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()) ) {
         $("#err_"+input).html('Campo requerido');
         return false;
     }

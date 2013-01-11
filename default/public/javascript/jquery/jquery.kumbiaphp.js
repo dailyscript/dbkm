@@ -92,7 +92,7 @@
 		 */
 		cFRemote: function(event){                        
 			event.preventDefault();
-			este = $(this);
+			este = $(this);                        
                         var val = true;
 			var button = $('[type=submit]', este);
 			button.attr('disabled', 'disabled');
@@ -105,14 +105,14 @@
                         }
                         if(!val) { 
                             return false 
-                        }
+                        }                        
                         if(este.hasClass('dw-validate')) { //Para validar el formulario antes de enviarlo
                             confirmation = este.hasClass('dw-confirm') ? true : false;
                             if(!validForm(este.attr('name'), confirmation)) {
                                 button.removeAttr('disabled');
                                 return false;
                             }
-                        }
+                        }                        
 			$.post(url, este.serialize(), function(data, status){
 				var capa = $('#'+div);
                                 if(after_send!=null) {
