@@ -46,7 +46,7 @@ class DwMessage {
         }        
         //Guardo el mensaje en el array
         if (isset($_SERVER['SERVER_SOFTWARE'])) {                    
-            self::$_contentMsj[] = '<div class="alert alert-block alert-'.$name.'"><button class="close" data-dismiss="alert">×</button>'.$msg.'</div>'.PHP_EOL;
+            self::$_contentMsj[] = '<div class="alert alert-block alert-'.$name.'"><button type="button" class="close" data-dismiss="alert">×</button>'.$msg.'</div>'.PHP_EOL;
         } else {
             self::$_contentMsj[] = $name.': '.Filter::get($msg, 'striptags').PHP_EOL;            
         }        

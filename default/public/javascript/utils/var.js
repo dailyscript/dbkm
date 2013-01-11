@@ -4,7 +4,7 @@ var DwDiv = 'dw-shell-content';
 /** Ajax Cursor **/
 $("body").ajaxStart(function() { $("body").css("cursor", "wait"); }).ajaxStop(function() { $("body").css("cursor", "default"); });
 /** Message **/
-$("div.dw-message").on({ mouseenter: function(){ $(this).addClass("dw-blur dw-opacity"); }, mouseleave: function(){ $(this).removeClass("dw-blur dw-opacity"); } });
+$(function() { $("div.dw-message").live({ mouseenter: function(){ $(this).addClass("dw-blur dw-opacity"); }, mouseleave: function(){ $(this).removeClass("dw-blur dw-opacity"); } }); });
 /** Buttons forward y back **/
 $(function() { $("body").on('click', '.btn-back', function(event) { history.back();}); $("body").on('click', '.btn-forward', function(event) { history.forward();});   });
 /** Enlazo la url **/
@@ -73,7 +73,7 @@ function DwSpinner(action, target) {
 /**
 * Función que actualiza la url con popstate o hasbang
 */
-function DwUpdateUrl(url) { 
+function DwUpdateUrl(url) {    
     url = url.split($.KumbiaPHP.publicPath); 
     url = (url.length > 1) ? url[1] : url[0];
     if(typeof window.history.pushState == 'function') { 

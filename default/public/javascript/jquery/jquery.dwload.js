@@ -44,7 +44,7 @@
         $.ajax({
             type: opt.method, url: opt.url, timeout: opt.timeout, async: opt.async, data: opt.data,
             beforeSend: function(data) { 
-                $("[rel=tooltip]").tooltip('hide');            
+                $("[rel=tooltip]").tooltip('hide');                
             },
             error: function (xhr, text, err) {                  
                 var response = xhr.statusCode().status+" "+xhr.statusCode().statusText;            
@@ -58,12 +58,13 @@
                 }                    
                 request = false;
             }
-        }).done(function(data) {                                    
-            //Verifico si carga la data o la adhiere
-            (opt.append_data==true) ? $("#"+opt.capa).append(data) : $("#"+opt.capa).html(data); 
+        }).complete(function() {
             if(opt.change_url == true) {                
                 DwUpdateUrl(opt.url);
             }
+        }).done(function(data) {                                    
+            //Verifico si carga la data o la adhiere
+            (opt.append_data==true) ? $("#"+opt.capa).append(data) : $("#"+opt.capa).html(data);             
             $("[rel=tooltip]").tooltip();         
             request = true;
         });      
