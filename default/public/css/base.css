@@ -30,11 +30,12 @@ a:hover { text-decoration: none; }
 .dw-text-normal { font-size: 12px !important;}
 .dw-text-large { font-size: 13px !important;}
 .dw-text-extra { font-size: 14px !important;}
-.dw-text-center { text-align: center;}
+.dw-text-center { text-align: center !important;}
 .dw-text-left { text-align: left;}
 .dw-text-right { text-align: right;}
 .dw-text-justify { text-align: justify;}
 .dw-text-bold { font-weight: bold; }
+.dw-text-middle { vertical-align: middle !important;}
 
 /*----- Formato para los dialogos -----*/
 .dw-dialog { font-size: 1.1em;}

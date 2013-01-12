@@ -14,6 +14,9 @@
 
 class RecursoPerfil extends ActiveRecord {
     
+    public $logger = TRUE;
+
+
     /**
      * Método para definir las relaciones y validaciones
      */
@@ -37,6 +40,55 @@ class RecursoPerfil extends ActiveRecord {
             return $this->find("columns: $columnas", "join: $join", "conditions: $condicion", "order: $order");
         }
         return false;                                
+    }
+    
+    /**
+     * Método para listar los privilegios y compararlos con los recursos y perfiles
+     * @return array
+     */
+    public function getPrivilegiosToArray() {
+        $data = array();
+        $privilegios = $this->find();
+        foreach($privilegios as $privilegio) {
+            $data[] = $privilegio->recurso_id.'-'.$privilegio->perfil_id;
+        }        
+        return $data;
+    }
+    
+    
+    /**
+     * Método para registrar los privilegios a los perfiles
+     */
+    public static function setRecursoPerfil($privilegios, $old_privilegios) {
+        $obj = new RecursoPerfil();
+        $obj->begin();
+        //Elimino los antiguos privilegios
+        if(!empty($old_privilegios)) {
+            $items = explode(',', $old_privilegios);
+            foreach($items as $value) {
+                $data = explode('-', $value); //el formato es 1-4 = recurso-rol
+                if(!$obj->delete("recurso_id = $data[0] AND perfil_id = $data[1]")){                    
+                    $obj->rollback();
+                    return FALSE;
+                }                
+            }                        
+        } 
+        if(!empty($privilegios)) {
+            foreach($privilegios as $value) {                
+                $data = explode('-', $value); //el formato es 1-4 = recurso-rol
+                $obj->recurso_id = $data[0];
+                $obj->perfil_id = $data[1];
+                if($obj->exists("recurso_id=$obj->recurso_id AND perfil_id=$obj->perfil_id")){
+                    continue;
+                }
+                if(!$obj->create()) {            
+                    $obj->rollback();
+                    return FALSE;
+                }
+            }
+        }
+        $obj->commit();
+        return TRUE;
     }
     
 }

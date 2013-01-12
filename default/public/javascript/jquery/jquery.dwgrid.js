@@ -24,9 +24,13 @@
                         thead = table.find("thead");
                         tbody = table.find("tbody");
                         hdrCols = thead.find("th");
-                        bodyRows = tbody.find("tr");
+                        bodyRows = tbody.find("tr");                                                
                         
-                        container = table.prev().hasClass('btn-toolbar') ? table.prev() : $('<div class="btn-toolbar btn-toolbar-top"></div>');
+                        if(table.parent().hasClass('dw-overflow')) {                             
+                            container = table.parent().prev().hasClass('btn-toolbar') ? table.parent().prev() : $('<div class="btn-toolbar btn-toolbar-top"></div>');
+                        } else {
+                            container = table.prev().hasClass('btn-toolbar') ? table.prev() : $('<div class="btn-toolbar btn-toolbar-top"></div>');
+                        }                                                
                         
                         containerCol = $('<div class="pull-right"><div class="btn-group"><button class="btn btn-only dropdown-toggle" data-toggle="dropdown"><span class="hidden-tablet hidden-phone"> COLUMNAS <i class="caret"></i></span><span class="hidden-desktop"><i class="icon-th"></i></span></button><ul class="dropdown-menu pull-right" /></div></div>');
                         
@@ -123,7 +127,7 @@
                                                                                     
                         }
                         
-                        table.before(container);
+                        (table.parent().hasClass('dw-overflow')) ? table.parent().before(container) : table.before(container);
                         
                         if(opt.col_collapse) {
                             container.prepend(containerCol);                                                
@@ -180,7 +184,7 @@ $(function() {
         all.each(function(){
             if(!$(this).is(':hidden')) { $(this).hide(); }
         });                
-        (accion=='mostrar') ? elem.show() : elem.hide();                        
+        (accion=='mostrar') ? elem.css('display','block') : elem.hide();                        
     }); 
     
 })

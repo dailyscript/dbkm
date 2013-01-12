@@ -86,8 +86,7 @@
                             }
                         });                                       
                     }
-                });   
-                
+                });                   
                 $(".dropdown-menu").each(function(i) { 
                     $(this).find('a').each(function(i){
                         if(url==$(this).attr('href')) {                            
@@ -95,23 +94,21 @@
                             return false;
                         } 
                     });                       
-                });
-                
-                $('.dropdown-menu a').on('click', function(){
+                });                
+                $('.dropdown-menu a').on('click', function(){                    
                     este = $(this);                    
                     $(".dropdown-menu a").each(function(i){                       
-                        $(this).parent().removeClass('active');
+                        $(this).parents().removeClass('active');
                     });                    
                     este.parent().addClass('active');                                        
-                });
-                
-                // activa el menú
+                });                
+                //Activa el menú actual
                 $(".main-menu-link").each(function (i) {                
                     if($(this).parent().hasClass("active")){                        
                         activePageMainMenuElement = $(this).attr("id");
                     }
                 });                  
-                // Activa el submenú
+                // Habilita el submenú
                 $(".main-menu-link").mouseover(function(){                    
                     var submenu = $("#" +$(this).attr("data-filter"));                    
                     $(".subnav").each(function (i) {
@@ -122,17 +119,24 @@
                        $(this).parent().removeClass("main-nav-arrow");
                     });                    
                     $(this).parent().addClass("main-nav-arrow");
-                });
-                
-                $('.subnav a').on('click', function(){
+                });                
+                //Activa el submenú actual
+                $('.subnav a').on('click', function(){                    
                     este = $(this);                    
-                    $(".subnav a, .main-menu-link").each(function(i){                       
-                        $(this).parent().removeClass('active');
-                    });                    
-                    este.parent().addClass('active');                    
-                    este.parents('div.subnav').removeClass('hidden');
+                    $(".subnav li").removeClass('active');
+                    $(".main-menu-link").parent().removeClass('active');
+                    este.parent().addClass('active');
                     $('.main-nav-arrow').addClass('active');
-                    $(this).parent().addClass("main-nav-arrow");
+                    /*                    
+                    este.parents('div.subnav').removeClass('hidden');                    
+                    $(this).parent().addClass("main-nav-arrow");*/
+                });
+                //Activa el menú manualmente
+                $('.main-menu-link').on('click', function(){
+                   if($(this).attr('href').length > 2) {
+                       $(".main-menu-link").parent().removeClass('active');
+                       $(this).parent().addClass('active');
+                   }
                 });
                                         
             });

@@ -253,11 +253,16 @@ class DwForm extends Form {
         }        
         if($method=='') {
             $method= 'post';
-        }               
-        if(empty($action)) {
-            $action = ltrim(Router::get('route'), '/');
+        }
+        $method2 = $method;
+        if(empty($action)) {            
+            extract(Router::get());
+            $action = ($module)  ? "$module/$controller/$action/" : "$controller/$action/";            
+            if($parameters) {
+                $action.= join('/', $parameters).'/';                
+            } 
         }              
-        $form.= parent::open($action, $method, $attrs);//Obtengo la etiqueta para abrir el formulario
+        $form.= parent::open($action, $method2, $attrs);//Obtengo la etiqueta para abrir el formulario
         return $form.PHP_EOL;
     }
     
