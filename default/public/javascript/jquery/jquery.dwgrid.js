@@ -77,7 +77,7 @@
                                     var input = $(this), 
                                     val = input.val(), 
                                     cols = $("#" + val + ", [headers="+ val +"]", table);	                                                   
-                                    (input.is(":checked")) ? cols.removeClass('hidden') : cols.addClass('hidden');
+                                    (input.is(":checked")) ? cols.removeClass('hidden').css('display','block') : cols.addClass('hidden').css('display','none');
                                     //(input.is(":checked")) ? cols.attr('style', 'display: block !important'): cols.css('display', 'none');
                                 }).bind("updateCheck", function(){
                                     if (th.hasClass('hide')) {
