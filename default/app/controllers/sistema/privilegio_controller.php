@@ -34,8 +34,9 @@ class PrivilegioController extends BackendController {
         
         if(Input::hasPost('privilegios') OR Input::hasPost('old_privilegios')) {
             if(RecursoPerfil::setRecursoPerfil(Input::post('privilegios'), Input::post('old_privilegios'))) {
-                DwMessage::valid('Los privilegios se han registrado correctamente!');
-                Input::post('delete'); //Para que no queden persistentes
+                DwMessage::valid('Los privilegios se han registrado correctamente!');                
+                Input::delete('privilegios');//Para que no queden persistentes
+                Input::delete('old_privilegios');
             }
         }
         
