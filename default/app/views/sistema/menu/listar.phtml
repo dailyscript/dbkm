@@ -1,0 +1,71 @@
+<?php View::notify(); ?>
+
+<script type="text/javascript">  
+    $(function() {
+        $('table').dwGrid({             
+            form_search: false,
+            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+            order_action: $.KumbiaPHP.publicPath+"sistema/menu/listar/"
+        });
+    });    
+</script>
+
+<div class="container-fluid overflow">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="btn-toolbar btn-toolbar-top">        
+        <div class="btn-actions">            
+            <?= DwHtml::button("sistema/menu/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+        </div>
+    </div>
+    
+    <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+        <thead>
+            <tr>
+                <th>NUM</th>
+                <th class="col-collapse" data-search="posicion">POSICION</th>
+                <th class="col-collapse" data-search="padre">PADRE</th>
+                <th class="col-collapse" data-search="menu">TITULO</th>
+                <th class="col-collapse" data-search="recurso">RECURSO</th>
+                <th class="col-collapse" data-search="url">URL</th>
+                <th class="col-collapse">ICONO</th>
+                <th class="col-collapse" data-search="visibilidad">VISIBILIDAD</th>
+                <th class="col-collapse" data-search="activo">ESTADO</th>
+                <th class="btn-actions no-responsive">ACCIONES</th>
+            </tr>            
+        </thead>
+        <tbody>            
+            <?php foreach($menus->items as $menu): ?>                
+                <?php $key_upd = DwSecurity::getKey($menu->id, 'upd_menu'); ?>
+                <?php $key_ina = DwSecurity::getKey($menu->id, 'inactivar_menu'); ?>
+                <?php $key_rea = DwSecurity::getKey($menu->id, 'reactivar_menu'); ?>
+                <?php $key_del = DwSecurity::getKey($menu->id, 'eliminar_menu'); ?>
+                <tr>
+                    <td><?= $menus->counter; ?></td>
+                    <td><?= $menu->posicion; ?></td>
+                    <td><?= $menu->padre; ?></td>
+                    <td><?= $menu->menu; ?></td>
+                    <td><?= $menu->recurso; ?></td>
+                    <td><?= $menu->url; ?></td>
+                    <td><?= $menu->icono; ?></td>
+                    <td><?= ($menu->visibilidad == Menu::BACKEND) ? '<span class="label label-success">Backend</span>' : '<span class="label label-warning">Frontend</span>'; ; ?></td>
+                    <td><?= ($menu->activo == Menu::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
+                    <td>                                                
+                        <?= DwHtml::buttonTable('Modificar menú', "sistema/menu/editar/$key_upd/", null, 'info', 'edit'); ?>
+                        <?php if($menu->activo == Menu::ACTIVO) { ?>
+                            <?= DwHtml::buttonTable('Bloquear menú', "sistema/menu/estado/inactivar/$key_ina/", null, 'success', 'flag'); ?>
+                        <?php } else { ?>
+                            <?= DwHtml::buttonTable('Reactivar menú', "sistema/menu/estado/reactivar/$key_rea/", null, 'danger', 'flag'); ?>
+                        <?php } ?>
+                        <?= DwHtml::buttonTable('Eliminar menú', "sistema/menu/eliminar/$key_del/", array('class'=>'js-confirm', 'confirm-title'=>'Eliminar menu', 'confirm-body'=>'Está seguro de eliminar este menú? <br />Recuerda que esta operación no se puede reversar.'), 'danger', 'ban-circle'); ?>
+                    </td>                    
+                </tr>
+                <?php $menus->counter++; ?>
+            <?php endforeach; ?>
+        </tbody>            
+    </table> 
+    
+    <?php View::partial('paginators/default', false, array('page'=>$menus, 'url'=>"sistema/menu/listar/$order/")); ?>
+    
+</div>

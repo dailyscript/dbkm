@@ -13,15 +13,25 @@
 
 class Recurso extends ActiveRecord {
 
+    /**
+     * Constante para definir un recurso como activo
+     */
     const ACTIVO = 1;
     
+    /**
+     * Constante para definir un recurso como inactivo
+     */
     const INACTIVO = 2;
     
     /**
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {        
-        $this->has_many('recurso_usuario');        
+        $this->has_many('recurso_perfil');        
+        $this->has_many('menu');
+        
+        $this->validates_presence_of('controlador', 'message: Ingresa el nombre del controlador.');
+        $this->validates_presence_of('descripcion', 'message: Ingresa la descripción del recurso.');        
     }
     
     /**
@@ -40,7 +50,7 @@ class Recurso extends ActiveRecord {
         if($page) {            
             return $this->paginated("conditions: $conditions", "order: $order", "page: $page");
         }
-        return $this->find("conditions: $conditions", "group: $group", "order: $order");
+        return $this->find("conditions: $conditions", "order: $order");
     }
     
     /**
