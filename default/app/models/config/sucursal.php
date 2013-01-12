@@ -39,5 +39,30 @@ class Sucursal extends ActiveRecord {
         $condicion = ($isSlug) ? "sucursal.slug = '$id'" : "sucursal.id = '$id'";
         return $this->find_first("columns: $columnas", "join: $join", "conditions: $condicion");
     } 
+    
+    /**
+     * Método que devuelve las sucursales
+     * @param string $order
+     * @param int $page 
+     * @return ActiveRecord
+     */
+    public function getListadoSucursal($order='order.sucursal.asc', $page='', $empresa=null) {
+        $empresa = Filter::get($empresa, 'int');
+        
+        $columns = 'sucursal.*, empresa.siglas, ciudad.ciudad';
+        $join = 'INNER JOIN empresa ON empresa.id = sucursal.empresa_id INNER JOIN ciudad ON ciudad.id = sucursal.ciudad_id';        
+        $conditions = (empty($empresa)) ? 'sucursal.id > 0' : "empresa.id = '$empresa'";
+        
+        $order = $this->get_order($order, 'sucursal', array('sucursal'=>array('ASC'=>'sucursal.sucursal ASC, ciudad.ciudad ASC, empresa.siglas ASC',
+                                                                              'DESC'=>'sucursal.sucursal DESC, ciudad.ciudad ASC, empresa.siglas ASC'),
+                                                            'ciudad'=>array('ASC'=>'ciudad.ciudad ASC, sucursal.direccion ASC, sucursal.sucursal ASC, empresa.siglas ASC',
+                                                                              'DESC'=>'ciudad.ciudad DESC, sucursal.direccion ASC, sucursal.sucursal ASC, empresa.siglas ASC')
+                                                            ));                        
+        if($page) {                
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
+        } else {
+            return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");            
+        }
+    }
 
 }

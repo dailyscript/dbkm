@@ -20,13 +20,21 @@ class ActiveRecord extends KumbiaActiveRecord  {
      * Método que devuelve el order en SQL tomado de la url
      * @param string $s
      * @param string $default
+     * @param array $resource Para no generar errores de ambigüedad en la bd
      * @return string
      */
-    protected function get_order($s, $default=NULL) {
+    protected function get_order($s, $default=NULL, $resource=array()) {
         $s = explode('.', $s);        
-        $column  = (empty($s[1])) ? $default : Filter::get($s[1], 'string');        
-        $type = (empty($s[2])) ? NULL : strtoupper($s[2]);        
-        return ($type!='ASC' && $type!='DESC') ? $column.' ASC' : $column.' '.$type;        
+        $column = (empty($s[1])) ? $default : Filter::get($s[1], 'string');        
+        $type = (empty($s[2])) ? NULL : strtoupper($s[2]);   
+        $type = ($type!='ASC' && $type!='DESC') ? ' ASC' : $type;        
+        if(!empty($resource) && array_key_exists($column, $resource)) {
+            $tmp = $resource[$column];
+            $column = (is_array($tmp) && array_key_exists($type, $tmp)) ? $tmp[$type] : $tmp;
+            return $column;
+        }
+        //$column = ( !empty($resource) && array_key_exists($column, $resource) ) ? $resource[$column] : $column;
+        return $column.' '.$type;        
     }
     
     /**

@@ -5,8 +5,8 @@
  * Extension para el manejo de formularios que hereda atributos de la clase Form
  *
  * @category    Views
- * @author      Iván D. Meléndez
  * @package     Helpers
+ * @author      Iván D. Meléndez (ivan.melendez@dailyscript.com.co) 
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
@@ -121,7 +121,7 @@ class DwForm extends Form {
                     $attrs['class'] = 'field '.$attrs['class'];
                 }
                 //Verifico si el campo es moneda
-                if(preg_match("/\bmoney\b/i", $attrs['class'])) {
+                if(preg_match("/\binput-money\b/i", $attrs['class'])) {
                     //@see var.js
                     $attrs['onkeyup'] = 'jsMiles(this,this.value.charAt(this.value.length-1))';                    
                 }
@@ -131,7 +131,7 @@ class DwForm extends Form {
             }            
             //Verifico si se utiliza la mayúscula solo para los text y textarea
             if( ($type=='text') && ($type=='textarea') ) {
-                if( !preg_match("/\blower\b/i", $attrs['class']) or preg_match("/\bupper\b/i", $attrs['class']) )  {
+                if( !preg_match("/\binput-lower\b/i", $attrs['class']) or preg_match("/\binput-upper\b/i", $attrs['class']) )  {
                     $attrs['onchange'] = !isset($attrs['onchange']) ? 'this.value=this.value.toUpperCase()' : rtrim($attrs['onchange'],';').'; this.value=this.value.toUpperCase()';
                 }
             }        
@@ -142,6 +142,10 @@ class DwForm extends Form {
             //Reviso si esta deshabilitado
             if(preg_match("/\bdisabled\b/i", $attrs['class'])) {
                 $attrs['disabled'] = 'disabled';
+            }
+            //Verifico si es requerido
+            if(preg_match("/\binput-required\b/i", $attrs['class'])) {    
+                $attrs['required'] = 'required';
             }
             //Verifico el data-action del input (cuando utiliza ajax)
             if(isset($attrs['data-action'])) {
@@ -207,7 +211,7 @@ class DwForm extends Form {
                 $label.= "<label for=\"$id\" $attrs>$text";
             }            
             //Verifico si es requerido        
-            $label.= (preg_match("/\brequired\b/i", $req)) ? '<span class="req">*</span>' : '';            
+            $label.= (preg_match("/\binput-required\b/i", $req)) ? '<span class="req">*</span>' : '';            
             $label .= "</label>";
         }                               
         return $label;        
@@ -226,7 +230,7 @@ class DwForm extends Form {
         extract(self::_getFieldName($field));      
         //Se arma el help
         $help = "<p class=\"help-block\">$help ";        
-        if(preg_match("/\bshow-error\b/i", $error)) {
+        if(preg_match("/\bshow-error\b/i", $error) OR preg_match("/\binput-required\b/i", $error) OR preg_match("/\binput-list\b/i", $error)) {
             $help.= "<span class=\"help-error\" id=\"err_$id\">&nbsp;</span>";
         }
         $help.= '</p>';
@@ -308,8 +312,8 @@ class DwForm extends Form {
         if(self::$_style=='form-search') {
             $attrs['placeholder'] = $label;
         }
-        //Tomo el input del form
-        $input.= parent::text($field, $attrs, $value);
+        //Armo el input del form        
+        $input.= parent::text($field, $attrs, $value, $type);
         //Verifico si el formato del formulario muestra el help
         if(self::$_help_block) {              
             $input.= self::help($field, $help, $attrs['class']);
@@ -504,6 +508,85 @@ class DwForm extends Form {
         
     }
     
+    
+    /**
+     * Método que genera un input tipo password
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo
+     * @param type $type tipo de campo (text, numeric, etc)
+     * @return string
+     */
+    public static function pass($field, $attrs=null, $value=null, $label='', $help='') {
+        //Tomo los nuevos atributos definidos en las clases
+        $attrs = self::_getAttrsClass($attrs, 'text');
+        //Armo el input
+        $input = self::getControls();
+        if(self::$_style=='form-search') {
+            $attrs['placeholder'] = $label;
+        }
+        //Armo el input del form        
+        $input.= parent::pass($field, $attrs, $value);
+        //Verifico si el formato del formulario muestra el help
+        if(self::$_help_block) {              
+            $input.= self::help($field, $help, $attrs['class']);
+        }       
+        //Cierro el controls
+        $input.= self::getControls();
+        if(!self::$_help_block) {
+            return $input.PHP_EOL;
+        }
+        //Verifico si tiene un label
+        $label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs['class'])  : '';        
+        return '<div class="control-group">'.$label.$input.'</div>'.PHP_EOL;                  
+    }
+    
+    /**
+     * Método para crear un input tipo file
+     * @param string $field Nombre del input
+     * @param array $attrs Atributos del input
+     * @param string $label Texto a mostrar en la etiqueta <label>
+     * @param boolean $req Indica si el campo es requerido
+     * @param boolean $err Indica si el campo muestra errores
+     * @return string
+     */
+    public static function file($field, $attrs=null, $label='', $help='') {
+        
+        //Tomo los nuevos atributos definidos en las clases
+        $attrs = self::_getAttrsClass($attrs, 'file');
+        //Armo el input
+        $input = self::getControls();
+        if(self::$_style=='form-search') {
+            $attrs['placeholder'] = $label;
+        }
+        if(!APP_AJAX) {
+            //Armo el input del form        
+            $input.= parent::file($field, $attrs);            
+        } else {
+            if (is_array($attrs)) {
+                $attrs2 = Tag::getAttrs($attrs);
+            }
+            // Obtiene name y id, y los carga en el scope
+            extract(self::getFieldData($field, false), EXTR_OVERWRITE);
+            $input.="<input id=\"$id\" name=\"$name\" type=\"file\" $attrs2/>";
+        }
+        //Verifico si el formato del formulario muestra el help
+        if(self::$_help_block) {              
+            $input.= self::help($field, $help, $attrs['class']);
+        }       
+        //Cierro el controls
+        $input.= self::getControls();
+        if(!self::$_help_block) {
+            return $input.PHP_EOL;
+        }
+        //Verifico si tiene un label
+        $label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs['class'])  : '';        
+        return '<div class="control-group">'.$label.$input.'</div>'.PHP_EOL; 
+        
+    }
+    
     /**
      * Método para abrir/cerrar un fieldset
      * @staticvar boolean $i
@@ -522,7 +605,20 @@ class DwForm extends Form {
         }
         $i = false;
         return "<fieldset $attrs><legend>$text</legend>";
-    }        
+    } 
+    
+    /**
+     * Método para crear un legend
+     * @param type $text
+     * @param type $attrs
+     * @return type
+     */
+    public static function legend($text, $attrs = NULL) {
+        if (is_array($attrs)) {
+            $attrs = Tag::getAttrs($attrs);
+        }
+        return "<legend $attrs>$text</legend>";
+    }
     
     /**
      * Método para abrir y cerrar un div controls en los input
@@ -598,5 +694,57 @@ class DwForm extends Form {
         $value = DwSecurity::getKey($value, $textKey);
         $input.= parent::hidden($field, null, $value).PHP_EOL;
         return $input;         
+    }
+    
+    /**
+     * Método que genera un input type="number"
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo     
+     * @return string
+     */
+    public static function number($field, $attrs=null, $value=null, $label='', $help='') {
+        return self::text($field, $attrs, $value, $label, $help, 'number');
+    }
+    
+    /**
+     * Método que genera un input type="tel"
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo     
+     * @return string
+     */
+    public static function tel($field, $attrs=null, $value=null, $label='', $help='') {
+        return self::text($field, $attrs, $value, $label, $help, 'tel');
+    }
+    
+    /**
+     * Método que genera un input type="email"
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo     
+     * @return string
+     */
+    public static function email($field, $attrs=null, $value=null, $label='', $help='') {
+        return self::text($field, $attrs, $value, $label, $help, 'email');
+    }
+    
+    /**
+     * Método que genera un input type="url"
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo     
+     * @return string
+     */
+    public static function url($field, $attrs=null, $value=null, $label='', $help='') {
+        return self::text($field, $attrs, $value, $label, $help, 'url');
     }
 }

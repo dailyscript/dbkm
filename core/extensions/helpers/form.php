@@ -335,9 +335,10 @@ class Form
      * @param string $field Nombre de campo
      * @param string|array $attrs Atributos de campo (opcional)
      * @param string $value (opcional)
+     * @param string $type Tipo de input: numeric, url, email, text, del HMTL5 (opcional)
      * @return string
      */
-    public static function text($field, $attrs = NULL, $value = NULL)
+    public static function text($field, $attrs = NULL, $value = NULL, $type='text')
     {
         if (is_array($attrs)) {
             $attrs = Tag::getAttrs($attrs);
@@ -346,7 +347,7 @@ class Form
         // Obtiene name, id y value (solo para autoload) para el campo y los carga en el scope
         extract(self::getFieldData($field, $value), EXTR_OVERWRITE);
 
-        return "<input id=\"$id\" name=\"$name\" type=\"text\" value=\"$value\" $attrs/>";
+        return "<input id=\"$id\" name=\"$name\" type=\"$type\" value=\"$value\" $attrs/>";
     }
 
     /**

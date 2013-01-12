@@ -24,7 +24,7 @@ var validaciones = ["requerido",'numeric','integer','ipv4'];
 */
 var elemErr = [];
 var tagsForm = ["input", "select", "textarea", "button"];
-var validators = ["required", "numeric", "integer"];
+var validators = ["input-required", "input-alphanum", "input-list", "input-numeric", "input-integer", "input-user", "input-pass"];
 function validForm(form, confirmation) { 
     if(confirmation!= false) {        
         if(!confirm('Está seguro de continuar con la operación?')) {
@@ -45,7 +45,11 @@ function validForm(form, confirmation) {
             var clases = input.attr('class').split(' ');
             for(c = 0 ; c < clases.length ; c++) {
                 if($.inArray(clases[c], validators) >= 0) {
-                    fn = clases[c]+'("'+input.attr("id")+'")';                         
+                    tmp = clases[c].split('-');
+                    if(tmp[1] == undefined || tmp[1] == null || tmp[1] == '') {
+                        continue;
+                    }                    
+                    fn = 'input'+ucFirst(tmp[1])+'("'+input.attr("id")+'")';                         
                     contenedor = input.parent();
                     if(contenedor.hasClass('controls')) {
                         contenedor = contenedor.parent();
@@ -88,7 +92,7 @@ function validForm(form, confirmation) {
     return enviar;
 }
 
-function required(input) {      
+function inputRequired(input) {      
     field = $('#'+input);
     if (field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()) ) {
         $("#err_"+input).html('Campo requerido');
@@ -98,8 +102,69 @@ function required(input) {
     return true;
 }
 
-function requerido(valor, idEtiqueta) { if (valor == null || valor.length == 0 || /^\s+$/.test(valor) ) { 
-        document.getElementById(idEtiqueta).innerHTML = 'Campo requerido'; return false; }else { document.getElementById(idEtiqueta).innerHTML = '&nbsp;';return true;}}
+function inputAlphanum(input) {
+    field = $('#'+input);
+    if (!(field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()))) {
+        if (!(/^[a-zA-Z0-9-ZüñÑáéíóúÁÉÍÓÚÜ._\s]+$/.test(field.val()))) {            
+            $("#err_"+input).html('Introduzca solo valores alfanuméricos');
+            return false;
+        } else {
+            $("#err_"+input).html('');
+            return true;
+        }
+    } else { return true; }
+}
+
+function inputUser(input) {    
+    var minLength = 4;
+    var maxLength = 15;
+    field = $('#'+input);
+    if (field.val() == null || field.val().length == 0 ||/^[a-z0-9_]$/.test(field.val()) ) {
+        $("#err_"+input).html('Campo requerido');
+        return false;
+    }
+    if(!inputAlphanum(input)){
+       return false; 
+    }
+    if(field.val().length >= minLength && field.val().length <= maxLength) {
+        $("#err_"+input).html('');
+        return true;
+    } else {
+        $("#err_"+input).html('El usuario debe tener entre '+minLength+' y '+maxLength+' caracteres');
+        return false;
+    }
+    $("#err_"+input).html('');
+    return true;    
+}
+
+function inputPass(input) {
+    field = $('#'+input);
+    var minLength = 6;    
+    if (!(field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()))) {
+        if ( inputAlphanum(input) ) {
+            if ( (field.val().length >= minLength) ) {                
+                //Verifico si existe el input-repass
+                if($(".input-repass").size() > 0) {
+                    refield = $('.input-repass:first');
+                    if(refield.val() !== field.val() ) {
+                        $("#err_"+input).html('Las contraseñas no coincide');
+                        return false;
+                    } else {
+                        $("#err_"+refield.attr('id')).html('');
+                    }               
+                }
+                $("#err_"+input).html('');
+		return true;
+            } else {
+                $("#err_"+input).html('La contraseña debe tener entre mínimo '+minLength+' caracteres');
+		return false;
+            }
+	} else {
+            $("#err_"+input).html('Haz introducido un caracter no válido');            
+            return false;
+	}
+    } else { return true; }
+}
 
 /*
 function alfabetico(valor, idEtiqueta) {
@@ -114,17 +179,7 @@ function alfabetico(valor, idEtiqueta) {
     } else { return true; }
 }
 
-function alfanumerico(valor, idEtiqueta) {
-    if (!(valor == null || valor.length == 0 || /^\s+$/.test(valor))) {
-        if (!(/^[a-zA-Z0-9-ZüñÑáéíóúÁÉÍÓÚÜ._\s]+$/.test(valor))) {
-            document.getElementById(idEtiqueta).innerHTML = 'Introduzca solo valores alfanuméricos';
-            return false;
-        } else {
-            document.getElementById(idEtiqueta).innerHTML = '&nbsp;';
-            return true;
-        }
-    } else { return true; }
-}
+
 
 function texto(valor, idEtiqueta) {
     if (!(valor == null || valor.length == 0 || /^\s+$/.test(valor))) {
@@ -172,25 +227,6 @@ function lista(valor, idEtiqueta) {
 
 
 
-function usuario(valor, idEtiqueta) {
-    var limiteMenor = 4;
-    var limiteMayor = 10;
-    //^[a-z0-9ü][a-z0-9ü_]{3,9}$
-    if (!(valor == null || valor.length == 0 || /^[a-z0-9_]$/.test(valor))) {
-        if ( alfanumerico(valor,idEtiqueta) ){
-            if ((valor.length >= limiteMenor) && (valor.length <= limiteMayor)) {
-                document.getElementById(idEtiqueta).innerHTML = '&nbsp;';
-		return true;
-            } else {
-                document.getElementById(idEtiqueta).innerHTML = 'El usuario debe tener entre '+limiteMenor+' o '+limiteMayor+' caracteres';
-		return false;
-            }
-	} else {
-            document.getElementById(idEtiqueta).innerHTML = 'Ha introducido un caracter no válido';
-            return false;
-	}
-    } else { return true; }
-}
 
 function pass(valor, idEtiqueta) {
     var limite = 6;
@@ -268,3 +304,4 @@ function getFileExtension(filename) {var i = filename.lastIndexOf(".");return (i
 function ipv4(valor, idEtiqueta) { var patronIp = new RegExp("^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$"); if (!(valor == null || valor.length == 0 || /^\s+$/.test(valor))) { if (!(patronIp.test(valor))) { document.getElementById(idEtiqueta).innerHTML = 'Dirección Ipv4 no válida'; return false; } else { valores =   valor.split("."); if(valores[0]<=255 && valores[1]<=255 && valores[2]<=255 && valores[3]<=255) { document.getElementById(idEtiqueta).innerHTML = '&nbsp;'; return true; } else { document.getElementById(idEtiqueta).innerHTML = 'Rango de dirección no válido'; return false; } } } else { return true; } }
 */
 function limpiarErr() { var total = elementosErr.length;for (var i = 0; i < total; i++)document.getElementById(elementosErr.shift()).innerHTML = '&nbsp;';}
+function ucFirst(string){ return string.substr(0,1).toUpperCase()+string.substr(1,string.length).toLowerCase(); }

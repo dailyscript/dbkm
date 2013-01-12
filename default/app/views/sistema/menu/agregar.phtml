@@ -8,13 +8,13 @@
     
         <div class="row-fluid">
             <div class="span4">
-                <?= DwForm::text('menu.menu', array('class'=>'required mask-alphanum show-error'), NULL, 'Título'); ?>
+                <?= DwForm::text('menu.menu', array('class'=>'input-required mask-alphanum show-error'), NULL, 'Título'); ?>
             </div>
             <div class="span4">
                 <?= DwForm::dbSelect('menu.menu_id', 'menu', array('sistema/menu', 'getListadoMenu', Menu::ACTIVO), 'Ninguno', array('class'=>'mask-pint show-errors'), NULL, 'Menú padre'); ?>
             </div>
             <div class="span4">
-                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), NULL, array('class'=>'required mask-pint show-errors'), 1, 'Recurso'); ?>
+                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), NULL, array('class'=>'input-required mask-pint show-errors'), 1, 'Recurso'); ?>
             </div>            
         </div>
         <div class="row-fluid">
@@ -25,7 +25,7 @@
                 <?= DwForm::text('menu.icono', array('class'=>'mask-alphanum show-error'), NULL, 'Icono a mostrar'); ?>
             </div>
             <div class="span4">
-                <?= DwForm::text('menu.url', array('class'=>'required mask-alphanum show-error'), NULL, 'URL'); ?>
+                <?= DwForm::text('menu.url', array('class'=>'input-required mask-alphanum show-error'), NULL, 'URL'); ?>
             </div>
         </div>
         <div class="row-fluid">

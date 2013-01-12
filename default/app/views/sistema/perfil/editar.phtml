@@ -8,10 +8,10 @@
     
         <div class="row-fluid">
             <div class="span6">
-                <?= DwForm::text('perfil.perfil', array('class'=>'required mask-alpha show-error'), $perfil->perfil, 'Perfil'); ?>
+                <?= DwForm::text('perfil.perfil', array('class'=>'input-required mask-alpha show-error'), $perfil->perfil, 'Perfil'); ?>
             </div>
             <div class="span6">
-                <?= DwForm::text('perfil.plantilla', array('class'=>'mask-alpha show-error'), $perfil->plantilla, 'Plantilla', 'La plantilla de sebe ubicar dentro la caperta "templates".'); ?>
+                <?= DwForm::text('perfil.plantilla', array('class'=>'mask-alphanum show-error'), $perfil->plantilla, 'Plantilla', 'La plantilla de sebe ubicar dentro la caperta "templates".'); ?>
             </div>
             <?= DwForm::hiddenKey('perfil.id', $perfil->id)?>
         </div>    

@@ -1,0 +1,72 @@
+<?php View::notify(); ?>
+
+<script type="text/javascript">  
+    $(function() {
+        $('table').dwGrid({             
+            form_search: true,
+            form_action: '<?= PUBLIC_PATH; ?>sistema/usuario/buscar/',
+            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+            order_action: $.KumbiaPHP.publicPath+"sistema/usuario/listar/"
+        });
+    });    
+</script>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="btn-toolbar btn-toolbar-top">        
+        <div class="btn-actions">            
+            <?= DwHtml::button("sistema/usuario/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+        </div>
+    </div>
+    
+    <div class="dw-overflow">
+    
+        <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+            <thead>
+                <tr>
+                    <th>NUM</th>
+                    <th class="col-collapse" data-search="login">LOGIN</th>
+                    <th class="col-collapse" data-search="nombre">NOMBRE</th>
+                    <th class="col-collapse" data-search="apellido">APELLIDO</th>
+                    <th class="col-collapse" data-search="email">EMAIL</th>
+                    <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
+                    <th class="col-collapse" data-search="sucursal">SUCURSAL</th>
+                    <? } ?>
+                    <th class="col-collapse" data-search="estado_usuario">ESTADO</th>
+                    <th class="btn-actions no-responsive">ACCIONES</th>
+                </tr>            
+            </thead>
+            <tbody>            
+                <?php foreach($usuarios->items as $usuario): ?>                
+                    <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
+                    <?php $key_ina = DwSecurity::getKey($usuario->id, 'inactivar_usuario'); ?>
+                    <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>
+                    <?php $key_del = DwSecurity::getKey($usuario->id, 'eliminar_usuario'); ?>
+                    <tr>
+                        <td><?= $usuarios->counter; ?></td>
+                        <td><?= empty($usuario->modulo) ? '' : $usuario->modulo; ?></td>
+                        <td><?= empty($usuario->controlador) ? '' : $usuario->controlador; ?></td>
+                        <td><?= empty($usuario->accion) ? '' : $usuario->accion; ?></td>
+                        <td><?= ($usuario->activo == Recurso::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
+                        <td>                                                
+                            <?= DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", null, 'info', 'edit'); ?>
+                            <?php if($usuario->activo == Recurso::ACTIVO) { ?>
+                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/inactivar/$key_ina/", null, 'success', 'flag'); ?>
+                            <?php } else { ?>
+                                <?= DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", null, 'danger', 'flag'); ?>
+                            <?php } ?>
+                            <?= DwHtml::buttonTable('Eliminar usuario', "sistema/usuario/eliminar/$key_del/", array('class'=>'js-confirm', 'confirm-title'=>'Eliminar usuario', 'confirm-body'=>'Está seguro de eliminar este usuario? <br />Recuerda que esta operación no se puede reversar.'), 'danger', 'ban-circle'); ?>
+                        </td>                    
+                    </tr>
+                    <?php $usuarios->counter++; ?>
+                <?php endforeach; ?>
+            </tbody>            
+        </table> 
+        
+    </div>
+    
+    <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/usuario/listar/$order/")); ?>
+    
+</div>

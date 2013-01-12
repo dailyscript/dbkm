@@ -8,13 +8,13 @@
         
         <div class="row-fluid">
             <div class="span4">
-                <?= DwForm::text('menu.menu', array('class'=>'required mask-alphanum show-error'), $menu->menu, 'Título'); ?>
+                <?= DwForm::text('menu.menu', array('class'=>'input-required mask-alphanum show-error'), $menu->menu, 'Título'); ?>
             </div>
             <div class="span4">
                 <?= DwForm::dbSelect('menu.menu_id', 'menu', array('sistema/menu', 'getListadoMenu', Menu::ACTIVO), 'Ninguno', array('class'=>'mask-pint show-errors'), $menu->menu_id, 'Menú padre'); ?>
             </div>
             <div class="span4">
-                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), NULL, array('class'=>'required mask-pint show-errors'), $menu->recurso_id, 'Recurso'); ?>
+                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), NULL, array('class'=>'input-required mask-pint show-errors'), $menu->recurso_id, 'Recurso'); ?>
             </div>            
         </div>
         <div class="row-fluid">
@@ -25,12 +25,12 @@
                 <?= DwForm::text('menu.icono', array('class'=>'mask-alphanum show-error'), $menu->icono, 'Icono a mostrar'); ?>
             </div>
             <div class="span4">
-                <?= DwForm::text('menu.url', array('class'=>'required mask-alphanum show-error'), $menu->url, 'URL'); ?>
+                <?= DwForm::text('menu.url', array('class'=>'input-required mask-alphanum show-error'), $menu->url, 'URL'); ?>
             </div>
         </div>
         <div class="row-fluid">
             <div class="span4">
-                <?= DwForm::select('menu.visibilidad', array(Menu::BACKEND=>'Backend', Menu::FRONTEND=>'Frontend'), array('class'=>'required show-errors'), $menu->visibilidad, 'Visibilidad'); ?>
+                <?= DwForm::select('menu.visibilidad', array(Menu::BACKEND=>'Backend', Menu::FRONTEND=>'Frontend'), array('class'=>'input-required show-errors'), $menu->visibilidad, 'Visibilidad'); ?>
             </div>
             <?= DwForm::hiddenKey('menu.id', $menu->id)?>        
         </div>            

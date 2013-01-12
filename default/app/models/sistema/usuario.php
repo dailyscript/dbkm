@@ -111,6 +111,32 @@ class Usuario extends ActiveRecord {
     }
     
     
+    public function getListadoUsuario($estado, $order='', $page=0) {
+        $columns = 'usuario.*, persona.nombre, persona.apellido, estado_usuario.estado_usuario, sucursal.sucursal';
+        $join = self::getInnerEstado();
+        $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
+        $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
+        $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
+        $conditions = "usuario.id > '2'";//Por el super usuario
+        
+        $order = $this->get_order($order, 'nombre', array(  'id'        =>'usuario.id', 
+                                                            'nombre'    =>array(
+                                                                                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
+                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) );
+        
+        if($estado == 'activos') {
+            $conditions.= " AND estado_usuario.estado_usuario = '".EstadoUsuario::USR_ACTIVO."'";
+        } else if($estado == 'bloqueados') {
+            $conditions.= " AND estado_usuario.estado_usuario = '".EstadoUsuario::USR_BLOQUEADO."'";
+        }          
+        
+        if($page) {
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
+        } else {
+            return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
+        }  
+    }
+    
     /**
      * Método para crear/modificar un objeto de base de datos
      * 
@@ -126,73 +152,7 @@ class Usuario extends ActiveRecord {
             $obj->dump_result_self($otherData);
         }
     }
-    
-    /*
-     * 
-     * public static function getSession($opt='open') {  
-        if($opt=='close') {
-            //Verifico si tiene sesión
-            if(!self::isLogin()) { 
-                DwMessage::error("No has iniciado sesión o ha caducado. <br /> Por favor identifícate nuevamente.");
-                return false;
-            } else {                  
-                $auth = Auth2::factory('model');
-                $auth->logout();            
-                unset($_SESSION['KUMBIA_SESSION'][APP_PATH]);
-                return true;
-            }
-        } else if($opt=='open') {
-            //Verifico si tiene una sesión válida
-            if(self::isLogin()) {
-                return true;
-            } else {
-                //Verifico si el formulario es válido
-                if(DwSecurity::isValidForm()) {                     
-                    $auth = Auth2::factory('model');                    
-                    $auth->setLogin('login');
-                    $auth->setPass('password');
-                    $auth->setCheckSession(true);
-                    $auth->setModel('sistema/usuario');                                        
-                    $auth->setFields(array('id', 'persona_id', 'login', 'tema', 'ajax', 'perfil_id'));
-                    if($auth->identify() && $auth->isValid()) {                         
-                        $usuario = self::getUsuarioLogueado();                           
-                        //Los id's de los usuarios comienzan desde el 101, salvo los super usuarios
-                        if( ($usuario->id!=1) &&  ($usuario->estado_usuario != EstadoUsuario::ACTIVO) ) { 
-                            DwMessage::error('Lo sentimos pero tu cuenta se encuentra inactiva. <br />Si esta información es incorrecta contacta al administrador del sistema.');
-                            $auth->logout();                                                                             
-                            return false;
-                        }                    
-                        
-                        //Verifico los recursos
-                        $recursos = new RecursoUsuario();
-                        $recursos = $recursos->getRecursoUsuario($usuario->id);
-                        if(!$recursos) {
-                            DwMessage::error("Lo sentimos pero t cuenta no tiene recursos asignados.<br />Contacta al administrador del sistema.");
-                            $auth->logout();
-                            return false;
-                        }                 
-                        //Session::set('recursos',$recursos);                                                            
-                        Session::set('nombre', $usuario->nombre);
-                        Session::set('apellido', $usuario->apellido);                        
-                        Session::set("ip", DwUtils::getIp());
-                        Session::set('perfil', $usuario->perfil);
-                        DwMessage::info("¡ Bienvenido <strong>$usuario->login</strong> !.");     
-                        return true;
-                    } else {
-                        sleep(2);
-                        DwMessage::error('El usuario y/o la contraseña son incorrectos.');
-                    }
-                } else {
-                    DwMessage::info('La llave de acceso ha caducado. <br />Por favor intenta nuevamente.');
-                }
-                return false;
-            }
-        } else {
-            DwMessage::error('No se ha podido establecer la sesión actual.');
-            return false;
-        }
-    }
-     */
+       
     
 }
 ?>

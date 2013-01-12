@@ -1,0 +1,110 @@
+<?php View::notify(); ?>
+<style type="text/css">
+    .tab-pane { min-height: 200px;}
+</style>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <?= DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
+    
+     <?php if(DESKTOP) { ?>
+        <ul class="nav nav-tabs">
+        <?php } else { ?>
+        <ul class="nav nav-pills nav-stacked">
+        <?php } ?>        
+            <li class="active"><a href="#tab1" data-toggle="tab">Información personal</a></li>
+            <li><a href="#tab2" data-toggle="tab">Información de la cuenta</a></li>
+            <li><a href="#tab3" data-toggle="tab">Cargar imágen</a></li>
+        </ul>
+        <div class="tab-content">
+            
+            <div class="tab-pane active" id="tab1">
+    
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::text('persona.nombre', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Nombre'); ?>
+                    </div>
+                    <div class="span6">
+                        <?= DwForm::text('persona.apellido', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Apellido'); ?>
+                    </div>            
+                </div>    
+    
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::number('persona.nuip', array('class'=>'input-xxlarge input-required mask-pint show-error'), NULL, 'Nuip'); ?>
+                    </div>
+                    <div class="span6">
+                        <?= DwForm::dbSelect('persona.tipo_nuip_id', 'tipo_nuip', array('params/tipo_nuip', 'getListadoTipoNuip'), NULL, array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Tipo de identificación'); ?>
+                    </div>            
+                </div>
+                
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::email('usuario.email', array('class'=>'input-xxlarge mask-email show-error'), NULL, 'Email'); ?>
+                    </div>                    
+                </div>               
+                
+            </div>
+            
+            <div class="tab-pane" id="tab2">
+                
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::text('usuario.login', array('class'=>'input-xxlarge input-required mask-alphanum show-error input-user'), NULL, 'Usuario'); ?>
+                    </div>
+                    <div class="span6">
+                        <?= DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', Perfil::ACTIVO), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), NULL, 'Perfil'); ?>
+                    </div>
+                </div>   
+                
+                <div class="row-fluid">                    
+                    <?php if(APP_OFFICE) { ?>
+                    <div class="span6">
+                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'TODAS'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
+                    </div>
+                    <?php } ?>
+                </div>
+                
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), NULL, 'Contraseña'); ?>
+                    </div>
+                    <div class="span6">
+                        <?= DwForm::pass('usuario.repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), NULL, 'Confirmación'); ?>
+                    </div>            
+                </div>
+                   
+            </div>
+            
+            <div class="tab-pane" id="tab3">
+                
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::file('fotografia', array('class'=>'input-xxlarge'), 'Fotografía', 'Formatos permitidos: GIF, JPG, PNG'); ?>
+                    </div>
+                    
+                    <div class="span6 hidden-phone dw-text-right">
+                        <div class="span5 dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?= DwHtml::img('upload/default.png', 'Imágen de muestra'); ?>                            
+                        </div>                        
+                    </div>
+                    
+                </div>   
+                
+            </div>
+            
+            <div class="row-fluid">
+                <div class="form-actions">
+                    <?= DwButton::save('Guardar usuario'); ?>
+                    <?= DwButton::reset('form'); ?>
+                    <?= DwButton::cancel('sistema/usuario/listar/'); ?>
+                </div>
+            </div>
+            
+        </div>
+    
+    <?= DwForm::close(); ?>
+    
+</div>

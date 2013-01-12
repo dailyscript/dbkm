@@ -124,5 +124,5 @@ class DwHtml extends Html {
         $attrs['title'] = $title;
         $attrs['rel'] = 'tooltip';
         return self::button($action, '', $attrs, $icon, $loadAjax);        
-    }
+    }       
 }
