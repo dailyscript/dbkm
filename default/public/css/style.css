@@ -81,7 +81,7 @@ form span.req { color: red !important;display: inline;float: none;font-weight: b
     .table-responsive td { display: block}
     .table-responsive tr { border-bottom: 1px solid #DDDDDD;}
     .table-responsive td { border: none;position: relative; /*padding-left: 50%;*/ }
-    .table-responsive td:before { /*position: absolute;*/ /*top: 6px;*/position: relative;left: 6px;width: 45%; padding-right: 20px; white-space: nowrap;font-weight: bold;}
+    .table-responsive td:before { /*position: absolute;*/ /*top: 6px;*/position: relative;left: 2px;width: 45%; padding-right: 10px; white-space: nowrap;font-weight: bold;}
     .table-responsive th, .table-responsive td { border-top: 0px !important; border-bottom: 0px !important; }
     .table-responsive th.btn-actions, .table-responsive td.btn-actions { text-align: left !important; }                                                 
     .table-responsive td div.btn-group {position: absolute;right: 5px;top: 0; }       

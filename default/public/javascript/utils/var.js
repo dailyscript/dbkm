@@ -73,11 +73,16 @@ function DwSpinner(action, target) {
 /**
 * Función que actualiza la url con popstate o hasbang
 */
-function DwUpdateUrl(url) {    
-    url = url.split($.KumbiaPHP.publicPath); 
-    url = (url.length > 1) ? url[1] : url[0];
+function DwUpdateUrl(url) {     
+    /** Se quita el public path de la url */
+    if($.KumbiaPHP.publicPath != '/') {
+        url = url.split($.KumbiaPHP.publicPath); 
+        url = (url.length > 1) ? url[1] : url[0];    
+    } else {
+        url = ltrim(url, '/');
+    }
     if(typeof window.history.pushState == 'function') { 
-        url = $.KumbiaPHP.publicPath+url; 
+        url = $.KumbiaPHP.publicPath+url;        
         history.pushState({ path: url }, url, url); 
     } else { 
         window.location.hash = "#!/"+url; 
@@ -136,3 +141,28 @@ function DwCheckRegexp(contenedor,campo,regexp,texto) { if ( !( regexp.test(camp
 function DwUpdateTips(contenedor,texto) { contenedor.html('<span class="label label-important">'+texto+'</span>');  }
 function DwUcWords(string){ var arrayWords; var returnString = ""; var len; arrayWords = string.split(" "); len = arrayWords.length; for(i=0;i < len ;i++){ if(i != (len-1)){ returnString = returnString+ucFirst(arrayWords[i])+" "; } else{ returnString = returnString+ucFirst(arrayWords[i]); } } return returnString; }
 function DwUcFirst(string){ return string.substr(0,1).toUpperCase()+string.substr(1,string.length).toLowerCase(); }
+
+/**
+ * Funciones para limpiar caracteres al igual que el trim de php
+ */
+function ltrim(str, opt){
+    if(opt) {
+        while (str.charAt(0) == opt) 
+            str = str.substr(1, str.length - 1); 
+    } else {
+        while (str.charAt(0) == " ") 
+            str = str.substr(1, str.length - 1); 
+    }    
+    return str;
+}
+function rtrim(str, opt){ 
+    if(opt) {
+        while (str.charAt(str.length - 1) == opt) 
+            str = str.substr(0, str.length - 1); 
+    } else {
+        while (str.charAt(str.length - 1) == " ") 
+            str = str.substr(0, str.length - 1); 
+    }    
+    return str;
+}
+function trim(str, opt){ return rtrim(ltrim(str, opt), opt); }

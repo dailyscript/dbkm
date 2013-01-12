@@ -61,7 +61,7 @@ class DwButton {
         $attrs = array();
         $attrs['class'] = 'btn-danger';
         $attrs['title'] = empty($title) ? 'Cancelar operación' : $title;
-        if(empty($redir)) {
+        if(empty($redir) && APP_AJAX) {
             $attrs['class'].= ' btn-back';
             return self::showButton($icon, $attrs, 'cancelar', 'button');
         } else {
@@ -80,7 +80,7 @@ class DwButton {
         $attrs = array();
         $attrs['class'] = 'btn-info';
         $attrs['title'] = empty($title) ? 'Regresar' : $title;
-        if(empty($redir)) {
+        if(empty($redir) && APP_AJAX) {
             $attrs['class'].= ' btn-back';
             return self::showButton($icon, $attrs, 'regresar', 'button');
         } else {
