@@ -5,7 +5,7 @@
         init : function( options ) { 
                     //Defino unas opciones por defecto
                     var opt = {                        
-                        form_search     : true,
+                        form_search     : false,
                         form_action     : '',
                         form_col        : 'data-search',
                         form_attr       : 'class="dw-form js-remote form-search"',

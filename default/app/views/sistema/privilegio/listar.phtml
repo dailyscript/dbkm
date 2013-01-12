@@ -5,7 +5,6 @@
 <script type="text/javascript">  
     $(function() {
         $('table').dwGrid({             
-            form_search: false,
             order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
             order_action: $.KumbiaPHP.publicPath+"sistema/privilegio/listar/"
         });
@@ -20,7 +19,7 @@
     
         <div class="dw-overflow">
     
-            <table class="table table-bordered table-hover table-striped table-condensed" style="min-width: 1900px;">        
+            <table class="table table-bordered table-hover table-striped table-condensed">
                 <thead>
                     <tr>                
                         <th rowspan="2" class="no-responsive dw-text-middle">RECURSO</th>

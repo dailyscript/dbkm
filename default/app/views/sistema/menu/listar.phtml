@@ -3,7 +3,6 @@
 <script type="text/javascript">  
     $(function() {
         $('table').dwGrid({             
-            form_search: false,
             order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
             order_action: $.KumbiaPHP.publicPath+"sistema/menu/listar/"
         });
