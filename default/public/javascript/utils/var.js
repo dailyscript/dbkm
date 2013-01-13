@@ -8,7 +8,7 @@ $(function() { $("div.dw-message").live({ mouseenter: function(){ $(this).addCla
 /** Buttons forward y back **/
 $(function() { $("body").on('click', '.btn-back', function(event) { history.back();}); $("body").on('click', '.btn-forward', function(event) { history.forward();});   });
 /** Enlazo la url **/
-$(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState();} else { DwCheckHash();DwHashChange(); } });
+$(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState(); } else { DwCheckHash(); DwHashChange(); } });
 $(function(){ 
     $('body').on('click', '.btn-list-phone', function(){ 
         if($('.nav-list-phone').height() == 0) {
@@ -73,18 +73,18 @@ function DwSpinner(action, target) {
 /**
 * Función que actualiza la url con popstate o hasbang
 */
-function DwUpdateUrl(url) {     
+function DwUpdateUrl(url) { 
     /** Se quita el public path de la url */
     if($.KumbiaPHP.publicPath != '/') {
         url = url.split($.KumbiaPHP.publicPath); 
         url = (url.length > 1) ? url[1] : url[0];    
     } else {
         url = ltrim(url, '/');
-    }
+    }    
     if(typeof window.history.pushState == 'function') { 
         url = $.KumbiaPHP.publicPath+url;        
         history.pushState({ path: url }, url, url); 
-    } else { 
+    } else {
         window.location.hash = "#!/"+url; 
     }
     return true; 
@@ -97,42 +97,42 @@ function DwPushState(){
     // Función para enlazar cuando cambia la url de la página.
     $(window).bind('popstate', function(event) {                   
         if (!event.originalEvent.state)//Para Chrome
-            return;        
-        $.dwload({url: location.href});                
+            return;          
+        $.dwload({url: location.pathname});        
     });
 }
 
 /**
  * Función que verifica el hash, se utiliza cuando no soporta el popstate
  */
-function DwCheckHash(){    
+function DwCheckHash(){   
     var direccion = ""+window.location+"";
     var nombre = direccion.split("#!/");
-    if(nombre.length > 1){
-        var url = nombre[1];
-        rest = $.dwload({url: url});
+    if(nombre.length > 1){ 
+        direccion = '/'+ltrim(nombre[1], '/');
+        $.dwload({url: direccion});
     }
 }
 /**
  * Función que cambia actualiza el content cuando cambia el hash
  */
-function DwHashChange() {  
+function DwHashChange() {         
     var prev = ""+window.location.hash+"";
     // Función para determinar cuando cambia el hash de la página.
-    $(window).bind("hashchange",function() {        
+    $(window).bind("hashchange",function() {
         var hash = ""+window.location.hash+"";
         hash = hash.replace("#!/","");
-        prev = prev.replace("#!/","");        
+        prev = prev.replace("#!/","");
         if(hash!=prev){
             if(hash && hash!="") {
-                rest = $.dwload({url: hash});                
+                rest = $.dwload({url: hash});
             } else {
-                rest = $.dwload({url: window.location});                
+                rest = $.dwload({url: window.location});
             }
             if(!res) {
                 window.location.hash = (prev) ? prev : '#!/';
             }
-        }                 
+        }
     });
 }
 function DwConsole(text) { if($("#dw-console").length == 0) { $("#dw-shell-load").prepend('<div id="dw-console" class="container"></div>'); } $("#dw-console").append('<p>'+text+'</p>'); }

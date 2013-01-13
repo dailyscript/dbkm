@@ -97,7 +97,7 @@ class BackendController extends Controller {
             View::report($this->page_format);            
         }        
         //Se verifica si se cambia el título de la página
-        if($this->set_title && Input::isAjax()) {
+        if($this->set_title && Input::isAjax()) {            
             $this->set_title = TRUE;
         }        
     }

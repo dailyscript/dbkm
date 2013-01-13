@@ -58,16 +58,16 @@
                 }                    
                 request = false;
             }
-        }).complete(function() {
+        }).success(function() {            
             if(opt.change_url == true) {                
                 DwUpdateUrl(opt.url);
             }
-        }).done(function(data) {                                    
+        }).done(function(data) {            
             //Verifico si carga la data o la adhiere
             (opt.append_data==true) ? $("#"+opt.capa).append(data) : $("#"+opt.capa).html(data);             
             $("[rel=tooltip]").tooltip();         
             request = true;
-        });      
+        });  
         
         //Oculto el spinner si está habilitado
         if(opt.spinner==true) {
