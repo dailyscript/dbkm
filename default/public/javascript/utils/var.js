@@ -1,6 +1,7 @@
 var ah = $("#dw-shell-load").innerHeight();
 var aw = $("#dw-shell-load").innerWidth();  
-var DwDiv = 'dw-shell-content'; 
+var DwDiv = 'dw-shell-content';
+var prevHash = false;
 /** Ajax Cursor **/
 $("body").ajaxStart(function() { $("body").css("cursor", "wait"); }).ajaxStop(function() { $("body").css("cursor", "default"); });
 /** Message **/
@@ -8,7 +9,13 @@ $(function() { $("div.dw-message").live({ mouseenter: function(){ $(this).addCla
 /** Buttons forward y back **/
 $(function() { $("body").on('click', '.btn-back', function(event) { history.back();}); $("body").on('click', '.btn-forward', function(event) { history.forward();});   });
 /** Enlazo la url **/
-$(document).ready(function() { if (typeof window.history.pushState == 'function') { DwPushState(); } else { DwCheckHash(); DwHashChange(); } });
+$(document).ready(function() { 
+    if (typeof window.history.pushState == 'function') { 
+        DwPushState(); 
+    } else {
+        DwCheckHash(); DwHashChange(); 
+    } 
+});
 $(function(){ 
     $('body').on('click', '.btn-list-phone', function(){ 
         if($('.nav-list-phone').height() == 0) {
@@ -39,14 +46,16 @@ $(function() {
         if(before_load!=null) {
             try { val = eval(before_load); } catch(e) { }
         }               
-        if(val) {            
+        if(val) {
+            prevHash = true;//Por si se utiliza el hashbang
+            //@TODO Revisar la seguridad acá
             if(url!=$.KumbiaPHP.publicPath+'#' && url!=$.KumbiaPHP.publicPath+'#/' && url!='#' && url!='#/') {                         
                 options = { capa: capa, spinner: spinner, msg: message, url: url, change_url: change_url};            
                 if($.dwload(options)) {                     
                     if(after_load!=null) {                        
                         try { eval(after_load); } catch(e) { }                    
                     }                     
-                }                 
+                }
             }            
         } 
         return true;
@@ -71,21 +80,21 @@ function DwSpinner(action, target) {
 }
 
 /**
-* Función que actualiza la url con popstate o hasbang
+* Función que actualiza la url con popstate, hashbang o normal
 */
 function DwUpdateUrl(url) { 
     /** Se quita el public path de la url */
     if($.KumbiaPHP.publicPath != '/') {
         url = url.split($.KumbiaPHP.publicPath); 
         url = (url.length > 1) ? url[1] : url[0];    
-    } else {
+    } else  {
         url = ltrim(url, '/');
     }    
     if(typeof window.history.pushState == 'function') { 
         url = $.KumbiaPHP.publicPath+url;        
         history.pushState({ path: url }, url, url); 
-    } else {
-        window.location.hash = "#!/"+url; 
+    } else {         
+        window.location.hash = "#!/"+url;
     }
     return true; 
 }
@@ -116,22 +125,19 @@ function DwCheckHash(){
 /**
  * Función que cambia actualiza el content cuando cambia el hash
  */
-function DwHashChange() {         
-    var prev = ""+window.location.hash+"";
-    // Función para determinar cuando cambia el hash de la página.
-    $(window).bind("hashchange",function() {
+function DwHashChange() {     
+    // Función para determinar cuando cambia el hash de la página.        
+    $(window).bind("hashchange",function(event) {   
+        if(prevHash) {
+            prevHash = false;
+            return;
+        }
+        console.log(event.originalEvent.oldURL)
+        console.log(event.originalEvent.newURL)        
         var hash = ""+window.location.hash+"";
         hash = hash.replace("#!/","");
-        prev = prev.replace("#!/","");
-        if(hash!=prev){
-            if(hash && hash!="") {
-                rest = $.dwload({url: hash});
-            } else {
-                rest = $.dwload({url: window.location});
-            }
-            if(!res) {
-                window.location.hash = (prev) ? prev : '#!/';
-            }
+        if(hash && hash!="") {
+            $.dwload({url: hash});
         }
     });
 }
