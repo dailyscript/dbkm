@@ -2,7 +2,7 @@
 /**
  * Dailyscript - Web | App | Media
  *
- * Descripcion: Controlador principal (reemplaza al index_controller)
+ * Descripcion: Controlador para el panel principal de los usuarios logueados
  *
  * @category    
  * @package     Controllers 
@@ -10,12 +10,12 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
-class PrincipalController extends AppController {
+class IndexController extends BackendController {
     
     public $page_title = 'Página Principal';
     
     public function index() {
-        
+        View::template('backend');
     }
 
 }

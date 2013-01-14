@@ -16,9 +16,6 @@ require_once CORE_PATH . 'kumbia/controller.php';
  * @package Controller
  */
 
-//Cargo los parámetros de configuración
-DwConfig::Load();
-
 //Cargo los modelos
 Load::models('sistema/usuario', 'sistema/menu');
 
@@ -47,12 +44,14 @@ class BackendController extends Controller {
     /**
      * Callback que se ejecuta antes de los métodos de todos los controladores
      */
-    final protected function initialize() {
+    final protected function initialize() {                        
         /**
          * Si el método de entrada es ajax, el tipo de respuesta es sólo la vista
          */
         if(Input::isAjax()) {
-            View::template(null);                        
+            View::template(null);
+        } else {
+            View::template('backend');
         }
         
         /**

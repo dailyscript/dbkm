@@ -15,6 +15,9 @@ require_once CORE_PATH . 'kumbia/controller.php';
  * @package Controller
  */
 
+//Cargo los parámetros de configuración
+DwConfig::Load();
+
 class AppController extends Controller {        
 
     /**
