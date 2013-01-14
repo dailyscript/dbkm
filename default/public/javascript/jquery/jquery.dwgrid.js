@@ -115,7 +115,9 @@
                             hdrCols.each(function(i) {
                                 field = $(this).attr('data-search');
                                 if(field!=undefined) {
-                                    select = (select!='') ? select+'<option value="'+field+'">'+field.toUpperCase()+'</option>' : '<option value="'+field+'">'+field.toUpperCase()+'</option>';                    
+                                    text = field.replace('_', ' ').replace('_', ' ').toLowerCase();                                    
+                                    text = DwUcFirst(text);
+                                    select = (select!='') ? select+'<option value="'+field+'">'+text+'</option>' : '<option value="'+field+'">'+field.toUpperCase()+'</option>';                    
                                 }
                             }); 
                             
