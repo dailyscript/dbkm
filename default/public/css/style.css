@@ -38,7 +38,7 @@ License
 .dw-validate-tips > span { padding: 5px;}
 .dw-validate-tips .label { white-space: normal !important; }
 .alpha60 { background: rgb(170, 170, 170);	background: rgba(170, 170, 170, 0.6); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99f5f5f5, endColorstr=#99f5f5f5); -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99f5f5f5, endColorstr=#99f5f5f5)";}
-.dw-overflow { overflow-x: auto !important; min-height: 200px;}
+.dw-overflow { overflow-x: auto !important; min-height: 100px;}
 tfoot > tr > th, tbody > tr > td { vertical-align: middle !important; }
 th.data-order > i.active, th.data-order > i:hover { color: #FF9900; }
 

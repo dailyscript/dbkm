@@ -29,7 +29,7 @@ class Usuario extends ActiveRecord {
      * @return string
      */
     public static function getInnerEstado() {
-        return "INNER JOIN (SELECT usuario_id, CASE estado_usuario WHEN ".EstadoUsuario::COD_ACTIVO." THEN '".EstadoUsuario::ACTIVO."' WHEN ".EstadoUsuario::COD_BLOQUEADO." THEN '".EstadoUsuario::BLOQUEADO."' ELSE 'INDEFINIDO' END AS estado_usuario, fecha_estado_at FROM (SELECT id, estado_usuario, usuario_id, fecha_estado_at FROM estado_usuario ORDER BY estado_usuario.id DESC ) AS estado_usuario GROUP BY estado_usuario.usuario_id ) AS estado_usuario ON estado_usuario.usuario_id = usuario.id ";        
+        return "INNER JOIN (SELECT usuario_id, CASE estado_usuario WHEN ".EstadoUsuario::COD_ACTIVO." THEN '".EstadoUsuario::ACTIVO."' WHEN ".EstadoUsuario::COD_BLOQUEADO." THEN '".EstadoUsuario::BLOQUEADO."' ELSE 'INDEFINIDO' END AS estado_usuario, descripcion, fecha_estado_at FROM (SELECT * FROM estado_usuario ORDER BY estado_usuario.id DESC ) AS estado_usuario GROUP BY estado_usuario.usuario_id ) AS estado_usuario ON estado_usuario.usuario_id = usuario.id ";        
     }
     
     /**
@@ -112,7 +112,7 @@ class Usuario extends ActiveRecord {
     
     
     public function getListadoUsuario($estado, $order='', $page=0) {
-        $columns = 'usuario.*, persona.nombre, persona.apellido, estado_usuario.estado_usuario, sucursal.sucursal';
+        $columns = 'usuario.*, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
         $join = self::getInnerEstado();
         $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
@@ -231,6 +231,24 @@ class Usuario extends ActiveRecord {
             return 'cancel';
         }
     }
+    
+    /**
+     * Método para obtener la información de un usuario
+     * @return type
+     */
+    public function getInformacionUsuario($usuario) {
+        $usuario = Filter::get($usuario, 'int');
+        if(!$usuario) {
+            return NULL;
+        }
+        $columnas = 'usuario.*, perfil.perfil, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
+        $join = self::getInnerEstado();
+        $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
+        $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
+        $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
+        $condicion = "usuario.id = $usuario";        
+        return $this->find_first("columns: $columnas", "join: $join", "conditions: $condicion");
+    } 
        
     
 }

@@ -41,9 +41,8 @@
             <tbody>            
                 <?php foreach($usuarios->items as $usuario): ?>                
                     <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
-                    <?php $key_ina = DwSecurity::getKey($usuario->id, 'inactivar_usuario'); ?>
-                    <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>
-                    <?php $key_del = DwSecurity::getKey($usuario->id, 'eliminar_usuario'); ?>
+                    <?php $key_ina = DwSecurity::getKey($usuario->id, 'bloquear_usuario'); ?>
+                    <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>                    
                     <tr>
                         <td><?= $usuarios->counter; ?></td>
                         <td><?= $usuario->login; ?></td>

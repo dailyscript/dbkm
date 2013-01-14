@@ -69,28 +69,24 @@ class UsuarioController extends BackendController {
             return DwRedirect::toAction('listar');
         }
         
-        $recurso = new Recurso();
-        if(!$recurso->find_first($id)) {
-            DwMessage::get('id_no_found');
+        $usuario = new Usuario();
+        if(!$usuario->getInformacionUsuario($id)) {
+            DwMessage::get('id_no_found');    
             return DwRedirect::toAction('listar');
-        }
+        }                
         
-        if($recurso->id == 1 OR $recurso->id == 2) {
-            DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
-            return DwRedirect::toAction('listar');
-        }
-        
-        if(Input::hasPost('recurso')) {
-            if(DwSecurity::isValidKey(Input::post('recurso_id_key'), 'form_key')) {
+        if(Input::hasPost('usuario')) {
+            if(DwSecurity::isValidKey(Input::post('usuario_id_key'), 'form_key')) {
+                /*
                 if(Recurso::setRecurso('update', Input::post('recurso'), array('id'>$id))){
                     DwMessage::valid('El recurso se ha actualizado correctamente!');
                     return DwRedirect::toAction('listar');
-                }
+                }*/
             }
         }
             
-        $this->recurso = $recurso;
-        $this->page_title = 'Actualizar recurso';
+        $this->usuario = $usuario;
+        $this->page_title = 'Actualizar usuario';
         
     }
     
@@ -98,58 +94,33 @@ class UsuarioController extends BackendController {
      * Método para inactivar/reactivar
      */
     public function estado($tipo, $key) {
-        if(!$id = DwSecurity::isValidKey($key, $tipo.'_recurso', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, $tipo.'_usuario', 'int')) {
             return DwRedirect::toAction('listar');
-        }        
+        } 
         
-        $recurso = new Recurso();
-        if(!$recurso->find_first($id)) {
-            DwMessage::get('id_no_found');            
-        } else {
-            if($recurso->id == 1 OR $recurso->id == 2) {
-                DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
+        $usuario = new Usuario();
+        if(!$usuario->getInformacionUsuario($id)) {
+            DwMessage::get('id_no_found');    
+            return DwRedirect::toAction('listar');
+        }
+        if($tipo == 'reactivar' && $usuario->estado_usuario == EstadoUsuario::ACTIVO) {
+            DwMessage::info('El usuario ya se encuentra activo.');
+            return DwRedirect::toAction('listar');
+        } else if($tipo == 'bloquear' && $usuario->estado_usuario == EstadoUsuario::BLOQUEADO) {
+            DwMessage::info('El usuario ya se encuentra bloqueado.');
+            return DwRedirect::toAction('listar');
+        }  
+        
+        if(Input::hasPost('estado_usuario')) {            
+            if(EstadoUsuario::setEstadoUsuario($tipo, Input::post('estado_usuario'), array('usuario_id'=>$usuario->id))) { 
+                ($tipo=='reactivar') ? DwMessage::valid('El usuario se ha reactivado correctamente!') : DwMessage::valid('El usuario se ha bloqueado correctamente!');
                 return DwRedirect::toAction('listar');
             }
-            if($tipo=='inactivar' && $recurso->activo == Recurso::INACTIVO) {
-                DwMessage::info('El recurso ya se encuentra inactivo');
-            } else if($tipo=='reactivar' && $recurso->activo == Recurso::ACTIVO) {
-                DwMessage::info('El recurso ya se encuentra activo');
-            } else {
-                $estado = ($tipo=='inactivar') ? Recurso::INACTIVO : Recurso::ACTIVO;
-                if(Recurso::setRecurso('update', $recurso->to_array(), array('id'=>$id, 'activo'=>$estado))){
-                    ($estado==Recurso::ACTIVO) ? DwMessage::valid('El recurso se ha reactivado correctamente!') : DwMessage::valid('El recurso se ha inactivado correctamente!');
-                }
-            }                
-        }
+        }  
         
-        return DwRedirect::toAction('listar');
-    }
-    
-    /**
-     * Método para eliminar
-     */
-    public function eliminar($key) {         
-        if(!$id = DwSecurity::isValidKey($key, 'eliminar_recurso', 'int')) {
-            return DwRedirect::toAction('listar');
-        }        
-        
-        $recurso = new Recurso();
-        if(!$recurso->find_first($id)) {
-            DwMessage::get('id_no_found');
-            return DwRedirect::toAction('listar');
-        }              
-        try {
-            if($recurso->delete()) {
-                DwMessage::valid('El recurso se ha eliminado correctamente!');
-            } else {
-                DwMessage::warning('Lo sentimos, pero este recurso no se puede eliminar.');
-            }
-        } catch(KumbiaException $e) {
-            DwMessage::error('Este recurso no se puede eliminar porque se encuentra relacionado con otro registro.');
-        }
-        
-        return DwRedirect::toAction('listar');
-    }
+        $this->page_title = ($tipo=='reactivar') ? 'Reactivación de usuario' : 'Bloqueo de usuario';
+        $this->usuario = $usuario;
+    }        
     
 }
 

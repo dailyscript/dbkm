@@ -71,7 +71,7 @@ class EstadoUsuario extends ActiveRecord {
     public static function setEstadoUsuario($accion, $data, $optData=NULL) {
         $accion = strtolower($accion);
         $obj = new EstadoUsuario($data);
-        if($optData) {
+        if($optData) {            
             $obj->dump_result_self($optData);
         }
         //Verifico el estado actual
