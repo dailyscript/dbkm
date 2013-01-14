@@ -29,6 +29,11 @@ class Recurso extends ActiveRecord {
     const DASHBOARD = 1;
     
     /**
+     * Constante para identificar el comodín *
+     */
+    const COMODIN = 2;
+    
+    /**
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {        

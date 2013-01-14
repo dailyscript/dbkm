@@ -31,7 +31,7 @@ class Menu extends ActiveRecord {
     /**
      * Constante para definir un menú visible en el frontend
      */
-    const FRONTEND = 2;        
+    const FRONTEND = 2;         
         
     /**
      * Método para definir las relaciones y validaciones
@@ -51,7 +51,12 @@ class Menu extends ActiveRecord {
         $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';        
         $conditions = "padre.menu_id IS NULL AND padre.visibilidad = $entorno AND padre.activo = ".self::ACTIVO;
         if(!empty($perfil)) {
-            $conditions.= ($perfil==Perfil::SUPER_USUARIO) ? '' : " AND recurso_perfil.perfil_id = $perfil";
+            //Verifico si el perfil tiene el comodín
+            $recurso = new RecursoPerfil();
+            if($recurso->count("recurso_id = ".Recurso::COMODIN." AND perfil_id= $perfil")) {
+                $perfil = NULL; //Para que liste todos los menús
+            }
+            $conditions.= (empty($perfil) OR $perfil==Perfil::SUPER_USUARIO) ? '' : " AND recurso_perfil.perfil_id = $perfil";
         }
         $group = 'padre.id';
         $order = 'padre.posicion ASC';
@@ -65,8 +70,13 @@ class Menu extends ActiveRecord {
         $columns = 'menu.*';
         $join = 'LEFT JOIN recurso ON recurso.id = menu.recurso_id ';
         $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';
-        $conditions = "menu.menu_id = $menu AND menu.visibilidad = $entorno AND menu.activo = ".self::ACTIVO;
-        $conditions.= ($perfil==Perfil::SUPER_USUARIO) ? '' :  " AND recurso_perfil.perfil_id = $perfil";
+        $conditions = "menu.menu_id = $menu AND menu.visibilidad = $entorno AND menu.activo = ".self::ACTIVO;         
+        //Verifico si el perfil tiene el comodín
+        $recurso = new RecursoPerfil();
+        if($recurso->count("recurso_id = ".Recurso::COMODIN." AND perfil_id= $perfil")) {
+            $perfil = NULL; //Para que liste todos los submenús
+        }
+        $conditions.= (empty($perfil) OR $perfil==Perfil::SUPER_USUARIO) ? '' :  " AND recurso_perfil.perfil_id = $perfil";
         $group = 'menu.id';
         $order = 'menu.posicion ASC';        
         return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order"); 

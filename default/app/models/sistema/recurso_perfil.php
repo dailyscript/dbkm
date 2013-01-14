@@ -64,10 +64,12 @@ class RecursoPerfil extends ActiveRecord {
             $items = explode(',', $old_privilegios);
             foreach($items as $value) {
                 $data = explode('-', $value); //el formato es 1-4 = recurso-rol
-                if(!$obj->delete("recurso_id = $data[0] AND perfil_id = $data[1]")){                    
-                    $obj->rollback();
-                    return FALSE;
-                }                
+                if($data[0] != Recurso::DASHBOARD) {
+                    if(!$obj->delete("recurso_id = $data[0] AND perfil_id = $data[1]")){                    
+                        $obj->rollback();
+                        return FALSE;
+                    }                
+                }
             }                        
         } 
         if(!empty($privilegios)) {

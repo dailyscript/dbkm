@@ -109,7 +109,7 @@
                     }
                 });                  
                 // Habilita el submenú
-                $(".main-menu-link").mouseover(function(){                    
+                $(".main-menu-link").on('click', function(){                    
                     var submenu = $("#" +$(this).attr("data-filter"));                    
                     $(".subnav").each(function (i) {
                         $(this).attr("class","subnav hidden");
