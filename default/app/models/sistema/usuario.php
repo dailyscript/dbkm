@@ -50,9 +50,9 @@ class Usuario extends ActiveRecord {
                 if(DwSecurity::isValidForm()) {
                     if(DwAuth::login(array('login'=>$user), array('password'=>sha1($pass)), $mode)) {
                         $usuario = self::getUsuarioLogueado();                         
-                        if( ($usuario->id!=1) &&  ($usuario->estado_usuario != EstadoUsuario::ACTIVO) ) { 
-                            DwMessage::error('Lo sentimos pero tu cuenta se encuentra inactiva. <br />Si esta información es incorrecta contacta al administrador del sistema.');
+                        if( ($usuario->id!=2) &&  ($usuario->estado_usuario != EstadoUsuario::ACTIVO) ) { 
                             DwAuth::logout();
+                            DwMessage::error('Lo sentimos pero tu cuenta se encuentra inactiva. <br />Si esta información es incorrecta contacta al administrador del sistema.');
                             return false;
                         } 
                         Session::set('nombre', $usuario->nombre);
@@ -122,8 +122,7 @@ class Usuario extends ActiveRecord {
         $order = $this->get_order($order, 'nombre', array(  'id'        =>'usuario.id', 
                                                             'nombre'    =>array(
                                                                                 'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) );
-        
+                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) );        
         if($estado == 'activos') {
             $conditions.= " AND estado_usuario.estado_usuario = '".EstadoUsuario::USR_ACTIVO."'";
         } else if($estado == 'bloqueados') {
@@ -150,6 +149,86 @@ class Usuario extends ActiveRecord {
         $obj = new Usuario($data);
         if($otherData) {
             $obj->dump_result_self($otherData);
+        }
+        if(!empty($obj->id)) { //Si va a actualizar
+            $old = new Usuario();
+            $old->find_first_by_id($old->id);
+            if(!empty($obj->oldpassword)) { //Si cambia de claves
+                $obj->oldpassword = md5(sha1($obj->oldpassword));
+                if($obj->oldpassword !== $old->password) {
+                    DwMessage::error("La contraseña anterior no coincide con la registrada. Verifica los datos e intente nuevamente");
+                   return false;
+                }
+            }
+        }
+        $rs = $obj->$method();
+        return ($rs) ? $obj : FALSE;
+    }
+    
+    /**
+     * Método para verificar si existe un campo registrado
+     */
+    protected function _getRegisteredField($field, $value, $id=NULL) {                
+        $conditions = "$field = '$value'";
+        $conditions.= (!empty($id)) ? " AND id != $id" : '';
+        return $this->count("conditions: $conditions");
+    }
+    
+    /**
+     * Callback que se ejecuta antes de guardar/modificar
+     */
+    protected function before_save() {
+        //Verifico la sucursal al crear el usuario
+        if(empty($this->id)) {
+            if(APP_OFFICE) {                                
+                $this->sucursal_id = ($this->sucursal_id=='todas') ? NULL : Filter::get($this->sucursal_id, 'int');                
+            } else {
+                $this->sucursal_id = Sucursal::OFICINA_PRINCIPAL;
+            }
+        }        
+        //Verifico si las contraseñas coinciden (password y repassword)
+        if(!empty($this->password) && isset($this->repassword)) {            
+            $this->password = md5(sha1($this->password));
+            $this->repassword = md5(sha1($this->repassword));            
+            if($this->password !== $this->repassword) {
+                DwMessage::error('Las contraseñas no coinciden. Verifica los datos e intenta nuevamente.');
+                return 'cancel';
+            }
+        }
+        //Verifico las exclusiones de los nombres de usuarios del config.ini   
+        $exclusion = DwConfig::read('config', array('custom'=>'login_exclusion') );        
+        $exclusion = explode(',', $exclusion);
+        if(!empty($exclusion)) {
+            if(in_array($this->login, $exclusion)) {
+                DwMessage::error('El nombre de usuario indicado, no se encuentra disponible.');
+                return 'cancel';
+            }
+        }        
+        //Verifico si el login está disponible
+        if($this->_getRegisteredField('login', $this->login, $this->id)) {
+            DwMessage::error('El nombre de usuario no se encuentra disponible.');
+            return 'cancel';
+        }
+        //Verifico si ya se encuentra registrado
+        if($this->_getRegisteredField('persona_id', $this->persona_id, $this->id)) {
+            DwMessage::error('La persona registrada ya posee una cuenta de usuario.');
+            return 'cancel';
+        } 
+        //Verifico si se encuentra el mail registrado
+        if($this->_getRegisteredField('email', $this->email, $this->id)) {
+            DwMessage::error('El correo electrónico ya se encuentra registrado.');
+            return 'cancel';
+        }
+        
+    }
+    
+    /**
+     * Callback que se ejecuta despues de insertar un usuario
+     */
+    protected function after_create() {        
+        if(!EstadoUsuario::setEstadoUsuario('registrar', array('usuario_id'=>$this->id, 'descripcion'=>'Activado por registro inicial'))){
+            DwMessage::error('Se ha producido un error interno al activar el usuario. Pofavor intenta nuevamente.');
+            return 'cancel';
         }
     }
        

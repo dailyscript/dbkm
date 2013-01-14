@@ -65,7 +65,7 @@ class MenuController extends BackendController {
             return DwRedirect::toAction('listar');
         }
         
-        if($menu->id == 1 OR $menu->id == 2) {
+        if($menu->id <= 2) {
             DwMessage::warning('Lo sentimos, pero este menú no se puede editar.');
             return DwRedirect::toAction('listar');
         }
@@ -96,7 +96,7 @@ class MenuController extends BackendController {
         if(!$menu->find_first($id)) {
             DwMessage::get('id_no_found');            
         } else {
-            if($menu->id == 1 OR $menu->id == 2) {
+            if($menu->id <= 2) {
                 DwMessage::warning('Lo sentimos, pero este menú no se puede editar.');
                 return DwRedirect::toAction('listar');
             }
@@ -127,7 +127,11 @@ class MenuController extends BackendController {
         if(!$menu->find_first($id)) {
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
-        }              
+        }      
+        if($menu->id <= 2) {
+            DwMessage::warning('Lo sentimos, pero este menú no se puede eliminar.');
+            return DwRedirect::toAction('listar');
+        }
         try {
             if($menu->delete()) {
                 DwMessage::valid('El menú se ha eliminado correctamente!');

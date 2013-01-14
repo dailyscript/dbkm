@@ -109,6 +109,14 @@ class Perfil extends ActiveRecord {
     }
     
     /**
+     * Callback que se ejecuta después de crear un perfil
+     */
+    protected function after_create() {
+        RecursoPerfil::setRecursoPerfil(array(''=>Recurso::DASHBOARD.'-'.$this->id));
+    }
+
+
+    /**
      * Método para obtener los ecursos de un perfil
      * @param type $perfil
      * @return type

@@ -13,10 +13,22 @@
 
 class EstadoUsuario extends ActiveRecord {
 
-    const COD_BLOQUEADO = 1;
-    const COD_ACTIVO = 2;
-    const ACTIVO = 'ACTIVO';
-    const BLOQUEADO = 'BLOQUEADO';
+    /**
+     * Constante para definir el estado Activo
+     */
+    const COD_ACTIVO = 1;
+    /**
+     * Constante para definir el estado Bloqueado
+     */
+    const COD_BLOQUEADO = 2;
+    /**
+     * Constante para describir el estado Activo
+     */
+    const ACTIVO = 'Activo';
+    /**
+     * Constante para describir el estado Bloqueado
+     */
+    const BLOQUEADO = 'Bloqueado';
 
     /**
      * Método para definir las relaciones y validaciones
@@ -46,12 +58,36 @@ class EstadoUsuario extends ActiveRecord {
      * @param int $pag Número de la página. Si es mayor que 0 se utiliza el paginador
      * @return EstadoUsuario
      */
-    public function getListadoEstadoUsuario($usuario, $pag=0) {
+    public function getListadoEstadoUsuario($usuario, $page=0) {
         $usuario = Filter::get($usuario,'numeric');
         $sql = "SELECT id, IF(estado_usuario=1,'".self::ACTIVO."','".self::BLOQUEADO."') AS estado_usuario, descripcion, fecha_estado_at FROM estado_usuario WHERE usuario_id = '$usuario' ORDER BY id DESC";
-        return ($pag) ? $this->paginated_by_sql($sql, "page: $pag") : $this->find_all_by_sql($sql);        
+        return ($page) ? $this->paginated_by_sql($sql, "page: $page") : $this->find_all_by_sql($sql);        
         return false;
-    }  
+    } 
+    
+    /**
+     * Método para registrar un estado a un usuario
+     */
+    public static function setEstadoUsuario($accion, $data, $optData=NULL) {
+        $accion = strtolower($accion);
+        $obj = new EstadoUsuario($data);
+        if($optData) {
+            $obj->dump_result_self($optData);
+        }
+        //Verifico el estado actual
+        $actual = $obj->getEstadoUsuario($obj->usuario_id); 
+        //Verifico las acciones
+        if($accion == 'registrar') {
+            $obj->estado_usuario = self::COD_ACTIVO;        
+        } else if( ($accion == 'bloquear') && ($actual == self::ACTIVO or !$actual) ) {                        
+            $obj->estado_usuario = self::COD_BLOQUEADO;                    
+        } else if( ($accion == 'reactivar') && ($actual!= self::ACTIVO) ) {            
+            $obj->estado_usuario = self::COD_ACTIVO;                            
+        } else {                       
+            return false;
+        }        
+        return $obj->create();
+    }
     
     /**
      * Callback que se ejecuta antes de crear un registro

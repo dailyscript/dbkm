@@ -12,6 +12,11 @@
  */
 
 class Sucursal extends ActiveRecord {
+    
+    /**
+     * Constante para definir el id de la oficina principal
+     */
+    const OFICINA_PRINCIPAL = 1;
 
     /**
      * Método para definir las relaciones y validaciones

@@ -59,4 +59,28 @@ class ActiveRecord extends KumbiaActiveRecord  {
         require_once APP_PATH . 'libs/dw_paginate.php';
         return call_user_func_array(array('DwPaginate' , 'paginate_by_sql'), $args);
     }
+    
+    /**
+     * Inicia transacción para cualquier evento
+     */
+    public static function beginTrans() {
+        $obj = new Usuario();
+        $obj->begin();
+    }
+    
+    /**
+     * Confirma transacción para cualquier evento
+     */
+    public static function commitTrans() {
+        $obj = new Usuario();
+        $obj->commit();
+    }
+    
+    /**
+     * Cancela transacción para cualquier evento
+     */
+    public static function rollbackTrans() {
+        $obj = new Usuario();
+        $obj->rollback();
+    }
 }

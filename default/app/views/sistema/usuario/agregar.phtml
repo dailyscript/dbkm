@@ -62,7 +62,7 @@
                 <div class="row-fluid">                    
                     <?php if(APP_OFFICE) { ?>
                     <div class="span6">
-                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'TODAS'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
+                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
                     </div>
                     <?php } ?>
                 </div>
@@ -72,7 +72,7 @@
                         <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), NULL, 'Contraseña'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::pass('usuario.repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), NULL, 'Confirmación'); ?>
+                        <?= DwForm::pass('repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), NULL, 'Confirmación'); ?>
                     </div>            
                 </div>
                    

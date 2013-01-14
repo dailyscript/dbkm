@@ -12,11 +12,8 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)  
  */
 
-class RecursoPerfil extends ActiveRecord {
-    
-    public $logger = TRUE;
-
-
+class RecursoPerfil extends ActiveRecord {     
+        
     /**
      * Método para definir las relaciones y validaciones
      */
@@ -59,7 +56,7 @@ class RecursoPerfil extends ActiveRecord {
     /**
      * Método para registrar los privilegios a los perfiles
      */
-    public static function setRecursoPerfil($privilegios, $old_privilegios) {
+    public static function setRecursoPerfil($privilegios, $old_privilegios=NULL) {
         $obj = new RecursoPerfil();
         $obj->begin();
         //Elimino los antiguos privilegios
@@ -74,7 +71,7 @@ class RecursoPerfil extends ActiveRecord {
             }                        
         } 
         if(!empty($privilegios)) {
-            foreach($privilegios as $value) {                
+            foreach($privilegios as $value) {                 
                 $data = explode('-', $value); //el formato es 1-4 = recurso-rol
                 $obj->recurso_id = $data[0];
                 $obj->perfil_id = $data[1];

@@ -12,7 +12,9 @@
 
 class IndexController extends BackendController {
     
-    public $page_title = 'Página Principal';
+    public $page_title = 'Dashboard';
+    
+    public $page_module = 'Dashboard';
     
     public function index() {
         

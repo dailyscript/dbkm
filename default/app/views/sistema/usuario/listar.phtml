@@ -46,18 +46,21 @@
                     <?php $key_del = DwSecurity::getKey($usuario->id, 'eliminar_usuario'); ?>
                     <tr>
                         <td><?= $usuarios->counter; ?></td>
-                        <td><?= empty($usuario->modulo) ? '' : $usuario->modulo; ?></td>
-                        <td><?= empty($usuario->controlador) ? '' : $usuario->controlador; ?></td>
-                        <td><?= empty($usuario->accion) ? '' : $usuario->accion; ?></td>
-                        <td><?= ($usuario->activo == Recurso::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
+                        <td><?= $usuario->login; ?></td>
+                        <td><?= $usuario->nombre; ?></td>
+                        <td><?= $usuario->apellido; ?></td>
+                        <td><?= $usuario->email; ?></td>
+                        <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
+                        <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
+                        <? } ?>                        
+                        <td><?= ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
                         <td>                                                
                             <?= DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", null, 'info', 'edit'); ?>
-                            <?php if($usuario->activo == Recurso::ACTIVO) { ?>
-                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/inactivar/$key_ina/", null, 'success', 'flag'); ?>
+                            <?php if($usuario->estado_usuario == EstadoUsuario::ACTIVO) { ?>
+                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/bloquear/$key_ina/", null, 'success', 'flag'); ?>
                             <?php } else { ?>
                                 <?= DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", null, 'danger', 'flag'); ?>
-                            <?php } ?>
-                            <?= DwHtml::buttonTable('Eliminar usuario', "sistema/usuario/eliminar/$key_del/", array('class'=>'js-confirm', 'confirm-title'=>'Eliminar usuario', 'confirm-body'=>'Está seguro de eliminar este usuario? <br />Recuerda que esta operación no se puede reversar.'), 'danger', 'ban-circle'); ?>
+                            <?php } ?>                            
                         </td>                    
                     </tr>
                     <?php $usuarios->counter++; ?>

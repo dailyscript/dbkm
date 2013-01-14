@@ -25,7 +25,7 @@
     </head>
     <body>
         
-        <?php Menu::load(Session::get('perfil_id')); ?>
+        <?php DwMenu::load(Menu::BACKEND, Session::get('perfil_id')); ?>
         
         <?php View::partial('backend/header'); ?>
         

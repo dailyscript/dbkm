@@ -31,17 +31,7 @@ class Menu extends ActiveRecord {
     /**
      * Constante para definir un menú visible en el frontend
      */
-    const FRONTEND = 2;
-    
-    /**
-     * Variable que contiene los menús 
-     */
-    protected static $_main = null;
-    
-    /**
-     * Variable que contien los items del menú
-     */        
-    protected static $_items = null;
+    const FRONTEND = 2;        
         
     /**
      * Método para definir las relaciones y validaciones
@@ -49,91 +39,38 @@ class Menu extends ActiveRecord {
     protected function initialize() {        
         $this->has_many('menu');
         $this->belongs_to('recurso');
+    }    
+    
+    /**
+     * Método para obtener los menús por perfil
+     */
+    public function getListadoMenuPorPerfil($entorno, $perfil=NULL) {
+        $columns = 'padre.*';
+        $join = 'INNER JOIN menu AS padre ON padre.id = menu.menu_id ';
+        $join.= 'LEFT JOIN recurso ON recurso.id = menu.recurso_id ';        
+        $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';        
+        $conditions = "padre.menu_id IS NULL AND padre.visibilidad = $entorno AND padre.activo = ".self::ACTIVO;
+        if(!empty($perfil)) {
+            $conditions.= ($perfil==Perfil::SUPER_USUARIO) ? '' : " AND recurso_perfil.perfil_id = $perfil";
+        }
+        $group = 'padre.id';
+        $order = 'padre.posicion ASC';
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order");
     }
     
     /**
-     * Método para cargar en variable el menú
-     * @param type $usuario
+     * Método para obtener los submenús de cada menú según el perfil
      */
-    public static function load($perfil) {
-        $obj = new Menu();
-        $columns = 'menu.*';        
-        if($perfil==Perfil::SUPER_USUARIO) {          
-            $join = null;
-            $conditions = "menu.activo = ".self::ACTIVO;
-        } else {
-            $join = 'join: ';
-            $join.= 'INNER JOIN recurso ON recurso.id = menu.recurso_id ';
-            $join.= 'INNER JOIN recurso_perfil ON recurso.id = recurso_perfil.perfil_id ';            
-            $conditions = "recurso_perfil.perfil_id = $perfil AND menu.activo = ".self::ACTIVO;
-        }        
+    public function getListadoSubmenuPorPerfil($entorno, $perfil, $menu) {
+        $columns = 'menu.*';
+        $join = 'LEFT JOIN recurso ON recurso.id = menu.recurso_id ';
+        $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';
+        $conditions = "menu.menu_id = $menu AND menu.visibilidad = $entorno AND menu.activo = ".self::ACTIVO;
+        $conditions.= ($perfil==Perfil::SUPER_USUARIO) ? '' :  " AND recurso_perfil.perfil_id = $perfil";
+        $group = 'menu.id';
         $order = 'menu.posicion ASC';        
-        if(self::$_main==NULL) {            
-            $conditions2 = $conditions." AND menu.menu_id IS NULL";
-            self::$_main = $obj->find("columns: $columns", "$join", "conditions: $conditions2", "order: $order");            
-        }
-        if(self::$_items==NULL && self::$_main) {
-            foreach(self::$_main as $menu) {
-                $conditions2 = $conditions." AND menu.menu_id = $menu->id";
-                self::$_items[$menu->menu] = $obj->find("columns: $columns", "join: $join", "conditions: $conditions2", "order: $order");
-            }
-        }
-    }
-        
-    /**
-     * Método para obtener el menú principal
-     */
-    public static function getMain($view='desktop') {        
-        $route = trim(Router::get('route'), '/');        
-        $main = '';
-        if($view=='phone') {
-            foreach(self::$_main as $menu) {
-                $text = $menu->menu.'<b class="caret"></b>';                 
-                $main.= '<li class="dropdown">';
-                $main.= DwHtml::link('#', $text, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), NULL, FALSE);
-                if(array_key_exists($menu->menu, self::$_items)) {
-                    $main.= '<ul class="dropdown-menu">';
-                    foreach(self::$_items[$menu->menu] as $item) {                        
-                        $active = ($item->url==$route) ? 'active' : null;                        
-                        $main.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, NULL, $item->icon, FALSE).'</li>';
-                    }
-                    $main.= '</ul>';                    
-                }
-                $main.= '</li>'.PHP_EOL;                
-            }
-        } else {   
-            $main.= '<ul class="nav">'.PHP_EOL;
-            foreach(self::$_main as $menu) {         
-                $active = ($menu->url==$route) ? 'active' : null;
-                $main.= '<li class="'.$active.'">'.DwHtml::link($menu->url, $menu->menu, array('class'=>'main-menu-link', 'data-filter'=>"sub-menu-".strtolower($menu->menu)), $menu->icono).'</li>'.PHP_EOL;
-            }
-            $main.= '</ul>'.PHP_EOL;
-            return $main;
-        }
-        return $main;
-    }
-          
-    /**
-     * Método para obtener los items de cada menú en modo 'desktop'
-     * @return string
-     */
-    public static function getItems() {        
-        $route = trim(Router::get('route'), '/');
-        $str = '';        
-        foreach(self::$_items as $menu => $items) {
-            $str.= '<div id="sub-menu-'.strtolower($menu).'" class="subnav hidden">'.PHP_EOL;
-            $str.= '<ul class="nav nav-pills">'.PHP_EOL;
-            if(array_key_exists($menu, self::$_items)) {
-                foreach(self::$_items[$menu] as $item) {                    
-                    $active = ($item->url==$route or $item->url=='principal') ? 'active' : null;
-                    $str.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icono).'</li>'.PHP_EOL;
-                }
-            }
-            $str.= '</ul>'.PHP_EOL;
-            $str.= '</div>'.PHP_EOL;
-        }
-        return $str;         
-    }
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order"); 
+    }                     
     
     /**
      * Método para obtener el listado de los menús del sistema

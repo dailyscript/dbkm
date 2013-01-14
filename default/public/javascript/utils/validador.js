@@ -102,6 +102,17 @@ function inputRequired(input) {
     return true;
 }
 
+function inputList(input) {
+    field = $('#'+input);
+    if (field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()) ) {
+        $("#err_"+input).html('Seleccione un elemento de la lista');
+	return false;
+    }
+    $("#err_"+input).html('');
+    return true;
+}
+
+
 function inputAlphanum(input) {
     field = $('#'+input);
     if (!(field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()))) {
@@ -215,15 +226,6 @@ function fecha(valor, idEtiqueta) {
 
 
 
-function lista(valor, idEtiqueta) {
-    if (valor == '') {
-        document.getElementById(idEtiqueta).innerHTML = 'Seleccione un elemento de la lista';
-	return false;
-    } else {
-        document.getElementById(idEtiqueta).innerHTML = '&nbsp;';
-        return true;
-    }
-}
 
 
 

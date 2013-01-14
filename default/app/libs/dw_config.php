@@ -21,7 +21,7 @@ class DwConfig {
     public static function read($file, $source='', $force=FALSE) { 
         $tmp = $file;
         $file = Config::read($file, $force);
-        foreach($file as $seccion => $filas) { 
+        foreach($file as $seccion => $filas) {             
             foreach($filas as $variable => $valor) { 
                 if ($valor == '1') { 
                     $file[$seccion][$variable] = 'On';
@@ -31,7 +31,13 @@ class DwConfig {
             }                
         }
         if($source) { 
-            return (isset($file[$source])) ? $file[$source] : NULL;
+            if(is_array($source)) {
+                $key = @array_shift(array_keys($source));
+                $var = $source[$key];                
+                return (isset($file[$key][$var])) ? $file[$key][$var] : NULL;                
+            } else {
+                return (isset($file[$source])) ? $file[$source] : NULL;
+            }           
         } 
         return $file;
      }

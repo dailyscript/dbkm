@@ -73,7 +73,7 @@ class DwAcl {
         $urls = array();
         foreach ($recursos as $recurso) {  
             if($recurso->activo == Recurso::ACTIVO) {     
-                //Flash::info("Recurso: $recurso->recurso");
+                //DwMessage::info("Recurso: $recurso->recurso");
                 $urls[] = $recurso->recurso;            
             }
         }        
@@ -102,7 +102,7 @@ class DwAcl {
             $recurso3 = "$modulo/*/*";  //por si tiene acceso a todos los controladores
             $recurso4 = "*";  //por si tiene acceso a todo el sistema
         }        
-        //Flash::info("Perfil: $perfil <br /> Recurso 1: $recurso1 <br /> Recurso 2: $recurso2 <br /> Recurso 3: $recurso3 <br /> Recurso 4: $recurso4");
+        //DwMessage::info("Perfil: $perfil <br /> Recurso 1: $recurso1 <br /> Recurso 2: $recurso2 <br /> Recurso 3: $recurso3 <br /> Recurso 4: $recurso4");
         return self::$_acl->check($recurso1, $perfil) ||
                 self::$_acl->check($recurso2, $perfil) ||
                 self::$_acl->check($recurso3, $perfil) ||

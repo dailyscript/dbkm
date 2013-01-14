@@ -24,6 +24,11 @@ class Recurso extends ActiveRecord {
     const INACTIVO = 2;
     
     /**
+     * Constante para definir el recurso principal
+     */
+    const DASHBOARD = 1;
+    
+    /**
      * Método para definir las relaciones y validaciones
      */
     protected function initialize() {        

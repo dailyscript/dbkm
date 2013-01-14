@@ -10,6 +10,8 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
  */
 
+Load::models('personas/persona', 'config/sucursal');
+
 class UsuarioController extends BackendController {
     
     /**
@@ -42,11 +44,19 @@ class UsuarioController extends BackendController {
      * Método para agregar
      */
     public function agregar() {
-        if(Input::hasPost('recurso')) {
-            if(Recurso::setRecurso('create', Input::post('recurso'), array('activo'=>Recurso::ACTIVO))){
-                DwMessage::valid('El recurso se ha registrado correctamente!');
-                return DwRedirect::toAction('listar');
-            }          
+        if(Input::hasPost('persona') && Input::hasPost('usuario')) {
+            ActiveRecord::beginTrans();
+            //Guardo la persona
+            $persona = Persona::setPersona('create', Input::post('persona'));
+            if($persona) {
+                if(Usuario::setUsuario('create', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'tema'=>'default'))) {
+                    ActiveRecord::commitTrans();
+                    DwMessage::valid('El usuario se ha creado correctamente.');
+                    return DwRedirect::toAction('listar');
+                }
+            } else {
+                ActiveRecord::rollbackTrans();
+            }            
         }
         $this->page_title = 'Agregar usuario';
     }
