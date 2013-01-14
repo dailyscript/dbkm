@@ -15,7 +15,7 @@ class IndexController extends BackendController {
     public $page_title = 'Página Principal';
     
     public function index() {
-        View::template('backend');
+        
     }
 
 }

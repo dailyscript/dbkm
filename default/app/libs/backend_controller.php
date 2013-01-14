@@ -44,14 +44,12 @@ class BackendController extends Controller {
     /**
      * Callback que se ejecuta antes de los métodos de todos los controladores
      */
-    final protected function initialize() {                        
+    final protected function initialize() {
         /**
          * Si el método de entrada es ajax, el tipo de respuesta es sólo la vista
          */
         if(Input::isAjax()) {
             View::template(null);
-        } else {
-            View::template('backend');
         }
         
         /**
