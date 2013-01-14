@@ -98,7 +98,8 @@ class Perfil extends ActiveRecord {
      */
     public function before_save() {
         $this->perfil = Filter::get($this->perfil, 'string');
-        $this->plantilla = DwUtils::getSlug(Filter::get($this->plantilla, 'string'), '_');                
+        $this->plantilla = Filter::get($this->plantilla, 'string');
+        $this->plantilla = (!empty($this->plantilla)) ? DwUtils::getSlug($this->plantilla, '_') : 'backend';
         if(!empty($this->id)) {
             if($this->id == Perfil::SUPER_USUARIO) {
                 DwMessage::warning('Lo sentimos, pero este perfil no se puede editar.');
