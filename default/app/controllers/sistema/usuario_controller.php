@@ -100,7 +100,7 @@ class UsuarioController extends BackendController {
                 if($persona) {
                     if(Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'id'=>$usuario->id, 'login'=>$usuario->login))) {
                         ActiveRecord::commitTrans();
-                        DwMessage::valid('El usuario se ha creado correctamente.');
+                        DwMessage::valid('El usuario se ha actualizado correctamente.');
                         return DwRedirect::toAction('listar');
                     }
                 } else {
