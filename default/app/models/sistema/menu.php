@@ -142,7 +142,7 @@ class Menu extends ActiveRecord {
         $this->url = Filter::get($this->url, 'string');
         $this->icono = Filter::get($this->icono, 'string');
         $this->posicion = Filter::get($this->posicion, 'int');        
-        if($this->id == 1 OR $this->id == 2) {
+        if($this->id <= 2) {
             DwMessage::warning('Lo sentimos, pero este menú no se puede editar.');
             return 'cancel';            
         }

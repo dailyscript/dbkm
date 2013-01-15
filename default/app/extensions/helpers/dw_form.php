@@ -427,7 +427,7 @@ class DwForm extends Form {
         //Muestro el blank
         if(!empty($blank)) {  
             if(is_array($blank)) {
-                $options_key = array_shift(array_keys($blank));
+                $options_key = @array_shift(array_keys($blank));
                 $options = '<option value="'.$options_key.'">' . htmlspecialchars($blank[$options_key], ENT_COMPAT, APP_CHARSET) . '</option>'; 
             } else {
                 $options = '<option value="">' . htmlspecialchars($blank, ENT_COMPAT, APP_CHARSET) . '</option>';            
