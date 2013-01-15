@@ -39,6 +39,9 @@ class UsuarioController extends BackendController {
         
         $usuario = new Usuario();            
         $usuarios = $usuario->getAjaxUsuario($field, $value, $order, $page);        
+        if(empty($usuarios->items)) {
+            DwMessage::info('No se han encontrado registros');
+        }
         $this->usuarios = $usuarios;
         $this->order = $order;
         $this->field = $field;

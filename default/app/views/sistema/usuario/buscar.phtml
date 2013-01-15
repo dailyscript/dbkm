@@ -49,11 +49,11 @@
                     <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>                    
                     <tr>
                         <td><?= $usuarios->counter; ?></td>
-                        <td><?= $usuario->login; ?></td>
-                        <td><?= $usuario->nombre; ?></td>
-                        <td><?= $usuario->apellido; ?></td>
-                        <td><?= $usuario->email; ?></td>
-                        <td><?= $usuario->perfil; ?></td>
+                        <td><?= ($field=='login') ? DwUtils::resaltar($value, $usuario->login) : $usuario->login; ?></td>
+                        <td><?= ($field=='nombre') ? DwUtils::resaltar($value, $usuario->nombre) : $usuario->nombre; ?></td>
+                        <td><?= ($field=='apellido') ? DwUtils::resaltar($value, $usuario->apellido) : $usuario->apellido; ?></td>
+                        <td><?= ($field=='email') ? DwUtils::resaltar($value, $usuario->email) : $usuario->email; ?></td>
+                        <td><?= ($field=='perfil') ? DwUtils::resaltar($value, $usuario->perfil) : $usuario->perfil; ?></td>
                         <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
                         <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
                         <? } ?>                        

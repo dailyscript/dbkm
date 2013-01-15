@@ -11,7 +11,7 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
  */
 
-Load::models('sistema/estado_usuario', 'sistema/perfil', 'sistema/recurso', 'sistema/recurso_perfil');
+Load::models('sistema/estado_usuario', 'sistema/perfil', 'sistema/recurso', 'sistema/recurso_perfil', 'sistema/acceso');
 
 class Usuario extends ActiveRecord {
     
@@ -39,7 +39,10 @@ class Usuario extends ActiveRecord {
      */
     public static function setSession($opt='open', $user=NULL, $pass=NULL, $mode=NULL) {  
         if($opt=='close') {
-            if(DwAuth::logout()) {                
+            $usuario = Session::get('id');
+            if(DwAuth::logout()) {   
+                //Registro la salida
+                Acceso::setAcceso(Acceso::SALIDA, $usuario);
                 return true;
             }                
             DwMessage::error(DwAuth::getError()); 
@@ -61,6 +64,10 @@ class Usuario extends ActiveRecord {
                         Session::set('perfil', $usuario->perfil);
                         Session::set('tema', $usuario->tema);
                         Session::set('app_ajax', $usuario->app_ajax);
+                        
+                        //Registro el acceso
+                        Acceso::setAcceso(Acceso::ENTRADA, $usuario->id);
+                        
                         DwMessage::info("¡ Bienvenido <strong>$usuario->login</strong> !.");     
                         return true;
                     } else {
