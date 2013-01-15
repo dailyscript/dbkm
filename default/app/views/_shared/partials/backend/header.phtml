@@ -14,8 +14,7 @@
                             <i class="icon-user"></i> <?php echo Session::get('login'); ?> <b class="caret"></b>
                         </a>                        
                         <ul class="dropdown-menu">
-                            <li><?php echo DwHtml::link('cuenta/perfil', 'Perfil'); ?></li>
-                            <li><?php echo DwHtml::link('cuenta/ajustes', 'Ajustes'); ?></li>
+                            <li><?php echo DwHtml::link('sistema/mi_cuenta/', 'Perfil'); ?></li>                            
                             <li class="divider"></li>
                             <li><?php echo DwHtml::link('sistema/login/salir', 'Salir', array('class'=>'no-load'), 'icon-off', FALSE); ?></li>
                         </ul>

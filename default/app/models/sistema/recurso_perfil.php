@@ -64,7 +64,7 @@ class RecursoPerfil extends ActiveRecord {
             $items = explode(',', $old_privilegios);
             foreach($items as $value) {
                 $data = explode('-', $value); //el formato es 1-4 = recurso-rol
-                if($data[0] != Recurso::DASHBOARD) {
+                if($data[0] != Recurso::DASHBOARD && $data[0] != Recurso::MI_CUENTA) { //Para que no elimine el principal y mi cuenta
                     if(!$obj->delete("recurso_id = $data[0] AND perfil_id = $data[1]")){                    
                         $obj->rollback();
                         return FALSE;

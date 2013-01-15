@@ -62,7 +62,7 @@ CREATE TABLE `backup` (
   PRIMARY KEY (`id`),
   KEY `fk_backup_usuario_idx` (`usuario_id`),
   CONSTRAINT `fk_backup_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las copias de seguridad del sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las copias de seguridad del sistema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +71,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
+INSERT INTO `backup` VALUES (1,2,'Sistema inicial','0 MB','backup-1.sql.gz','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +97,7 @@ CREATE TABLE `ciudad` (
 
 LOCK TABLES `ciudad` WRITE;
 /*!40000 ALTER TABLE `ciudad` DISABLE KEYS */;
-INSERT INTO `ciudad` VALUES (1,'OCAÑA','2013-01-01 00:00:01',NULL);
+INSERT INTO `ciudad` VALUES (1,'Ocaña','2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `ciudad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,7 @@ CREATE TABLE `empresa` (
 
 LOCK TABLES `empresa` WRITE;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1.091.652.165',6,'IVAN DAVID MELENDEZ',1091652165,1,'dailyscript.com.co',NULL,'2013-01-01 00:00:01',NULL);
+INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1.091.652.165',6,'Iván David Meléndez',1091652165,1,'dailyscript.com.co',NULL,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +162,7 @@ CREATE TABLE `estado_usuario` (
 
 LOCK TABLES `estado_usuario` WRITE;
 /*!40000 ALTER TABLE `estado_usuario` DISABLE KEYS */;
-INSERT INTO `estado_usuario` VALUES (1,1,1,'BLOQUEADO POR SER UN USUARIO SIN PRIVILEGIOS','2013-01-01 00:00:01'),(2,2,2,'ACTIVO POR SER EL SUPER USUARIO DEL SISTEMA','2013-01-01 00:00:01');
+INSERT INTO `estado_usuario` VALUES (1,1,2,'Bloqueado por ser un usuario sin privilegios','2013-01-01 00:00:01'),(2,2,1,'Activo por ser el Super Usuario del sistema','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `estado_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,13 +182,13 @@ CREATE TABLE `menu` (
   `posicion` int(11) DEFAULT '0' COMMENT 'Posisión dentro de otros items',
   `icono` varchar(45) DEFAULT NULL COMMENT 'Icono a mostrar ',
   `activo` int(1) NOT NULL DEFAULT '1' COMMENT 'Menú activo o inactivo',
-  `visivilidad` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el menú se muestra en el backend o en el frontend',
+  `visibilidad` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el menú se muestra en el backend o en el frontend',
   PRIMARY KEY (`id`),
   KEY `fk_menu_recurso_idx` (`recurso_id`),
   KEY `fk_menu_menu_idx` (`menu_id`),
   CONSTRAINT `fk_menu_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_menu_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los menú para los usuarios';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los menú para los usuarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +197,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,NULL,NULL,'Principal','principal',10,'icon-home',1,1),(2,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(3,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(4,1,NULL,'Inicio','principal',11,'icon-home',1,1),(5,2,NULL,'Perfiles','sistema/perfil/listar/',11,'icon-group',1,1),(6,2,NULL,'Recursos','sistema/recurso/listar/',12,'icon-lock',1,1),(7,2,NULL,'Menús','sistema/menu/listar/',13,'icon-list',1,1),(8,3,NULL,'Usuarios','sistema/usuario/listar/',11,'icon-user',1,1);
+INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Archivos de configuración','sistema/config/',94,'icon-wrench',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +211,7 @@ DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE `perfil` (
   `id` int(2) NOT NULL AUTO_INCREMENT COMMENT 'Identificador del perfil',
   `perfil` varchar(45) NOT NULL COMMENT 'Nombre del perfil',
-  `activo` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el perfil esta activo o inactivo',
+  `estado` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el perfil esta activo o inactivo',
   `plantilla` varchar(45) DEFAULT 'default' COMMENT 'Plantilla para usar en el sitema',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro del perfil',
   PRIMARY KEY (`id`)
@@ -223,7 +224,7 @@ CREATE TABLE `perfil` (
 
 LOCK TABLES `perfil` WRITE;
 /*!40000 ALTER TABLE `perfil` DISABLE KEYS */;
-INSERT INTO `perfil` VALUES (1,'SUPER USUARIO',1,NULL,'2013-01-01 00:00:01');
+INSERT INTO `perfil` VALUES (1,'Super Usuario',1,'backend','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `perfil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,12 +241,13 @@ CREATE TABLE `persona` (
   `apellido` varchar(100) DEFAULT NULL,
   `nuip` bigint(20) NOT NULL COMMENT 'Número de identificación personal',
   `tipo_nuip_id` int(11) NOT NULL COMMENT 'Tipo de identificación',
+  `telefono` varchar(45) DEFAULT NULL,
+  `fotografia` varchar(45) DEFAULT 'default.png' COMMENT 'Fotografía',
   `registrado_at` datetime DEFAULT NULL,
   `modificado_in` datetime DEFAULT NULL,
-  `fotografia` varchar(45) DEFAULT NULL COMMENT 'Fotografía',
   PRIMARY KEY (`id`),
-  KEY `fk_persona_tipo_nuip1_idx` (`tipo_nuip_id`),
-  CONSTRAINT `fk_persona_tipo_nuip1` FOREIGN KEY (`tipo_nuip_id`) REFERENCES `tipo_nuip` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  KEY `fk_persona_tipo_nuip_idx` (`tipo_nuip_id`),
+  CONSTRAINT `fk_persona_tipo_nuip` FOREIGN KEY (`tipo_nuip_id`) REFERENCES `tipo_nuip` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las personas que interactúan con el sistema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,7 +257,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'ERROR','ERROR',1010101010,1,'2013-01-01 00:00:01',NULL,NULL),(2,'IVAN DAVID','MELENDEZ',1091652165,1,'2013-01-01 00:00:01',NULL,NULL);
+INSERT INTO `persona` VALUES (1,'Error','Error',1010101010,1,NULL,'default.png','2013-01-01 00:00:01',NULL),(2,'Iván David','Meléndez',1091652165,1,NULL,'default.png','2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +278,7 @@ CREATE TABLE `recurso` (
   `activo` int(1) NOT NULL DEFAULT '1' COMMENT 'Estado del recurso',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos a los que acceden los usuarios';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos a los que acceden los usuarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,7 +287,7 @@ CREATE TABLE `recurso` (
 
 LOCK TABLES `recurso` WRITE;
 /*!40000 ALTER TABLE `recurso` DISABLE KEYS */;
-INSERT INTO `recurso` VALUES (1,'NULL','principal',NULL,'/principal/','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'*','NULL','NULL','*','Comodín para dar recurso a todos los módulos del sistema',1,'2013-01-01 00:00:01');
+INSERT INTO `recurso` VALUES (1,'dashboard','*','*','dashboard/*/*','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'sistema','mi_cuenta','*','sistema/mi_cuenta/*','Gestión de la cuenta del usuario logueado',1,'2013-01-01 00:00:01'),(3,'*',NULL,NULL,'*','Comodín para la administración total (usar con cuidado)',1,'2013-01-01 00:00:01'),(4,'sistema','perfil','*','sistema/perfil/*','Submódulo del sistema para los perfiles de usuarios',1,'2013-01-01 00:00:01'),(5,'sistema','recurso','*','sistema/recurso/*','Submódulo del sistema para la gestión de los recursos',1,'2013-01-01 00:00:01'),(6,'sistema','menu','*','sistema/menu/*','Submódulo del sistema para la creación de menús según los privilegios',1,'2013-01-01 00:00:01'),(7,'sistema','privilegio','*','sistema/privilegio/*','Submódulo del sistema para asignar recursos a los perfiles',1,'2013-01-01 00:00:01'),(8,'config','empresa','*','config/empresa/*','Submódulo para la configuración de la información de la empresa',1,'2013-01-01 00:00:01'),(9,'config','sucursal','*','config/sucursal/*','Submódulo para la administración de las sucursales',1,'2013-01-01 00:00:01'),(10,'sistema','acceso','*','sistema/acceso/*','Submódulo para la gestión de ingresos al sistema',1,'2013-01-01 00:00:01'),(11,'sistema','backup','*','sistema/backup/*','Submódulo para la gestión de las copias de seguridad',1,'2013-01-01 00:00:01'),(12,'sistema','usuario','*','sistema/usuario/*','Submódulo para la administración de los usuarios del sistema',1,'2013-01-01 00:01:01'),(13,'sistema','config','*','sistema/config/*','Submódulo para la configuración de la aplicación (.ini)',1,'2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `recurso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,8 +307,8 @@ CREATE TABLE `recurso_perfil` (
   PRIMARY KEY (`id`),
   KEY `fk_recurso_perfil_recurso_idx` (`recurso_id`),
   KEY `fk_recurso_perfil_perfil_idx` (`perfil_id`),
-  CONSTRAINT `fk_recurso_perfil_perfil` FOREIGN KEY (`perfil_id`) REFERENCES `perfil` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_recurso_perfil_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_recurso_perfil_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_recurso_perfil_perfil` FOREIGN KEY (`perfil_id`) REFERENCES `perfil` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos del usuario en el sistema segun su perfl';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -316,7 +318,7 @@ CREATE TABLE `recurso_perfil` (
 
 LOCK TABLES `recurso_perfil` WRITE;
 /*!40000 ALTER TABLE `recurso_perfil` DISABLE KEYS */;
-INSERT INTO `recurso_perfil` VALUES (1,2,1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `recurso_perfil` VALUES (1,3,1,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `recurso_perfil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,8 +344,8 @@ CREATE TABLE `sucursal` (
   PRIMARY KEY (`id`),
   KEY `fk_sucursal_empresa_idx` (`empresa_id`),
   KEY `fk_sucursal_ciudad_idx` (`ciudad_id`),
-  CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -353,7 +355,7 @@ CREATE TABLE `sucursal` (
 
 LOCK TABLES `sucursal` WRITE;
 /*!40000 ALTER TABLE `sucursal` DISABLE KEYS */;
-INSERT INTO `sucursal` VALUES (1,1,'OFICINA PRINCIPAL','oficina-principal','Dirección','3162404183','3162404183','3162404183',1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `sucursal` VALUES (1,1,'Oficina Principal','oficina-principal','Dirección','3162404183','3162404183','3162404183',1,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,6 +397,7 @@ CREATE TABLE `usuario` (
   `login` varchar(45) NOT NULL COMMENT 'Nombre de usuario',
   `password` varchar(45) NOT NULL COMMENT 'Contraseña de acceso al sistea',
   `perfil_id` int(2) NOT NULL COMMENT 'Identificador del perfil',
+  `email` varchar(45) DEFAULT NULL COMMENT 'Dirección del correo electónico',
   `tema` varchar(45) DEFAULT 'default' COMMENT 'Tema aplicable para la interfaz',
   `app_ajax` int(1) DEFAULT '1' COMMENT 'Indica si la app se trabaja con ajax o peticiones normales',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
@@ -415,7 +418,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,'default',1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,NULL,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,NULL,'default',1,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -428,4 +431,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-10 16:43:24
+-- Dump completed on 2013-01-15  0:28:56

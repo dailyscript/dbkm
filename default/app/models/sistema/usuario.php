@@ -186,26 +186,34 @@ class Usuario extends ActiveRecord {
             $old = new Usuario();
             $old->find_first($obj->id);
             if(!empty($obj->oldpassword)) { //Si cambia de claves
+                if(empty($obj->password) OR empty($obj->repassword)) {
+                    DwMessage::error("Indica la nueva contraseña");
+                    return false;
+                }
                 $obj->oldpassword = md5(sha1($obj->oldpassword));
                 if($obj->oldpassword !== $old->password) {
                     DwMessage::error("La contraseña anterior no coincide con la registrada. Verifica los datos e intente nuevamente");
-                   return false;
+                    return false;
                 }
-            }
-            //Verifico si las contraseñas coinciden (password y repassword)
-            if( (!empty($obj->password) && !empty($obj->repassword) ) OR ($method=='create')  ) { 
-                $obj->password = md5(sha1($obj->password));
-                $obj->repassword = md5(sha1($obj->repassword));            
-                if($obj->password !== $obj->repassword) {
-                    DwMessage::error('Las contraseñas no coinciden. Verifica los datos e intenta nuevamente.');
-                    return 'cancel';
-                }
-            } else {
-                if(isset($obj->id)) { //Mantengo la contraseña anterior                    
-                    $obj->password = $old->password;                                
-                }
-            }            
+            }                       
         }
+        //Verifico si las contraseñas coinciden (password y repassword)
+        if( (!empty($obj->password) && !empty($obj->repassword) ) OR ($method=='create')  ) { 
+            if($method=='create' && (empty($obj->password))) {
+                DwMessage::error("Indica la contraseña para el inicio de sesión");
+                return false;
+            }
+            $obj->password = md5(sha1($obj->password));
+            $obj->repassword = md5(sha1($obj->repassword));            
+            if($obj->password !== $obj->repassword) {
+                DwMessage::error('Las contraseñas no coinciden. Verifica los datos e intenta nuevamente.');
+                return 'cancel';
+            }
+        } else {
+            if(isset($obj->id)) { //Mantengo la contraseña anterior                    
+                $obj->password = $old->password;                                
+            }
+        } 
         $rs = $obj->$method();
         return ($rs) ? $obj : FALSE;
     }
@@ -228,16 +236,18 @@ class Usuario extends ActiveRecord {
             $this->sucursal_id = ($this->sucursal_id=='todas') ? NULL : Filter::get($this->sucursal_id, 'int');                
         } else {
             $this->sucursal_id = Sucursal::OFICINA_PRINCIPAL;
-        }
-        //Verifico las exclusiones de los nombres de usuarios del config.ini   
-        $exclusion = DwConfig::read('config', array('custom'=>'login_exclusion') );        
-        $exclusion = explode(',', $exclusion);
-        if(!empty($exclusion)) {
-            if(in_array($this->login, $exclusion)) {
-                DwMessage::error('El nombre de usuario indicado, no se encuentra disponible.');
-                return 'cancel';
-            }
         }        
+        if(Session::get('perfil_id') != Perfil::SUPER_USUARIO) { //Solo el super usuario puede hacer esto
+            //Verifico las exclusiones de los nombres de usuarios del config.ini   
+            $exclusion = DwConfig::read('config', array('custom'=>'login_exclusion') );        
+            $exclusion = explode(',', $exclusion);
+            if(!empty($exclusion)) {
+                if(in_array($this->login, $exclusion)) {
+                    DwMessage::error('El nombre de usuario indicado, no se encuentra disponible.');
+                    return 'cancel';
+                }
+            }        
+        }
         //Verifico si el login está disponible
         if($this->_getRegisteredField('login', $this->login, $this->id)) {
             DwMessage::error('El nombre de usuario no se encuentra disponible.');

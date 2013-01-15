@@ -49,8 +49,8 @@ class Menu extends ActiveRecord {
         $join = 'INNER JOIN menu AS padre ON padre.id = menu.menu_id ';
         $join.= 'LEFT JOIN recurso ON recurso.id = menu.recurso_id ';        
         $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';        
-        $conditions = "padre.menu_id IS NULL AND padre.visibilidad = $entorno AND padre.activo = ".self::ACTIVO;
-        if(!empty($perfil)) {
+        $conditions = "padre.menu_id IS NULL AND padre.visibilidad = $entorno AND padre.activo = ".self::ACTIVO;        
+        if(!empty($perfil)) {            
             //Verifico si el perfil tiene el comodín
             $recurso = new RecursoPerfil();
             if($recurso->count("recurso_id = ".Recurso::COMODIN." AND perfil_id= $perfil")) {

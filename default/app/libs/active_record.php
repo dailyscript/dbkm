@@ -16,6 +16,8 @@ Load::coreLib('kumbia_active_record');
  */
 class ActiveRecord extends KumbiaActiveRecord  {
     
+    //public $logger = TRUE;
+    
     /**
      * Método que devuelve el order en SQL tomado de la url
      * @param string $s
