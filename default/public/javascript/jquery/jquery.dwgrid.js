@@ -12,7 +12,8 @@
                         order_attr      : 'class="dw-ajax data-order dw-spinner"',
                         col_collapse    : 'col-collapse',
                         order_action    : '',
-                        contenedor      : 'dw-shell-content'
+                        contenedor      : 'dw-shell-content',
+                        form_load_data  : 'dw-shell-content'   
                     }            
                     
                     $.extend(opt, options); //Extiende las opciones recibidas con las default
@@ -95,7 +96,7 @@
                                     order = th.attr('data-search');
                                     asc = opt.order_action+'order.'+order+'.asc/';
                                     desc = opt.order_action+'order.'+order+'.desc/';
-                                    th.html('<div class="btn-group hidden-phone hidden-tablet"><a class="" data-toggle="dropdown" href="#">'+text+' <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="'+asc+'" '+opt.order_attr+' data-div="'+opt.contenedor+'"><i class="icon-caret-up icon-expand"></i>Ascendente</a></li><li><a href="'+desc+'" '+opt.order_attr+' data-div="'+opt.contenedor+'"><i class="icon-caret-down icon-expand"></i>Descendente</a></li></ul></div>');
+                                    th.html('<div class="btn-group hidden-phone"><a class="" data-toggle="dropdown" href="#">'+text+' <span class="caret"></span></a><ul class="dropdown-menu"><li><a href="'+asc+'" '+opt.order_attr+' data-div="'+opt.contenedor+'"><i class="icon-caret-up icon-expand"></i>Ascendente</a></li><li><a href="'+desc+'" '+opt.order_attr+' data-div="'+opt.contenedor+'"><i class="icon-caret-down icon-expand"></i>Descendente</a></li></ul></div>');
                                 }
                             }                                                  
                             
@@ -115,9 +116,11 @@
                             hdrCols.each(function(i) {
                                 field = $(this).attr('data-search');
                                 if(field!=undefined) {
-                                    text = field.replace('_', ' ').replace('_', ' ').toLowerCase();                                    
-                                    text = DwUcFirst(text);
-                                    select = (select!='') ? select+'<option value="'+field+'">'+text+'</option>' : '<option value="'+field+'">'+field.toUpperCase()+'</option>';                    
+                                    text = field.replace('_', ' ').replace('_', ' ').toLowerCase();
+                                    text = text.split('.');
+                                    text = (text.length > 1) ? text[1] : text[0];
+                                    text = DwUcFirst(text);                                    
+                                    select = (select!='') ? select+'<option value="'+field+'">'+text+'</option>' : '<option value="'+field+'">'+text+'</option>';
                                 }
                             }); 
                             
@@ -125,7 +128,7 @@
                                 select = '<option value="">NO DISPONIBLE</option>';
                             }
                             
-                            containerForm = '<div class="row-fluid form-search-container hidden"><form action="'+opt.form_action+'" method="post"  style-form="form-inline" '+opt.form_attr+' data-div="'+opt.contenedor+'"><div class="span3"><select id="campo" name="campo"  class="field select input-medium">'+select+'</select></div> <div class="span3"><input id="value" name="value" type="text" value="" class="field text input-medium" placeholder="Palabra o texto"/></div><div class="span2"><input type="submit" value="Buscar" class="btn btn-info btn-medium" /></div></form></div>';                            
+                            containerForm = '<div class="row-fluid form-search-container hidden"><form action="'+opt.form_action+'" method="post"  style-form="form-inline" '+opt.form_attr+' data-to="'+opt.form_load_data+'"><div class="span3"><select id="field" name="field"  class="field select input-medium">'+select+'</select></div> <div class="span3"><input id="value" name="value" type="text" value="" class="field text input-medium" placeholder="Palabra o texto"/></div><div class="span2"><input type="submit" value="Buscar" class="btn btn-info btn-medium" /></div></form></div>';
                                                                                     
                         }
                         

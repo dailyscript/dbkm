@@ -24,25 +24,25 @@
     
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('persona.nombre', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Nombre'); ?>
+                        <?= DwForm::text('persona.nombre', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), $usuario->nombre, 'Nombre'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::text('persona.apellido', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Apellido'); ?>
+                        <?= DwForm::text('persona.apellido', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), $usuario->apellido, 'Apellido'); ?>
                     </div>            
                 </div>    
     
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::number('persona.nuip', array('class'=>'input-xxlarge input-required mask-pint show-error'), NULL, 'Nuip'); ?>
+                        <?= DwForm::number('persona.nuip', array('class'=>'input-xxlarge input-required mask-pint show-error'), $usuario->nuip, 'Nuip'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::dbSelect('persona.tipo_nuip_id', 'tipo_nuip', array('params/tipo_nuip', 'getListadoTipoNuip'), NULL, array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Tipo de identificación'); ?>
+                        <?= DwForm::dbSelect('persona.tipo_nuip_id', 'tipo_nuip', array('params/tipo_nuip', 'getListadoTipoNuip'), NULL, array('class'=>'input-xxlarge input-required mask-pint show-errors'), $usuario->tipo_nuip_id, 'Tipo de identificación'); ?>
                     </div>            
                 </div>
                 
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::email('usuario.email', array('class'=>'input-xxlarge mask-email show-error'), NULL, 'Email'); ?>
+                        <?= DwForm::email('usuario.email', array('class'=>'input-xxlarge mask-email show-error'), $usuario->email, 'Email'); ?>
                     </div>                    
                 </div>               
                 
@@ -52,27 +52,36 @@
                 
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('usuario.login', array('class'=>'input-xxlarge input-required mask-alphanum show-error input-user'), NULL, 'Usuario'); ?>
+                        <?= DwForm::text('usuario.login', array('class'=>'input-xxlarge readonly'), $usuario->login, 'Usuario'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', Perfil::ACTIVO), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), NULL, 'Perfil'); ?>
+                        <?= DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', Perfil::ACTIVO), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), $usuario->perfil_id, 'Perfil'); ?>
                     </div>
                 </div>   
                 
-                <div class="row-fluid">                    
-                    <?php if(APP_OFFICE) { ?>
+                <?php if(APP_OFFICE) { ?>
+                <div class="row-fluid">                                        
                     <div class="span6">
-                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
-                    </div>
-                    <?php } ?>
+                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), empty($usuario->sucursal_id) ? 'todas' : $usuario->sucursal_id, 'Sucursal'); ?>
+                    </div>                    
+                </div>
+                <?php } ?>
+                
+                <div class="row-fluid">                                        
+                    <div class="span6">
+                        <?= DwForm::select('usuario.app_ajax', array('1'=>'On', '0'=>'Off'), array('class'=>'input-list input-required input-xxlarge'), $usuario->app_ajax, 'App con AJAX', 'Deshabilitar para conexiones lentas'); ?>
+                    </div>                    
+                    <div class="span6">
+                        <?= DwForm::select('usuario.tema', $temas, array('class'=>'input-list input-required input-xxlarge'), $usuario->tema, 'Apariencia'); ?>
+                    </div>                    
                 </div>
                 
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), NULL, 'Contraseña'); ?>
+                        <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-pass show-error'), NULL, 'Contraseña'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::pass('repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), NULL, 'Confirmación'); ?>
+                        <?= DwForm::pass('repassword', array('class'=>'input-xxlarge input-repass show-error'), NULL, 'Confirmación'); ?>
                     </div>            
                 </div>
                    
@@ -87,19 +96,19 @@
                     
                     <div class="span6 hidden-phone dw-text-right">
                         <div class="span5 dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
-                            <?= DwHtml::img('upload/personas/default.png', 'Imágen de muestra'); ?>                            
+                            <?= DwHtml::img("upload/personas/$usuario->fotografia", "$usuario->nombre $usuario->apellido"); ?>
                         </div>                        
                     </div>
                     
                 </div>   
-                
+                <?= DwForm::hiddenKey('usuario.id', $usuario->id); ?>
             </div>
             
             <div class="row-fluid">
                 <div class="form-actions">
                     <?= DwButton::save('Guardar usuario'); ?>
                     <?= DwButton::reset('form'); ?>
-                    <?= DwButton::cancel('sistema/usuario/listar/'); ?>
+                    <?= DwButton::cancel(); ?>
                 </div>
             </div>
             

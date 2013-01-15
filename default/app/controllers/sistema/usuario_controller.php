@@ -30,6 +30,23 @@ class UsuarioController extends BackendController {
     }
     
     /**
+     * Método para buscar
+     */
+    public function buscar($field='nombre', $value='none', $order='order.id.asc', $page=1) {        
+        $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
+        $field = (Input::hasPost('field')) ? Input::post('field') : $field;
+        $value = (Input::hasPost('field')) ? Input::post('value') : $value;
+        
+        $usuario = new Usuario();            
+        $usuarios = $usuario->getAjaxUsuario($field, $value, $order, $page);        
+        $this->usuarios = $usuarios;
+        $this->order = $order;
+        $this->field = $field;
+        $this->value = $value;
+        $this->page_title = 'Búsqueda de usuarios del sistema';        
+    }
+    
+    /**
      * Método para listar
      */
     public function listar($order='order.id.asc', $page='pag.1') { 
@@ -65,7 +82,7 @@ class UsuarioController extends BackendController {
      * Método para editar
      */
     public function editar($key) {        
-        if(!$id = DwSecurity::isValidKey($key, 'upd_recurso', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, 'upd_usuario', 'int')) {
             return DwRedirect::toAction('listar');
         }
         
@@ -77,14 +94,21 @@ class UsuarioController extends BackendController {
         
         if(Input::hasPost('usuario')) {
             if(DwSecurity::isValidKey(Input::post('usuario_id_key'), 'form_key')) {
-                /*
-                if(Recurso::setRecurso('update', Input::post('recurso'), array('id'>$id))){
-                    DwMessage::valid('El recurso se ha actualizado correctamente!');
-                    return DwRedirect::toAction('listar');
-                }*/
+                ActiveRecord::beginTrans();
+                //Guardo la persona
+                $persona = Persona::setPersona('update', Input::post('persona'), array('id'=>$usuario->persona_id));
+                if($persona) {
+                    if(Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'id'=>$usuario->id, 'login'=>$usuario->login))) {
+                        ActiveRecord::commitTrans();
+                        DwMessage::valid('El usuario se ha creado correctamente.');
+                        return DwRedirect::toAction('listar');
+                    }
+                } else {
+                    ActiveRecord::rollbackTrans();
+                } 
             }
-        }
-            
+        }        
+        $this->temas = DwUtils::getFolders(dirname(APP_PATH).'/public/css/themes/');
         $this->usuario = $usuario;
         $this->page_title = 'Actualizar usuario';
         

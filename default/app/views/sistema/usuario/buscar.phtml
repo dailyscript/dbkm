@@ -7,7 +7,7 @@
             form_action: '<?= PUBLIC_PATH; ?>sistema/usuario/buscar/',
             form_load_data : 'dw-shell-content',
             order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
-            order_action: $.KumbiaPHP.publicPath+"sistema/usuario/listar/"
+            order_action: $.KumbiaPHP.publicPath+"sistema/usuario/buscar/<?= $field.'/'.$value.'/'; ?>"
         });
     });    
 </script>
@@ -19,6 +19,7 @@
     <div class="btn-toolbar btn-toolbar-top">        
         <div class="btn-actions">            
             <?= DwHtml::button("sistema/usuario/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+            <?= DwHtml::button("sistema/usuario/listar/", 'listar', array('class'=>'btn-warning'), 'ok', APP_AJAX); ?> 
         </div>
     </div>
     
@@ -40,7 +41,8 @@
                     <th class="btn-actions no-responsive" style="width: 100px;">ACCIONES</th>
                 </tr>            
             </thead>
-            <tbody>            
+            <tbody>       
+                <?php if($usuarios) { ?>
                 <?php foreach($usuarios->items as $usuario): ?>                
                     <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
                     <?php $key_ina = DwSecurity::getKey($usuario->id, 'bloquear_usuario'); ?>
@@ -68,10 +70,11 @@
                     <?php $usuarios->counter++; ?>
                 <?php endforeach; ?>
             </tbody>            
+            <?php } ?>
         </table> 
         
     </div>
     
-    <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/usuario/listar/$order/")); ?>
+    <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/usuario/buscar/$field/$value/$order/")); ?>
     
 </div>

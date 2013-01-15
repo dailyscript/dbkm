@@ -110,9 +110,41 @@ class Usuario extends ActiveRecord {
         return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
     }
     
+    /**
+     * Método para buscar usuarios
+     */
+    public function getAjaxUsuario($field, $value, $order='', $page=0) {
+        $value = Filter::get($value, 'string');
+        if( strlen($value) <= 2 OR ($value=='none') ) {
+            return NULL;
+        }
+        $columns = 'usuario.*, perfil.perfil, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
+        $join = self::getInnerEstado();
+        $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
+        $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
+        $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
+        $conditions = "usuario.id > '2'";//Por el super usuario
+        
+        $order = $this->get_order($order, 'nombre', array(  'id'        =>'usuario.id', 
+                                                            'nombre'    =>array(
+                                                                                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
+                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) ); 
+        //Defino los campos habilitados para la búsqueda
+        $fields = array('login', 'nombre', 'apellido', 'email', 'perfil', 'sucursal', 'estado_usuario');
+        if(!in_array($field, $fields)) {
+            $field = 'nombre';
+        }       
+        $conditions.= " AND $field LIKE '%$value%'";
+        if($page) {
+            return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
+        } else {
+            return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
+        }  
+    }
+    
     
     public function getListadoUsuario($estado, $order='', $page=0) {
-        $columns = 'usuario.*, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
+        $columns = 'usuario.*, perfil.perfil, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
         $join = self::getInnerEstado();
         $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
@@ -145,14 +177,14 @@ class Usuario extends ActiveRecord {
      * 
      * @return object ActiveRecord
      */
-    public static function setUsuario($method, $data, $otherData=null) {
+    public static function setUsuario($method, $data, $optData=null) {
         $obj = new Usuario($data);
-        if($otherData) {
-            $obj->dump_result_self($otherData);
+        if($optData) {
+            $obj->dump_result_self($optData);
         }
         if(!empty($obj->id)) { //Si va a actualizar
             $old = new Usuario();
-            $old->find_first_by_id($old->id);
+            $old->find_first($obj->id);
             if(!empty($obj->oldpassword)) { //Si cambia de claves
                 $obj->oldpassword = md5(sha1($obj->oldpassword));
                 if($obj->oldpassword !== $old->password) {
@@ -160,6 +192,19 @@ class Usuario extends ActiveRecord {
                    return false;
                 }
             }
+            //Verifico si las contraseñas coinciden (password y repassword)
+            if( (!empty($obj->password) && !empty($obj->repassword) ) OR ($method=='create')  ) { 
+                $obj->password = md5(sha1($obj->password));
+                $obj->repassword = md5(sha1($obj->repassword));            
+                if($obj->password !== $obj->repassword) {
+                    DwMessage::error('Las contraseñas no coinciden. Verifica los datos e intenta nuevamente.');
+                    return 'cancel';
+                }
+            } else {
+                if(isset($obj->id)) { //Mantengo la contraseña anterior                    
+                    $obj->password = $old->password;                                
+                }
+            }            
         }
         $rs = $obj->$method();
         return ($rs) ? $obj : FALSE;
@@ -178,22 +223,11 @@ class Usuario extends ActiveRecord {
      * Callback que se ejecuta antes de guardar/modificar
      */
     protected function before_save() {
-        //Verifico la sucursal al crear el usuario
-        if(empty($this->id)) {
-            if(APP_OFFICE) {                                
-                $this->sucursal_id = ($this->sucursal_id=='todas') ? NULL : Filter::get($this->sucursal_id, 'int');                
-            } else {
-                $this->sucursal_id = Sucursal::OFICINA_PRINCIPAL;
-            }
-        }        
-        //Verifico si las contraseñas coinciden (password y repassword)
-        if(!empty($this->password) && isset($this->repassword)) {            
-            $this->password = md5(sha1($this->password));
-            $this->repassword = md5(sha1($this->repassword));            
-            if($this->password !== $this->repassword) {
-                DwMessage::error('Las contraseñas no coinciden. Verifica los datos e intenta nuevamente.');
-                return 'cancel';
-            }
+        //Verifico la sucursal al crear el usuario        
+        if(APP_OFFICE) {                                
+            $this->sucursal_id = ($this->sucursal_id=='todas') ? NULL : Filter::get($this->sucursal_id, 'int');                
+        } else {
+            $this->sucursal_id = Sucursal::OFICINA_PRINCIPAL;
         }
         //Verifico las exclusiones de los nombres de usuarios del config.ini   
         $exclusion = DwConfig::read('config', array('custom'=>'login_exclusion') );        
@@ -241,10 +275,11 @@ class Usuario extends ActiveRecord {
         if(!$usuario) {
             return NULL;
         }
-        $columnas = 'usuario.*, perfil.perfil, persona.nombre, persona.apellido, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
+        $columnas = 'usuario.*, perfil.perfil, persona.nombre, persona.apellido, persona.nuip, persona.tipo_nuip_id, persona.fotografia, tipo_nuip.tipo_nuip, estado_usuario.estado_usuario, estado_usuario.descripcion, sucursal.sucursal';
         $join = self::getInnerEstado();
         $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
+        $join.= 'INNER JOIN tipo_nuip ON tipo_nuip.id = persona.tipo_nuip_id ';        
         $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
         $condicion = "usuario.id = $usuario";        
         return $this->find_first("columns: $columnas", "join: $join", "conditions: $condicion");

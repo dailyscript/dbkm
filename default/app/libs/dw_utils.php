@@ -100,6 +100,24 @@ class DwUtils {
     }
     
     /**
+     * Método que devuelve un array con las carpetas de un directorio
+     */
+    public static function getFolders($path) {
+        $folders = array();
+        if (is_dir($path)) { 
+            if ($ph = opendir($path)) { 
+                while (($source = readdir($ph)) !== false) { 
+                    if (is_dir($path . $source) && $source!="." && $source!="..") {                         
+                        $folders[$source] = $source;
+                    }
+                }
+                closedir($ph); 
+            }
+        }
+        return $folders;
+    }
+    
+    /**
      * Escribe en letras un monto numerico
      *
      * @param numeric $valor
