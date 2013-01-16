@@ -48,7 +48,7 @@ class DwUtils {
         }
         $palabras_originales    =   array();
         for($i = 0 ; $i < $veces ; $i ++) {
-            $palabras_originales[] = '<strong style="color: red;background-color: #ffffff;">'.substr($texto,strpos($aux,'%s'),strlen($palabra)).'</strong>';
+            $palabras_originales[] = '<b style="color: red;">'.substr($texto,strpos($aux,'%s'),strlen($palabra)).'</b>';
             $aux = substr($aux,0,strpos($aux,'%s')).$palabra.substr($aux,strlen(substr($aux,0,strpos($aux,'%s')))+2);
         }
         return vsprintf($reemp,$palabras_originales);

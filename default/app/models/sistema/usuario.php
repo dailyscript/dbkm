@@ -106,9 +106,10 @@ class Usuario extends ActiveRecord {
         if(empty($perfil)) {
             return NULL;
         }
-        $columns = 'usuario.*, persona.nombre, persona.apellido, perfil.perfil';
+        $columns = 'usuario.*, persona.nombre, persona.apellido, perfil.perfil, sucursal.sucursal';
         $join = 'INNER JOIN persona ON persona.id = usuario.persona_id ';
         $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
+        $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
         $conditions = "perfil.id = $perfil";
         $order = $this->get_order($order, 'nombre');        
         if($page) {
@@ -140,8 +141,10 @@ class Usuario extends ActiveRecord {
         $fields = array('login', 'nombre', 'apellido', 'email', 'perfil', 'sucursal', 'estado_usuario');
         if(!in_array($field, $fields)) {
             $field = 'nombre';
-        }       
-        $conditions.= " AND $field LIKE '%$value%'";
+        }        
+        if(! ($field=='sucursal' && $value=='todas') ) {
+            $conditions.= " AND $field LIKE '%$value%'";
+        }        
         if($page) {
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
         } else {

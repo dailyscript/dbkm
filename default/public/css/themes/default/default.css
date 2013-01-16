@@ -1,5 +1,5 @@
 body {
-    background: url("../../img/themes/default/body-bg.png") repeat scroll 0 0 #E9E9E9;
+    background: url("../../../img/themes/default/body-bg.png") repeat scroll 0 0 #E9E9E9;
     font-size: 13px/1.7em;
 }
 .navbar, footer {    
@@ -22,10 +22,10 @@ body {
 }
 .main-nav li.active.main-nav-arrow a {
     color: #FF9900 !important;
-    background-image:url("../../img/themes/default/top-arrow.png");
+    background-image:url("../../../img/themes/default/top-arrow.png");
 }
 .main-nav li.main-nav-arrow a {    
-    background-image:url("../../img/themes/default/top-arrow.png");
+    background-image:url("../../../img/themes/default/top-arrow.png");
 }
 
 .main-nav li.active a {        

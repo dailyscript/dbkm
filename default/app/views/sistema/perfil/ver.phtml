@@ -20,6 +20,7 @@
             <li><a href="#tab2" data-toggle="tab">Usuarios asignados</a></li>
         </ul>
         <div class="tab-content">
+            
             <div class="tab-pane active" id="tab1">
                 
                 <?php View::process($page_module, $page_title, $set_title); ?>
@@ -50,16 +51,22 @@
                             <th>NUM</th>
                             <th class="col-collapse" data-search="usuario">USUARIO</th>
                             <th class="col-collapse" data-search="nombre">NOMBRE</th>
-                            <th class="col-collapse" data-search="apellido">APELLIDO</th>                
+                            <th class="col-collapse" data-search="apellido">APELLIDO</th>
+                            <?php if(APP_OFFICE) { ?>
+                            <th class="col-collapse" data-search="sucursal">SUCURSAL</th>
+                            <?php } ?>
                         </tr>            
                     </thead>
                     <tbody>            
                         <?php foreach($usuarios->items as $usuario): ?>                
                             <tr>
-                                <td><?= $usuario->counter; ?></td>
+                                <td><?= $usuarios->counter; ?></td>
                                 <td><?= $usuario->login; ?></td>
                                 <td><?= $usuario->nombre; ?></td>
                                 <td><?= $usuario->apellido; ?></td>
+                                <?php if(APP_OFFICE) { ?>
+                                <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
+                                <?php } ?>
                             </tr>
                             <?php $usuarios->counter++; ?>
                         <?php endforeach; ?>

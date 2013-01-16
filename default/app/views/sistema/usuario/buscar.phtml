@@ -55,7 +55,7 @@
                         <td><?= ($field=='email') ? DwUtils::resaltar($value, $usuario->email) : $usuario->email; ?></td>
                         <td><?= ($field=='perfil') ? DwUtils::resaltar($value, $usuario->perfil) : $usuario->perfil; ?></td>
                         <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
-                        <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
+                        <td><?= empty($usuario->sucursal) ? ( ($value=='todas' ) ? DwUtils::resaltar($value, 'Todas') : 'Todas') : DwUtils::resaltar($value, $usuario->sucursal); ?></td>
                         <? } ?>                        
                         <td><?= ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
                         <td>                                                
