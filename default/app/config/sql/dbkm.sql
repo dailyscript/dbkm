@@ -71,7 +71,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
-INSERT INTO `backup` VALUES (1,2,'Sistema inicial','0 MB','backup-1.sql.gz','2013-01-01 00:00:01');
+INSERT INTO `backup` VALUES (1,2,'Sistema inicial','3.88 KB','backup-1.sql.gz','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +133,7 @@ CREATE TABLE `empresa` (
 
 LOCK TABLES `empresa` WRITE;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1.091.652.165',6,'Iván David Meléndez',1091652165,1,'dailyscript.com.co',NULL,'2013-01-01 00:00:01',NULL);
+INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1091652165',6,'Iván David Meléndez',1091652165,1,'http//dailyscript.com.co','dailyscript.png','2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +197,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Inicio','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Archivos de configuración','sistema/config/',94,'icon-wrench',1,1);
+INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Archivos de configuración','sistema/config/',94,'icon-wrench',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `perfil` (
   `id` int(2) NOT NULL AUTO_INCREMENT COMMENT 'Identificador del perfil',
   `perfil` varchar(45) NOT NULL COMMENT 'Nombre del perfil',
   `estado` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el perfil esta activo o inactivo',
-  `plantilla` varchar(45) DEFAULT 'default' COMMENT 'Plantilla para usar en el sitema',
+  `plantilla` varchar(45) DEFAULT 'backend' COMMENT 'Plantilla para usar en el sitema',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro del perfil',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los grupos de los usuarios';
@@ -287,7 +287,7 @@ CREATE TABLE `recurso` (
 
 LOCK TABLES `recurso` WRITE;
 /*!40000 ALTER TABLE `recurso` DISABLE KEYS */;
-INSERT INTO `recurso` VALUES (1,'dashboard','*','*','dashboard/*/*','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'sistema','mi_cuenta','*','sistema/mi_cuenta/*','Gestión de la cuenta del usuario logueado',1,'2013-01-01 00:00:01'),(3,'*',NULL,NULL,'*','Comodín para la administración total (usar con cuidado)',1,'2013-01-01 00:00:01'),(4,'sistema','perfil','*','sistema/perfil/*','Submódulo del sistema para los perfiles de usuarios',1,'2013-01-01 00:00:01'),(5,'sistema','recurso','*','sistema/recurso/*','Submódulo del sistema para la gestión de los recursos',1,'2013-01-01 00:00:01'),(6,'sistema','menu','*','sistema/menu/*','Submódulo del sistema para la creación de menús según los privilegios',1,'2013-01-01 00:00:01'),(7,'sistema','privilegio','*','sistema/privilegio/*','Submódulo del sistema para asignar recursos a los perfiles',1,'2013-01-01 00:00:01'),(8,'config','empresa','*','config/empresa/*','Submódulo para la configuración de la información de la empresa',1,'2013-01-01 00:00:01'),(9,'config','sucursal','*','config/sucursal/*','Submódulo para la administración de las sucursales',1,'2013-01-01 00:00:01'),(10,'sistema','acceso','*','sistema/acceso/*','Submódulo para la gestión de ingresos al sistema',1,'2013-01-01 00:00:01'),(11,'sistema','backup','*','sistema/backup/*','Submódulo para la gestión de las copias de seguridad',1,'2013-01-01 00:00:01'),(12,'sistema','usuario','*','sistema/usuario/*','Submódulo para la administración de los usuarios del sistema',1,'2013-01-01 00:01:01'),(13,'sistema','config','*','sistema/config/*','Submódulo para la configuración de la aplicación (.ini)',1,'2013-01-01 00:00:01');
+INSERT INTO `recurso` VALUES (1,'dashboard','*','*','dashboard/*/*','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'sistema','mi_cuenta','*','sistema/mi_cuenta/*','Gestión de la cuenta del usuario logueado',1,'2013-01-01 00:00:01'),(3,'*','NULL','NULL','*','Comodín para la administración total (usar con cuidado)',1,'2013-01-01 00:00:01'),(4,'sistema','perfil','*','sistema/perfil/*','Submódulo del sistema para los perfiles de usuarios',1,'2013-01-01 00:00:01'),(5,'sistema','recurso','*','sistema/recurso/*','Submódulo del sistema para la gestión de los recursos',1,'2013-01-01 00:00:01'),(6,'sistema','menu','*','sistema/menu/*','Submódulo del sistema para la creación de menús según los privilegios',1,'2013-01-01 00:00:01'),(7,'sistema','privilegio','*','sistema/privilegio/*','Submódulo del sistema para asignar recursos a los perfiles',1,'2013-01-01 00:00:01'),(8,'config','empresa','*','config/empresa/*','Submódulo para la configuración de la información de la empresa',1,'2013-01-01 00:00:01'),(9,'config','sucursal','*','config/sucursal/*','Submódulo para la administración de las sucursales',1,'2013-01-01 00:00:01'),(10,'sistema','acceso','*','sistema/acceso/*','Submódulo para la gestión de ingresos al sistema',1,'2013-01-01 00:00:01'),(11,'sistema','backup','*','sistema/backup/*','Submódulo para la gestión de las copias de seguridad',1,'2013-01-01 00:00:01'),(12,'sistema','usuario','*','sistema/usuario/*','Submódulo para la administración de los usuarios del sistema',1,'2013-01-01 00:01:01'),(13,'sistema','config','*','sistema/config/*','Submódulo para la configuración de la aplicación (.ini)',1,'2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `recurso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,4 +431,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-15  0:28:56
+-- Dump completed on 2013-01-16  0:12:04
