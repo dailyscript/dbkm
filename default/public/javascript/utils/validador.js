@@ -126,6 +126,21 @@ function inputAlphanum(input) {
     } else { return true; }
 }
 
+function inputNumeric(input) {
+    field = $('#'+input);
+    if (!(field.val() == null || field.val().length == 0 || /^\s+$/.test(field.val()))) {
+        if (! (/^[-]?\d+(\.\d+)?$/.test(field.val()))) {            
+            $("#err_"+input).html('Introduzca solo valores numéricos');
+            return false;
+        } else {            
+            $("#err_"+input).html('');
+            return true;
+        }
+    } else {
+        return true;
+    }
+}
+
 function inputUser(input) {    
     var minLength = 4;
     var maxLength = 15;

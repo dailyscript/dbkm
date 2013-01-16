@@ -137,6 +137,9 @@ class DwConfig {
                 
         //Establezco el nombre de la empesa o cliente de la aplicación         
         $empresa = Load::model('config/empresa')->getInformacionEmpresa();
+        //Almaceno en sesión la información de la empresa
+        Session::set('empresa', $empresa, 'config');
+        
         if(!defined('APP_CLIENT')) {
             define('APP_CLIENT', (empty($empresa->siglas)) ? 'Empresa LTDA' : $empresa->siglas);
         }
