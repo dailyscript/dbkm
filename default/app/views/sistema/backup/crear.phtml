@@ -1,0 +1,25 @@
+<?php View::notify(); ?>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <?= DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
+    
+        <div class="row-fluid">
+            <div class="span6">
+                <?= DwForm::text('backup.denominacion', array('class'=>'input-xxlarge input-required input-alphanum mask-alphanum show-error'), NULL, 'Denominación'); ?>
+            </div>            
+        </div>
+        
+        <div class="row-fluid">
+            <div class="form-actions">
+                <?= DwButton::save('Crear copia de seguridad'); ?>
+                <?= DwButton::reset('form'); ?>
+                <?= DwButton::cancel(); ?>
+            </div>
+        </div>
+    
+    <?= DwForm::close(); ?>
+    
+</div>

@@ -114,14 +114,16 @@
                             var select = '';
                             
                             hdrCols.each(function(i) {
-                                field = $(this).attr('data-search');
-                                if(field!=undefined) {
-                                    text = field.replace('_', ' ').replace('_', ' ').toLowerCase();
-                                    text = text.split('.');
-                                    text = (text.length > 1) ? text[1] : text[0];
-                                    text = DwUcFirst(text);                                    
-                                    select = (select!='') ? select+'<option value="'+field+'">'+text+'</option>' : '<option value="'+field+'">'+text+'</option>';
-                                }
+                                if(!$(this).hasClass('no-form-search')) {
+                                    field = $(this).attr('data-search');
+                                    if(field!=undefined) {
+                                        text = field.replace('_', ' ').replace('_', ' ').toLowerCase();
+                                        text = text.split('.');
+                                        text = (text.length > 1) ? text[1] : text[0];
+                                        text = DwUcFirst(text);                                    
+                                        select = (select!='') ? select+'<option value="'+field+'">'+text+'</option>' : '<option value="'+field+'">'+text+'</option>';
+                                    }
+                                }                                
                             }); 
                             
                             if(select=='') {

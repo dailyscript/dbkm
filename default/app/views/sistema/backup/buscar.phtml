@@ -1,0 +1,69 @@
+<?php View::notify(); ?>
+
+<script type="text/javascript">  
+    $(function() {
+        $('table').dwGrid({             
+            form_search: true,
+            form_action: '<?= PUBLIC_PATH; ?>sistema/backup/buscar/',
+            form_load_data : 'dw-shell-content',
+            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+            order_action: $.KumbiaPHP.publicPath+"sistema/backup/buscar/<?= $field.'/'.$value.'/'; ?>"
+        });
+    });    
+</script>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="btn-toolbar btn-toolbar-top">        
+        <div class="btn-actions">            
+            <?= DwHtml::button("sistema/backup/crear/", 'crear', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+            <?= DwHtml::button("sistema/backup/listar/", 'listar', array('class'=>'btn-warning'), 'ok', APP_AJAX); ?> 
+        </div>
+    </div>
+    
+    <div class="dw-overflow" id="data-result">
+    
+        <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+            <thead>
+                <tr>
+                    <th>NUM</th>
+                    <th class="col-collapse" data-search="fecha">FECHA</th>
+                    <th class="col-collapse">HORA</th>
+                    <th class="col-collapse" data-search="denominacion">DENOMINACION</th>
+                    <th class="col-collapse" data-search="nombre">NOMBRE</th>
+                    <th class="col-collapse" data-search="apellido">APELLIDO</th>                    
+                    <th class="col-collapse no-form-search" data-search="tamano">TAMAÑO</th>
+                    <th class="col-collapse">ARCHIVO</th>
+                    <th class="btn-actions no-responsive" style="width: 100px;">ACCIONES</th>
+                </tr>            
+            </thead>
+            <tbody>       
+                <?php if($backups) { ?>
+                <?php foreach($backups->items as $backup): ?>                
+                    <?php $key_res = DwSecurity::getKey($backup->id, 'restaurar_backup'); ?>
+                    <?php $key_dwn = DwSecurity::getKey($backup->id, 'descargar_backup'); ?>                    
+                    <tr>
+                        <td><?= $backups->counter; ?></td>
+                        <td><?= ($field=='fecha') ? DwUtils::resaltar($value, date("Y-m-d", strtotime($backup->registrado_at))) : date("Y-m-d", strtotime($backup->registrado_at)); ?></td>
+                        <td><?= date("H:i:s", strtotime($backup->registrado_at)); ?></td>
+                        <td><?= ($field=='denominacion') ? DwUtils::resaltar($value, $backup->denominacion) : $backup->denominacion; ?></td>
+                        <td><?= ($field=='nombre') ? DwUtils::resaltar($value, $backup->nombre) : $backup->nombre; ?></td>
+                        <td><?= ($field=='apellido') ? DwUtils::resaltar($value, $backup->apellido) : $backup->apellido; ?></td>
+                        <td><?= $backup->tamano; ?></td>
+                        <td><?= $backup->archivo; ?></td>
+                        <td>                            
+                        </td>                    
+                    </tr>
+                    <?php $backups->counter++; ?>
+                <?php endforeach; ?>
+            </tbody>            
+            <?php } ?>
+        </table> 
+        
+    </div>
+    
+    <?php View::partial('paginators/default', false, array('page'=>$backups, 'url'=>"sistema/backups/buscar/$field/$value/$order/")); ?>
+    
+</div>

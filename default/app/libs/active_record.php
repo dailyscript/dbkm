@@ -85,4 +85,32 @@ class ActiveRecord extends KumbiaActiveRecord  {
         $obj = new Usuario();
         $obj->rollback();
     }
+    
+    /**
+     * Método para indicar en que sistema operativo se utiliza la base de datos
+     * @param boolean $restore
+     * @return string
+     */
+    protected function _getSystem($restore = false) {         
+        $sql = $this->sql("SHOW variables WHERE variable_name= 'basedir'");
+        $sql = mysqli_fetch_row($sql);
+        $base = $sql[1];               
+        $raiz = substr($base,0,1);
+        if($restore) { //Para restarurar
+            $system = ($raiz == '/') ? 'mysql' : $base.'\bin\mysql';
+        } else { //Para crear backup
+            $system = ($raiz == '/') ? 'mysqldump' : $base.'\bin\mysqldump';
+        }        
+        return $system;
+    }
+    
+    /**
+     * Método para obtener la configuración de conexión que depende del database utilizado
+     * @return array
+     */
+    protected function _getConfig($source) {                  
+        $database = Config::read('databases'); //Leo las conexiones existentes                
+        $config = $database[$source]; //Extraigo la conexion de la base de datos de la aplicacion        
+        return $config;
+    }
 }
