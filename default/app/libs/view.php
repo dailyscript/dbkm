@@ -93,9 +93,9 @@ class View extends KumbiaView {
     /**
      * Método para mostrar un json
      */
-    public static function json($data = array(), $options=0) {
+    public static function json($data = array()) {
         View::select(NULL, NULL);
-        echo json_encode($data, $options);
+        echo json_encode($data);
     }
 
 }
