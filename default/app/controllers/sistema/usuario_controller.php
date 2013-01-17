@@ -147,7 +147,22 @@ class UsuarioController extends BackendController {
         
         $this->page_title = ($tipo=='reactivar') ? 'Reactivación de usuario' : 'Bloqueo de usuario';
         $this->usuario = $usuario;
-    }        
+    }
+    
+    /**
+     * Método para subir imágenes
+     */
+    public function upload() {     
+        $upload = new DwUpload('fotografia', 'img/upload/personas/');
+        $upload->setAllowedTypes('png|jpg|gif|jpeg');
+        $upload->setEncryptName(TRUE);
+        $upload->setSize(170, 200, TRUE);
+        if(!$data = $upload->save()) { //retorna un array('path'=>'ruta', 'name'=>'nombre.ext');
+            $data = array('error'=>$upload->getError());
+        }
+        sleep(1);//Por la velocidad del script no permite que se actualize el archivo
+        View::json($data);
+    }
     
 }
 
