@@ -37,8 +37,12 @@
                     <?php $key_repar = DwSecurity::getKey($tabla['Name'], 'reparar'); ?>
                     <tr>
                         <td><?= $counter; ?></td>
-                        <td><?= ucwords(str_replace('_', ' ', $tabla['Name'])); ?></td>
-                        <td><?= $tabla['Comment']; ?></td>
+                        <td><?= ucwords(str_replace('_', ' ', $tabla['Name'])); ?></td>                        
+                        <td>
+                            <?php $comment = explode(';', $tabla['Comment']); ?>
+                            <?php $comment = $comment[0]; ?>
+                            <?= (preg_match('/InnoDB/i', $comment) OR preg_match('/MYISAM/i', $comment)) ? '' : $comment; ?>
+                        </td>
                         <td><?= $tabla['Engine']; ?></td>
                         <td><?= $tabla['Auto_increment']; ?></td>
                         <td><?= $tabla['Rows']; ?></td>

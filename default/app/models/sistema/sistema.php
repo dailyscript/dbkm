@@ -68,7 +68,7 @@ class Sistema {
      */
     public function getEstadoTablas() { 
         $all_status = array();        
-        $tables = $this->_db->query("SHOW TABLE STATUS"); 
+        $tables = $this->_db->fetch_all("SHOW TABLE STATUS"); 
         foreach($tables as $table) {
             $status = $this->_db->fetch_all('CHECK TABLE '.$table['Name']);
             $status = $status[0];
