@@ -89,5 +89,13 @@ class View extends KumbiaView {
         self::select('dw_ajax', null);
         return false;
     }
+    
+    /**
+     * Método para mostrar un json
+     */
+    public static function json($data = array(), $options=0) {
+        View::select(NULL, NULL);
+        echo json_encode($data, $options);
+    }
 
 }

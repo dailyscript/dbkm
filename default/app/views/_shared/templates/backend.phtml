@@ -10,6 +10,7 @@
         <?php Tag::css('base'); ?>
         <?php Tag::css('style'); ?>
         <?php Tag::css('themes/'.SKIN.'/'.SKIN); ?>        
+        <?php Tag::css('file-upload'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
@@ -61,8 +62,7 @@
         <?php echo Tag::js('utils/validador').PHP_EOL; ?>
         
         
-        <script type="text/javascript">  
-            
+        <script type="text/javascript">              
             $(document).ready(function() {                
                 url = (window.location.hash.lenth >1) ? window.hash : window.location.pathname;
                 url = url.split('order')[0].split('pag')[0];                                
@@ -126,10 +126,9 @@
                     $(".subnav li").removeClass('active');
                     $(".main-menu-link").parent().removeClass('active');
                     este.parent().addClass('active');
-                    $('.main-nav-arrow').addClass('active');
-                    /*                    
-                    este.parents('div.subnav').removeClass('hidden');                    
-                    $(this).parent().addClass("main-nav-arrow");*/
+                    $('.main-nav-arrow').addClass('active');                    
+                    //este.parents('div.subnav').removeClass('hidden');                    
+                    //$(this).parent().addClass("main-nav-arrow");
                 });
                 //Activa el menú manualmente
                 $('.main-menu-link').on('click', function(){
@@ -142,7 +141,7 @@
             });
             $(function() { 
                 $("[rel=tooltip]").tooltip();                
-            });    
+            });
         </script>
         
         <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>

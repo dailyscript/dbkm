@@ -2,6 +2,8 @@ var ah = $("#dw-shell-load").innerHeight();
 var aw = $("#dw-shell-load").innerWidth();  
 var DwDiv = 'dw-shell-content';
 var prevHash = false;
+/** Función para mostrar los mensajes del sistema manualmente */
+function DwMessage(message, type, appendTo) {  type = (type==null) ? 'warning' : type; container = (appendTo==null) ? 'dw-message' : appendTo; $('#'+container).append('<div class="alert alert-block alert-'+type+'"><button class="close" data-dismiss="alert" type="button">×</button>'+message+'</div>'); }
 /** Ajax Cursor **/
 $("body").ajaxStart(function() { $("body").css("cursor", "wait"); }).ajaxStop(function() { $("body").css("cursor", "default"); });
 /** Message **/

@@ -80,7 +80,7 @@ class DwForm extends Form {
                     $attrs['class'] = 'dw-form '.$attrs['class'];
                 }    
                 //Verifico si el aplicativo está con ajax
-                if(APP_AJAX && $type=='form' && $formAjax) {
+                if(APP_AJAX && $formAjax) {
                     //Verifico si está definida la clase para ajax
                     if(!preg_match("/\bjs-remote\b/i", $attrs['class'])) {
                         $attrs['class'] = 'js-remote '.$attrs['class'];
@@ -89,10 +89,10 @@ class DwForm extends Form {
                 }
             } else {
                 //Asigno que pertenece a la clase dw-form y si utiliza ajax
-                $attrs['class'] = (APP_AJAX && $type=='form') ? 'dw-form dw-validate js-remote' : 'dw-form';
+                $attrs['class'] = (APP_AJAX) ? 'dw-form dw-validate js-remote' : 'dw-form';
             }
                         
-            if(APP_AJAX && $type=='form' && $formAjax && !isset($attrs['data-to'])) { //Si es un form con ajax verifico si está definido el data-div
+            if(APP_AJAX && $formAjax && !isset($attrs['data-to'])) { //Si es un form con ajax verifico si está definido el data-div
                 $attrs['data-to'] = 'dw-shell-content';
             }                                   
             if(!isset($attrs['id'])) { //Verifico si está definido el id
@@ -251,9 +251,9 @@ class DwForm extends Form {
     public static function open($action=null, $method='post', $attrs=null, $validate=false) {                
         $form = '';
         $attrs = self::_getAttrsClass($attrs, 'form'); //Verifico los atributos
-        //Reviso si no carga por ajax
-        if(!preg_match("/\bjs-remote\b/i", $attrs['class']) && $validate) {
-            $form.= self::_getValidationForm(); //Verifico las validaciones
+        //Verifico si se valida
+        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {
+            $form.= self::_getValidationForm(); 
         }        
         if($method=='') {
             $method= 'post';
@@ -273,15 +273,24 @@ class DwForm extends Form {
     /**
      * Abre una etiqueta de formulario tipo multipart
      * @param string $action Lugar al que envía     
-     * @param string $attrs Atrributos
-     * @param boolean $valid Indica si el formulario se valida
-     * @param boolean $ext Indica si la validación tiene una extensión
+     * @param string $attrs Atrributos     
      * @param boolean $confirm Indica si el formulario requiere un confirmación
      * @return string
      */
-    public static function openMultipart($action=null, $attrs=null, $valid=false, $ext=false, $confirm=false) {
-        $attrs = self::_getAttrsClass($attrs, 'form-multipart'); //Verifico los atributos
-        $form = self::_getValidationForm($valid, $ext, $confirm); //Verifico las validaciones
+    public static function openMultipart($action=null, $attrs=null, $validate=FALSE) {
+        $form = '';
+        $attrs = self::_getAttrsClass($attrs, 'form-multipart'); //Verifico los atributos        
+        //Verifico si se valida
+        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {
+            $form.= self::_getValidationForm(); 
+        }        
+        if(empty($action)) {            
+            extract(Router::get());
+            $action = ($module)  ? "$module/$controller/$action/" : "$controller/$action/";            
+            if($parameters) {
+                $action.= join('/', $parameters).'/';                
+            } 
+        }
         $form.= parent::openMultipart($action, $attrs); //Obtengo la etiqueta para abrir el formulario
         return $form.PHP_EOL;
     }    

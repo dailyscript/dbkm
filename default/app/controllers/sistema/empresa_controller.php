@@ -25,7 +25,7 @@ class EmpresaController extends BackendController {
     /**
      * Método principal
      */
-    public function index() {                              
+    public function index() {
         
         if(Input::hasPost('empresa')) { 
             if(DwSecurity::isValidKey(Input::post('empresa_id_key'), 'form_key')) {                
@@ -45,6 +45,21 @@ class EmpresaController extends BackendController {
         
         $this->empresa = $empresa;
         $this->page_title = 'Información de la empresa';
+    }
+    
+    /**
+     * Método para subir imágenes
+     */
+    public function upload() {     
+        $upload = new DwUpload('logo', 'img/upload/empresa');
+        $upload->setAllowedTypes('png|jpg|gif|jpeg');
+        $upload->setEncryptName(TRUE);
+        $upload->setSize(200, 50, TRUE);
+        if(!$data = $upload->save()) { //retorna un array('path'=>'ruta', 'name'=>'nombre.ext');
+            $data = array('error'=>$upload->getError());
+        }
+        sleep(1);//Por la velocidad del script no permite que se actualize el archivo
+        View::json($data);
     }
         
 }
