@@ -86,13 +86,13 @@
                         </span>                
                     </div>
                     
-                    <div class="span4 fileupload-progress fade">                                                    
+                    <div id="upload-progress" class="span4 fileupload-progress fade">                                                    
                         <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                             <div class="bar" style="width:0%;"></div>
                         </div>
                     </div>
                     
-                    <div class="span5 hidden-phone dw-text-right">
+                    <div class="span5 dw-text-right">
                         <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px"> 
                             <?= DwHtml::img('upload/empresa/'.$empresa->logo, $empresa->razon_social, array('id'=>'img-empresa')); ?>                            
                         </div>                        
@@ -126,11 +126,11 @@
     $('#logo').fileupload({
         url: '/sistema/empresa/upload/',
         dataType: 'json',
-        maxFileSize: 200000,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-        start: function() {
+        maxFileSize: 2000000, //2MB
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,        
+        start: function() {            
             $("#dw-message").empty();
-            $('.fileupload-progress').removeClass('fade');            
+            $('#upload-progress').removeClass('fade');
             $('.bar').parent().removeClass('progress-danger').addClass('progress-success');
             $('[type=submit]').attr('disabled', 'disabled');
         }, 
@@ -138,8 +138,7 @@
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('.bar').css('width',progress + '%');
         },        
-        add: function (e, data) {
-            console.log(e);
+        add: function (e, data) {            
             var jqXHR = data.submit()
             .done(function (result, textStatus, jqXHR) {                 
                 if(textStatus!='success' || result.error!=null) {
@@ -155,15 +154,15 @@
                 if(textStatus!=null){
                     DwMessage('Oops! el archivo no se ha podido cargar. <br />Detalle del error: '+textStatus);
                     $('.bar').parent().removeClass('progress-success').addClass('progress-danger');
-                    setTimeout(function() { $('.bar').parent().addClass('fade')}, 1000);                
+                    setTimeout(function() { $('#upload-progress').addClass('fade'); }, 1000);                
                 } else {
                     DwMessage('Oops! al parecer el archivo no es una imágen válida. <br />Intenta con otro archivo.');
                     $('.bar').parent().removeClass('progress-success').addClass('progress-danger');
-                    $('.bar').parent().addClass('fade');
+                    $('#upload-progress').addClass('fade');
                 }                
             })
             .always(function () {              
-                setTimeout(function() { $('.fileupload-progress').addClass('fade'); $('.bar').css('width','0%'); }, 1000);
+                setTimeout(function() { $('#upload-progress').addClass('fade'); $('.bar').css('width','0%'); }, 1000);
                 $('[type=submit]').removeAttr('disabled');
             });
         }
