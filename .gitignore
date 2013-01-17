@@ -36,5 +36,5 @@ dwsync.xml
 
 # Netbeans
 nbproject
-/default/public/files/
 /default/public/img/upload/
+!/default/public/files/backup/
