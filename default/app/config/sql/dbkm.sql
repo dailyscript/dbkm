@@ -71,7 +71,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
-INSERT INTO `backup` VALUES (1,2,'Sistema inicial','3.88 KB','backup-1.sql.gz','2013-01-01 00:00:01');
+INSERT INTO `backup` VALUES (1,2,'Sistema inicial','4.04 KB','backup-1.sql.gz','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +133,7 @@ CREATE TABLE `empresa` (
 
 LOCK TABLES `empresa` WRITE;
 /*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
-INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1091652165',6,'Iván David Meléndez',1091652165,1,'http//dailyscript.com.co','dailyscript.png','2013-01-01 00:00:01',NULL);
+INSERT INTO `empresa` VALUES (1,'Nombre de la Empresa','Empresa LTDA','1091652165',6,'Iván David Meléndez',1091652165,1,'http//dailyscript.com.co','default.png','2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +188,7 @@ CREATE TABLE `menu` (
   KEY `fk_menu_menu_idx` (`menu_id`),
   CONSTRAINT `fk_menu_recurso` FOREIGN KEY (`recurso_id`) REFERENCES `recurso` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_menu_menu` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los menú para los usuarios';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los menú para los usuarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Archivos de configuración','sistema/config/',94,'icon-wrench',1,1);
+INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Autidorias','sistema/auditoria/listar/',94,'icon-eye-open',1,1),(15,10,14,'Visor de susesos','sistema/susesos/listar/',95,'icon-filter',1,1),(16,10,15,'Mantenimiento','sistema/mantenimiento/',96,'icon-bolt',1,1),(17,10,16,'Archivos de configuración','sistema/configuracion/',97,'icon-wrench',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +278,7 @@ CREATE TABLE `recurso` (
   `activo` int(1) NOT NULL DEFAULT '1' COMMENT 'Estado del recurso',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos a los que acceden los usuarios';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los recursos a los que acceden los usuarios';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +287,7 @@ CREATE TABLE `recurso` (
 
 LOCK TABLES `recurso` WRITE;
 /*!40000 ALTER TABLE `recurso` DISABLE KEYS */;
-INSERT INTO `recurso` VALUES (1,'dashboard','*','*','dashboard/*/*','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'sistema','mi_cuenta','*','sistema/mi_cuenta/*','Gestión de la cuenta del usuario logueado',1,'2013-01-01 00:00:01'),(3,'*','NULL','NULL','*','Comodín para la administración total (usar con cuidado)',1,'2013-01-01 00:00:01'),(4,'sistema','perfil','*','sistema/perfil/*','Submódulo del sistema para los perfiles de usuarios',1,'2013-01-01 00:00:01'),(5,'sistema','recurso','*','sistema/recurso/*','Submódulo del sistema para la gestión de los recursos',1,'2013-01-01 00:00:01'),(6,'sistema','menu','*','sistema/menu/*','Submódulo del sistema para la creación de menús según los privilegios',1,'2013-01-01 00:00:01'),(7,'sistema','privilegio','*','sistema/privilegio/*','Submódulo del sistema para asignar recursos a los perfiles',1,'2013-01-01 00:00:01'),(8,'config','empresa','*','config/empresa/*','Submódulo para la configuración de la información de la empresa',1,'2013-01-01 00:00:01'),(9,'config','sucursal','*','config/sucursal/*','Submódulo para la administración de las sucursales',1,'2013-01-01 00:00:01'),(10,'sistema','acceso','*','sistema/acceso/*','Submódulo para la gestión de ingresos al sistema',1,'2013-01-01 00:00:01'),(11,'sistema','backup','*','sistema/backup/*','Submódulo para la gestión de las copias de seguridad',1,'2013-01-01 00:00:01'),(12,'sistema','usuario','*','sistema/usuario/*','Submódulo para la administración de los usuarios del sistema',1,'2013-01-01 00:01:01'),(13,'sistema','config','*','sistema/config/*','Submódulo para la configuración de la aplicación (.ini)',1,'2013-01-01 00:00:01');
+INSERT INTO `recurso` VALUES (1,'dashboard','*','*','dashboard/*/*','Página principal del sistema',1,'2013-01-01 00:00:01'),(2,'sistema','mi_cuenta','*','sistema/mi_cuenta/*','Gestión de la cuenta del usuario logueado',1,'2013-01-01 00:00:01'),(3,'*','NULL','NULL','*','Comodín para la administración total (usar con cuidado)',1,'2013-01-01 00:00:01'),(4,'sistema','perfil','*','sistema/perfil/*','Submódulo del sistema para los perfiles de usuarios',1,'2013-01-01 00:00:01'),(5,'sistema','recurso','*','sistema/recurso/*','Submódulo del sistema para la gestión de los recursos',1,'2013-01-01 00:00:01'),(6,'sistema','menu','*','sistema/menu/*','Submódulo del sistema para la creación de menús según los privilegios',1,'2013-01-01 00:00:01'),(7,'sistema','privilegio','*','sistema/privilegio/*','Submódulo del sistema para asignar recursos a los perfiles',1,'2013-01-01 00:00:01'),(8,'config','empresa','*','config/empresa/*','Submódulo para la configuración de la información de la empresa',1,'2013-01-01 00:00:01'),(9,'config','sucursal','*','config/sucursal/*','Submódulo para la administración de las sucursales',1,'2013-01-01 00:00:01'),(10,'sistema','acceso','*','sistema/acceso/*','Submódulo para la gestión de ingresos al sistema',1,'2013-01-01 00:00:01'),(11,'sistema','backup','*','sistema/backup/*','Submódulo para la gestión de las copias de seguridad',1,'2013-01-01 00:00:01'),(12,'sistema','usuario','*','sistema/usuario/*','Submódulo para la administración de los usuarios del sistema',1,'2013-01-01 00:01:01'),(13,'sistema','auditoria','*','sistema/auditoria/*','Submódulo para el control de las acciones de los usuarios',1,'2013-01-01 00:00:01'),(14,'sistema','sucesos','*','sistema/sucesos/*','Submódulo para el listado de los logs del sistema',1,'2013-01-01 00:00:01'),(15,'sistema','mantenimiento','*','sistema/mantenimiento/*','Submódulo para el mantenimiento de las tablas',1,'2013-01-01 00:00:01'),(16,'sistema','configuracion','*','sistema/configuracion/*','Submódulo para la configuración de la aplicación (.ini)',1,'2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `recurso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -418,7 +418,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,NULL,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,NULL,'default',1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,NULL,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','61be2a14e813011cde599926dcc72c2c',1,NULL,'default',1,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -431,4 +431,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-16  0:12:04
+-- Dump completed on 2013-01-17 12:48:17
