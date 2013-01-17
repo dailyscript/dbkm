@@ -65,7 +65,7 @@ class RecursoController extends BackendController {
             return DwRedirect::toAction('listar');
         }
         
-        if($recurso->id == 1 OR $recurso->id == 2) {
+        if($recurso->id <= 16) {
             DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
             return DwRedirect::toAction('listar');
         }
@@ -96,7 +96,7 @@ class RecursoController extends BackendController {
         if(!$recurso->find_first($id)) {
             DwMessage::get('id_no_found');            
         } else {
-            if($recurso->id == 1 OR $recurso->id == 2) {
+            if($recurso->id <= 16) {
                 DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
                 return DwRedirect::toAction('listar');
             }

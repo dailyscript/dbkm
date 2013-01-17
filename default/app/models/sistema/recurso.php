@@ -110,7 +110,7 @@ class Recurso extends ActiveRecord {
         }
         $this->recurso = trim($this->modulo.'/'.$this->controlador.'/'.$this->accion.'/', '/');
         $this->descripcion = Filter::get($this->descripcion, 'string');
-        if($this->id <= 13) {
+        if($this->id <= 16) {
             DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
             return 'cancel';            
         }
@@ -120,7 +120,7 @@ class Recurso extends ActiveRecord {
      * Callback que se ejecuta antes de eliminar
      */
     public function before_delete() {
-        if($this->id <= 13) {
+        if($this->id <= 16) {
             return 'cancel';
         }
         if($this->modulo=='sistema' OR ($this->recurso == '*' && empty($this->controlador)) OR ($this->recurso=='principal/*') ) {
