@@ -1,0 +1,69 @@
+<?php View::notify(); ?>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>
+    
+    <div class="dw-overflow">
+        
+        <table class="table table-bordered table-hover table-striped table-condensed"> 
+            <thead>
+                <tr>
+                    <th rowspan="2" class="no-responsive dw-text-middle">NUM</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">TABLE</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">COMMENTS</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">ENGINE</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">A. INCREMENT</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">~ROWS</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">DATA LENGTH</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">DATA FREE</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">MSG TYPE</th>
+                    <th rowspan="2" class="no-responsive col-collapse dw-text-middle">MSG TEXT</th>
+                    <th colspan="4" class="no-responsive dw-text-center" style="width: 150px;">ACCIONES</th>
+                </tr>
+                <tr>                    
+                    <th class="no-responsive">Optimizar</th>
+                    <th class="no-responsive">Desfragm.</th>
+                    <th class="no-responsive">V. Caché</th>
+                    <th class="no-responsive">Reparar</th>
+                </tr>
+            </thead>
+            <tbody>            
+                <?php $counter = 1; ?>
+                <?php foreach($tablas as $tabla): ?>
+                    <?php $key_optim = DwSecurity::getKey($tabla['Name'], 'optimizar'); ?>
+                    <?php $key_desfr = DwSecurity::getKey($tabla['Name'], 'desfragmentar'); ?>
+                    <?php $key_cache = DwSecurity::getKey($tabla['Name'], 'cache'); ?>
+                    <?php $key_repar = DwSecurity::getKey($tabla['Name'], 'reparar'); ?>
+                    <tr>
+                        <td><?= $counter; ?></td>
+                        <td><?= ucwords(str_replace('_', ' ', $tabla['Name'])); ?></td>
+                        <td><?= $tabla['Comment']; ?></td>
+                        <td><?= $tabla['Engine']; ?></td>
+                        <td><?= $tabla['Auto_increment']; ?></td>
+                        <td><?= $tabla['Rows']; ?></td>
+                        <td><?= $tabla['Data_length']; ?></td>
+                        <td><?= $tabla['Data_free']; ?></td>
+                        <td><?= $tabla['Msg_type']; ?></td>
+                        <td><?= ($tabla['Msg_text'] == 'OK') ? '<span class="label label-success">'.$tabla['Msg_text'].'</span>' : '<span class="label label-important">'.$tabla['Msg_text'].'</span>'; ?></td>
+                        <td class="dw-text-center">
+                            <?= DwHtml::buttonTable('Optimizar tabla', "sistema/mantenimiento/optimizar/$key_optim/", NULL, 'success', 'magic', TRUE); ?>
+                        </td>
+                        <td class="dw-text-center">
+                            <?= DwHtml::buttonTable('Desfragmentar tabla', "sistema/mantenimiento/desfragmentar/$key_desfr/", NULL, 'info', 'magnet', TRUE); ?>
+                        </td>
+                        <td class="dw-text-center">
+                            <?= DwHtml::buttonTable('Vaciar caché', "sistema/mantenimiento/cache/$key_cache/", NULL, 'warning', 'filter', TRUE); ?>                            
+                        </td>
+                        <td class="dw-text-center">
+                            <?= DwHtml::buttonTable('Reparar tabla', "sistema/mantenimiento/reparar/$key_repar/", NULL, 'danger', 'warning-sign', TRUE); ?>
+                        </td>
+                    </tr>
+                    <?php $counter++; ?>
+                <?php endforeach; ?>
+            </tbody>            
+        </table> 
+    
+    </div>        
+    
+</div>
