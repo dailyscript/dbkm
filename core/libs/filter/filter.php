@@ -140,20 +140,24 @@ class Filter
      * @return array datos filtrados. (Ademas solo devuelve los indices
      * especificados en el segundo parametro).
      */
-    public static function data(array $data, array $fields, $filterAll = NULL)
+    public static function data($data=array(), $fields=array(), $filterAll = NULL)
     {
         $filtered = array(); //datos filtrados a devolver.
-        foreach ($fields as $index => $filters) {
-            if (is_numeric($index) && array_key_exists($filters, $data)) {
-                //si el indice es numerico, no queremos usar filtro para ese campo
-                $filtered[$filters] = $data[$filters];
-                continue;
-            } elseif (array_key_exists($index, $data)) {//verificamos de nuevo la existencia del indice en $data
-                $filters = explode('|',$filters);//convertimos el filtro en arreglo
-                array_unshift($filters, $data[$index]);
-                $filtered[$index] = call_user_func_array(array('self', 'get'), $filters);
-                //$filtered[$index] = self::get($data[$index], $filters); //por ahora sin opciones adicionales.
-            }
+        if($fields) { //Si hay campos a filtrar, de lo contrario aplica el filttersAll para todo                   
+            foreach ($fields as $index => $filters) {
+                if (is_numeric($index) && array_key_exists($filters, $data)) {
+                    //si el indice es numerico, no queremos usar filtro para ese campo
+                    $filtered[$filters] = $data[$filters];
+                    continue;
+                } elseif (array_key_exists($index, $data)) {//verificamos de nuevo la existencia del indice en $data
+                    $filters = explode('|',$filters);//convertimos el filtro en arreglo
+                    array_unshift($filters, $data[$index]);
+                    $filtered[$index] = call_user_func_array(array('self', 'get'), $filters);
+                    //$filtered[$index] = self::get($data[$index], $filters); //por ahora sin opciones adicionales.
+                }
+            }            
+        } else {
+            $filtered = $data;
         }
         if ($filterAll) {
             $filterAll = explode('|',$filterAll);

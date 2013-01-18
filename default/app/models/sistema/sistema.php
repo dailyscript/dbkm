@@ -148,5 +148,24 @@ class Sistema {
         return $paginate->paginate($result, "page: $page", "per_page: 50");                
     }
     
+    
+    /**
+     * Método para actualizar el archivo config.ini según los parámetros enviados
+     * 
+     * @param type $data Campos de los formularios
+     * @param type $source Production o Deveploment
+     * @param type $createDb Indica si se crea o no la base de datos
+     * @return boolean
+     */
+    public static function setConfig($data, $source='application') {        
+        //Verifico si tiene permisos de escritura para crear y editar un archvivo.ini
+        if(!is_writable(APP_PATH.'config')) {            
+            DwMessage::warning('Asigna temporalmente el permiso de escritura a la carpeta "config" de tu app!.');
+            return false;
+        }     
+        //Filtro el array
+        $data = Filter::data($data, null, 'trim');         
+        return DwConfig::write('config', $data, $source);
+    }
 }
 ?>
