@@ -91,6 +91,14 @@ class View extends KumbiaView {
     }
     
     /**
+     * Método para mostrar el mensaje de actualizacion
+     */
+    public static function update() {
+        self::$_path = '_shared/errors/';
+        self::select('dw_update');
+    }
+    
+    /**
      * Método para mostrar un json
      */
     public static function json($data = array()) {
