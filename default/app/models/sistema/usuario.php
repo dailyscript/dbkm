@@ -49,7 +49,7 @@ class Usuario extends ActiveRecord {
         } else if($opt=='open') {            
             if(DwAuth::isLogged()) {
                 return true;
-            } else {
+            } else {                                
                 if(DwSecurity::isValidForm()) {
                     if(DwAuth::login(array('login'=>$user), array('password'=>sha1($pass)), $mode)) {
                         $usuario = self::getUsuarioLogueado();                         
@@ -74,7 +74,7 @@ class Usuario extends ActiveRecord {
                         DwMessage::error(DwAuth::getError());
                     }
                 } else {
-                    DwMessage::info('La llave de acceso ha caducado. <br />Por favor intenta nuevamente.');                
+                    DwMessage::info('La llave de acceso ha caducado. <br />Por favor '.Html::link('sistema/login/entrar/', 'recarga la página <b>aquí</b>')); 
                 }
             }                      
         } else {
