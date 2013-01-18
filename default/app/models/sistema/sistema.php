@@ -37,7 +37,7 @@ class Sistema {
         $config = Config::read('config');
         $this->_database =  $config['application']['database'];
         //Conecto a la bd
-        $this->_connect();
+        $this->_connect(); 
         //Cargo las tablas
         $this->_loadTables();
     }
@@ -66,7 +66,7 @@ class Sistema {
     /**
      * Método para listar las tablas
      */
-    public function getEstadoTablas() { 
+    public function getEstadoTablas() {        
         $all_status = array();        
         $tables = $this->_db->fetch_all("SHOW TABLE STATUS"); 
         foreach($tables as $table) {
@@ -135,13 +135,14 @@ class Sistema {
         if(!empty($log)) {
             foreach($log as $key => $row) {
                 $data = explode(']', $row);
+                $new_log[$contador]['item'] = $contador;
                 $new_log[$contador]['fecha'] = date("Y-m-d H:i:s", strtotime(trim($data[0],'[')));
                 $new_log[$contador]['tipo'] = trim($data[1],'[');
                 $new_log[$contador]['descripcion'] = trim($data[2],'[');
                 $contador++;
             }                
         }
-        $result = DwUtils::orderArray($new_log, 'fecha', TRUE);                
+        $result = DwUtils::orderArray($new_log, 'item', TRUE);                
         //Pagino el array
         $paginate = new DwPaginate();
         return $paginate->paginate($result, "page: $page", "per_page: 50");                
