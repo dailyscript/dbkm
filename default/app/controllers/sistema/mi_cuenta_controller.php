@@ -32,15 +32,26 @@ class MiCuentaController extends BackendController {
             return DwRedirect::to('dashboard');
         }                
         
+        $app_ajax_old = $usuario->app_ajax;
+        
         if(Input::hasPost('usuario')) {
             if(DwSecurity::isValidKey(Input::post('usuario_id_key'), 'form_key')) {
                 ActiveRecord::beginTrans();
                 //Guardo la persona
                 $persona = Persona::setPersona('update', Input::post('persona'), array('id'=>$usuario->persona_id));
                 if($persona) {
-                    if(Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'oldpassword'=>Input::post('oldpassword'), 'id'=>$usuario->id, 'login'=>$usuario->login))) {
+                    $usuario = Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'oldpassword'=>Input::post('oldpassword'), 'id'=>$usuario->id, 'login'=>$usuario->login));
+                    if($usuario) {
                         ActiveRecord::commitTrans();
                         DwMessage::valid('El usuario se ha actualizado correctamente.');                        
+                        if($app_ajax_old != $usuario->app_ajax) {
+                            Session::set('app_ajax', $usuario->app_ajax);
+                            if(APP_AJAX){
+                                View::redirect('/sistema/mi_cuenta/'); 
+                            } else {
+                                DwRedirect::to('sistema/mi_cuenta');
+                            }
+                        }
                     }
                 } else {
                     ActiveRecord::rollbackTrans();
