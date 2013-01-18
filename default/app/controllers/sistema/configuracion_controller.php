@@ -37,8 +37,21 @@ class ConfiguracionController extends BackendController {
         }
         $this->config = DwConfig::read('config', '', true);        
         $this->page_module = 'Configuración general';
-    }
-        
+    }               
     
+    /**
+     * Método para resetear las configuraciones del sistema
+     * @return type
+     */
+    public function reset() {
+        try {
+            if(Sistema::reset()) {
+                DwMessage::valid('El sistema se ha reseteado correctamente!');                            
+            }
+        } catch(KumbiaException $e) {                    
+            DwMessage::error('Se ha producido un error al resetear la configuración del sistema.');                        
+        }        
+        return DwRedirect::toAction('index');
+    }
 }
 

@@ -8,6 +8,9 @@
         <div class="btn-actions">            
             <?= DwHtml::button("sistema/configuracion/routes/", 'routes', array('class'=>'btn-success'), 'random', APP_AJAX); ?> 
             <?= DwHtml::button("sistema/configuracion/databases/", 'databases', array('class'=>'btn-success'), 'hdd', APP_AJAX); ?> 
+            <div class="pull-right">
+                <?= DwHtml::button("sistema/configuracion/reset/", 'reset', array('class'=>'btn-danger js-confirm', 'confirm-title'=>'Restarurar archivos de configuración', 'confirm-body'=>'Está seguro de querer restastaurar los archivos de configuración? <br />Recuerda que esta operación no se puede reversar.'), 'warning-sign', APP_AJAX); ?>                 
+            </div>
         </div>
     </div>
         

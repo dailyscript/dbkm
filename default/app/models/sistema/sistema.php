@@ -167,5 +167,26 @@ class Sistema {
         $data = Filter::data($data, null, 'trim');         
         return DwConfig::write('config', $data, $source);
     }
+    
+    /**
+     * Métdo que resetea la configuración del sistema
+     * @return boolean
+     */
+    public static function reset() {
+        $files = array('config', 'databases', 'routes', 'install');            
+        foreach($files as $name) {
+            $file = APP_PATH."config/$name.ini";
+            $origin = APP_PATH."config/$name.org.ini";
+            if(is_file($file) && is_file($origin)) { //Si hay una copia del archio original
+                unlink($file);//Elimino el archivo                
+                $org = APP_PATH."config/$name.org.ini";
+                $des = APP_PATH."config/$name.ini";
+                copy($org, $des);//Copio el original
+                @chmod("$des", 0777);//Permisos                                                            
+            }
+        }        
+        //@TODO revisar esto;
+        return true;
+    }
 }
 ?>
