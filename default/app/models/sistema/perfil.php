@@ -49,7 +49,10 @@ class Perfil extends ActiveRecord {
         $conditions = 'perfil.id IS NOT NULL';        
         if($estado=='acl') {
             $conditions.= " AND perfil.estado = ".self::ACTIVO;
-        } else{
+        } else if($estado=='mi_cuenta') {
+            $conditions.= " AND estado=".self::ACTIVO;
+            $conditions.= (Session::get('perfil_id') == Perfil::SUPER_USUARIO) ? '' : " AND perfil.id > 1";
+        } else {
             $conditions.= " AND perfil.id > 1";            
             if($estado!='todos') {
                 $conditions.= ($estado==self::ACTIVO) ? " AND estado=".self::ACTIVO : " AND estado=".self::INACTIVO;                
