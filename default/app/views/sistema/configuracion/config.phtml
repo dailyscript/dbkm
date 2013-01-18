@@ -6,7 +6,7 @@
     
     <div class="btn-toolbar btn-toolbar-top">        
         <div class="btn-actions">            
-            <?= DwHtml::button("sistema/configuracion/config/", 'config', array('class'=>'btn-success'), 'asterisk', APP_AJAX); ?>             
+            <?= DwHtml::button("sistema/configuracion/", 'basic', array('class'=>'btn-success'), 'asterisk', APP_AJAX); ?> 
             <?= DwHtml::button("sistema/configuracion/routes/", 'routes', array('class'=>'btn-warning'), 'random', APP_AJAX); ?> 
             <?= DwHtml::button("sistema/configuracion/databases/", 'databases', array('class'=>'btn-warning'), 'hdd', APP_AJAX); ?> 
             <!--
@@ -24,7 +24,7 @@
             
             <div class="span4">       
                 
-                <?php echo DwForm::fieldset("Configuración básica"); ?>
+                <?php echo DwForm::fieldset("Configuración de la aplicación"); ?>
                     
                     <?php echo DwForm::text('application.name', array('class'=>'input-required show-error'), $config['application']['name'], 'Nombre del proyecto:'); ?>
                 
@@ -33,7 +33,23 @@
                     <?php echo DwForm::select('application.production', array('Off'=>'No', 'On'=>'Si'), array('class'=>'input-required show-error'), $config['application']['production'], 'Proyecto en producción:'); ?>                                   
                 
                     <?php echo DwForm::select('application.database', array('development'=>'Development', 'production'=>'Production'), array('class'=>'input-required show-error'), $config['application']['database'], 'Entorno de conexión:'); ?>
-                                    
+                
+                    <?php echo DwForm::text('application.dbdate', array('class'=>'input-required show-error'), $config['application']['dbdate'], 'Formato de fechas:'); ?>
+                
+                    <?php echo DwForm::select('application.debug', array('Off'=>'No', 'On'=>'Si'), array('class'=>'input-required show-error'), $config['application']['debug'], 'Debug:'); ?>
+                
+                    <?php echo DwForm::select('application.log_exceptions', array('Off'=>'No', 'On'=>'Si'), array('class'=>'input-required show-error'), $config['application']['log_exceptions'], 'Mostrar excepciones:'); ?>
+                
+                    <?php echo DwForm::text('application.charset', array('class'=>'input-required show-error'), $config['application']['charset'], 'Juego de caracteres:'); ?>
+                
+                    <?php echo DwForm::text('application.cache_driver', array('class'=>'input-required show-error'), $config['application']['cache_driver'], 'Driver de caché:'); ?>               
+                
+                    <?php echo DwForm::hidden('application.metadata_lifetime', null, $config['application']['metadata_lifetime']); ?>
+                
+                    <?php echo DwForm::hidden('application.namespace_auth', null, $config['application']['namespace_auth']); ?>
+                
+                    <?php echo DwForm::select('application.routes', array('Off'=>'No', 'On'=>'Si'), array('class'=>'input-required show-error'), $config['application']['routes'], 'Habilitar el routes:'); ?>                
+                
                 <?php echo DwForm::fieldset(); ?>  
                 
             </div>
@@ -41,15 +57,9 @@
             <div class="span1">&nbsp;</div> 
             
             <div class="span4">                                            
-                <?php //echo DwForm::fieldset("<a id='add-config' href='#form-add-config' class='btn' data-toggle='modal'><i class='icon-ok icon-expand'></i>Agregar configuración</a>"); ?>
-                <?php echo DwForm::fieldset("Configuración personalizada"); ?>
+                <?php echo DwForm::fieldset("<a id='add-config' href='#form-add-config' class='btn' data-toggle='modal'><i class='icon-ok icon-expand'></i>Agregar configuración</a>"); ?>
                 <?php if(isset($config['custom'])) { ?>
-                    <?php foreach($config['custom'] as $campo => $valor): ?> 
-                        <?php 
-                        if($campo == 'app_logger' OR $campo=='app_office' OR $campo=='pag_min' OR $campo=='pag_med' OR $campo=='pag_max' OR $campo=='pag_ext') { 
-                            continue;
-                        }
-                        ?>
+                    <?php foreach($config['custom'] as $campo => $valor): ?>                        
                         <?php
                         switch ($campo) {
                             case 'app_update':      $text = 'Sistema en actualización';

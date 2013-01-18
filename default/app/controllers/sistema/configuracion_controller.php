@@ -23,7 +23,7 @@ class ConfiguracionController extends BackendController {
     }
     
     /**
-     * Método principal
+     * Método principal para las configuraciones básicas
      */
     public function index() {
         if(Input::hasPost('application') && Input::hasPost('custom')) {
@@ -34,10 +34,31 @@ class ConfiguracionController extends BackendController {
             } catch(KumbiaException $e) {
                 DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
             } 
-        }
+            Input::delete('application');
+            Input::delete('custom');
+        }        
         $this->config = DwConfig::read('config', '', true);        
         $this->page_module = 'Configuración general';
-    }               
+    }      
+    
+    /**
+     * Método para todas las configuraciones
+     */
+    public function config() {
+        if(Input::hasPost('application') && Input::hasPost('custom')) {
+            try {                
+                Sistema::setConfig(Input::post('application'), 'application');
+                Sistema::setConfig(Input::post('custom'), 'custom'); 
+                DwMessage::valid('El archivo de configuración se ha actualizaco correctamente!');
+            } catch(KumbiaException $e) {
+                DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
+            } 
+            Input::delete('application');
+            Input::delete('custom');
+        }        
+        $this->config = DwConfig::read('config', '', true);        
+        $this->page_module = 'Configuración general';
+    }  
     
     /**
      * Método para resetear las configuraciones del sistema

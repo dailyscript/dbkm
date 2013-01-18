@@ -50,15 +50,17 @@ class DwConfig {
      */
     public static function write($file, $data, $source='') {                
         $vars = self::read($file, '', TRUE);        
+        $org = APP_PATH."config/$file.ini";//Archivo actual
+        @chmod(APP_PATH . "config/$file.ini", 0777);//Le damos permisos para editar
         //Verifico si tiene copia del original
-        if(!is_file(APP_PATH."config/$file.org.ini")) {               
+        if(!is_file(APP_PATH."config/$file.org.ini")) { //Verifico si tiene una copia del original              
             //@TODO Verificar que funcione en windows
             $org = APP_PATH."config/$file.ini";
             $des = APP_PATH."config/$file.org.ini";
-            exec("cp $org $des");//Copio el original
+            copy($org, $des);//Copio el actual y lo paso a original
             @chmod("$des", 0777);//Permisos
-            exec("rm -rf $org");//Elimino el original para crear el nuevo            
-            exec("touch $des");//Creo el nuevo .ini          
+            unlink($org);//Elimino el original para crear el nuevo            
+            touch($des);//Creo el nuevo .ini
         }
         //Armo el archivo
         $ini = ";; Archivo de configuración".PHP_EOL;
@@ -72,20 +74,20 @@ class DwConfig {
             $vars[$source] = $data;
         } 
         //Recorro el archivo
-        foreach($vars as $seccion => $filas) { 
+        foreach($vars as $seccion => $filas) {
             $ini.= "[$seccion]".PHP_EOL;
             if(is_array($filas)) {
                 foreach($filas as $variable => $valor) { 
                     if($source && $seccion==$source) {                            
-                        if(array_key_exists($variable, $data)) {                        
-                            if($data[$variable]!='delete-var') {
-                                $valor = $data[$variable]; 
+                        if(array_key_exists($variable, $data)) {
+                            if($data[$variable]!='delete-var') {//Verifico si es para eliminar la variable
+                                $valor = $data[$variable];                                 
                             } else {
                                 continue;
                             }
                         }
-                    } 
-                    $variable = Filter::get($variable, 'lower');
+                    }                     
+                    $variable = Filter::get($variable, 'lower');                    
                     if ( in_array($valor , array('On', 'Off')) || is_numeric($valor) ) {                     
                         $ini.= "$variable = $valor" . PHP_EOL;
                     } else {
@@ -96,7 +98,7 @@ class DwConfig {
             }
             $ini.= PHP_EOL;
         }
-        $ini.= PHP_EOL;
+        $ini.= PHP_EOL;        
         $rs = file_put_contents(APP_PATH . "config/$file.ini", $ini);
         @chmod(APP_PATH . "config/$file.ini", 0777);
         //Actualizo las variables de configuracion
