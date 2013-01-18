@@ -88,6 +88,17 @@ class DwButton {
         }
     }
 
+    /**
+     * Método para crear un botón para envío de formularios
+     * @param type $title Título a mostrar
+     * @param type $icon Icono a mostrar
+     * @param type $attrs Atributos adicionales
+     * @param type $text Texto a mostrar
+     * @return type
+     */
+    public static function submit($title='Guardar registro', $icon='save', $attrs=NULL, $text='guardar') {        
+        return self::save($title, $icon, $attrs, $text);
+    }
 
     
     /**

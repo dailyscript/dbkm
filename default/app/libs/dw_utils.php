@@ -77,17 +77,17 @@ class DwUtils {
      * 
      * @param array $toOrderArray Array de datos
      * @param string $field Campo del array por el cual se va a ordenar
-     * @param boolean $inverse Variable para indicar si ordena ASC o DESC
+     * @param string $type Variable para indicar si ordena ASC o DESC
      * @return array
      */
-    public static function orderArray($toOrderArray, $field, $desc=false) {
+    public static function orderArray($toOrderArray, $field, $type='DESC') {
         $position = array();
         $newRow = array();
         foreach ($toOrderArray as $key => $row) {
             $position[$key]  = $row[$field];
             $newRow[$key] = $row;
         }
-        if ($desc) {
+        if ($type=='DESC') {
             arsort($position);
         } else {
             asort($position);

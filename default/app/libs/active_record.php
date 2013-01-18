@@ -16,7 +16,8 @@ Load::coreLib('kumbia_active_record');
  */
 class ActiveRecord extends KumbiaActiveRecord  {
     
-    //public $logger = TRUE;
+    //Se indica si se crear los archivos log
+    public $logger = APP_LOGGER;
     
     /**
      * Método que devuelve el order en SQL tomado de la url

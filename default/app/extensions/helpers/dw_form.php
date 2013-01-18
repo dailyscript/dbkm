@@ -598,6 +598,43 @@ class DwForm extends Form {
     }
     
     /**
+     * Método que genera un input text basandose en el bootstrap de twitter
+     * @param type $field Nombre del input
+     * @param type $attrs Atributos del input
+     * @param type $value Valor por defecto
+     * @param type $label Detalle de la etiqueta label
+     * @param type $help Descripción del campo
+     * @param type $type tipo de campo (text, numeric, etc)
+     * @return string
+     */
+    public static function date($field, $attrs=null, $value=null, $label='', $help='') {
+        //Tomo los nuevos atributos definidos en las clases
+        $attrs = self::_getAttrsClass($attrs, 'text');
+        //Armo el input
+        $input = self::getControls();
+        if(self::$_style=='form-search') {
+            $attrs['placeholder'] = $label;
+        }
+        $input.= '<div class="input-append date">';
+        //Armo el input del form        
+        $input.= parent::date($field, $attrs['class'], $attrs, $value);
+        $input.= '<span class="add-on"><i class="icon-calendar"></i></span>';
+        $input.= '</div>';
+        //Verifico si el formato del formulario muestra el help
+        if(self::$_help_block) {              
+            $input.= self::help($field, $help, $attrs['class']);
+        }       
+        //Cierro el controls
+        $input.= self::getControls();
+        if(!self::$_help_block) {
+            return $input.PHP_EOL;
+        }
+        //Verifico si tiene un label
+        $label = ($label && self::$_show_label) ? self::label($label, $field, null, $attrs['class'])  : '';        
+        return '<div class="control-group">'.$label.$input.'</div>'.PHP_EOL;                  
+    }
+    
+    /**
      * Método para abrir/cerrar un fieldset
      * @staticvar boolean $i
      * @param type $text Texto a mostrar del fieldset
