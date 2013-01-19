@@ -85,7 +85,9 @@ class DwForm extends Form {
                     if(!preg_match("/\bjs-remote\b/i", $attrs['class'])) {
                         $attrs['class'] = 'js-remote '.$attrs['class'];
                     }   
-                    $attrs['class'] = 'dw-validate '.$attrs['class'];
+                    if(!preg_match("/\bdw-no-validate\b/i", $attrs['class'])) {
+                        $attrs['class'] = 'dw-validate '.$attrs['class'];
+                    }                       
                 }
             } else {
                 //Asigno que pertenece a la clase dw-form y si utiliza ajax
@@ -252,7 +254,7 @@ class DwForm extends Form {
         $form = '';
         $attrs = self::_getAttrsClass($attrs, 'form'); //Verifico los atributos
         //Verifico si se valida
-        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {
+        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {            
             $form.= self::_getValidationForm(); 
         }        
         if($method=='') {

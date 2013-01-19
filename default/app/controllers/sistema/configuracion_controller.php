@@ -58,7 +58,24 @@ class ConfiguracionController extends BackendController {
         }        
         $this->config = DwConfig::read('config', '', true);        
         $this->page_module = 'Configuración general';
-    }  
+    }
+    
+    /**
+     * Método para editar el routes
+     */
+    public function routes() {
+        if(Input::hasPost('routes')) {            
+            try {                
+                Sistema::setRoutes(Input::post('routes'));
+                DwMessage::valid('El archivo de enrutamiento se ha actualizaco correctamente!');
+            } catch(KumbiaException $e) {
+                DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
+            } 
+            Input::delete('routes');            
+        }        
+        $this->routes = DwConfig::read('routes', '', true);        
+        $this->page_module = 'Configuración de enrutamientos';
+    } 
     
     /**
      * Método para resetear las configuraciones del sistema

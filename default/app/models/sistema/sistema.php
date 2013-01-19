@@ -169,6 +169,23 @@ class Sistema {
     }
     
     /**
+     * Método que ajusta el routes.ini 
+     * 
+     */
+    public static function setRoutes($data=null) {
+        if($data==null) {
+            //Si está en proceso de instalación
+            $data = array('/'=>'principal',
+                      '/sistema/instalacion/*'=>'delete-var',
+                      '/*'=>'delete-var');
+        }
+        if(empty($data['/'])) {
+            $data['/'] = 'principal';
+        }
+        return DwConfig::write('routes', $data, 'routes');
+    }
+    
+    /**
      * Métdo que resetea la configuración del sistema
      * @return boolean
      */
