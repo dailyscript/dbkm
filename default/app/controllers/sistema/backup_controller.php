@@ -80,9 +80,27 @@ class BackupController extends BackendController {
     /**
      * Método para restaurar
      */
-    public function restaurar($key='') {
-        DwMessage::info('Esta opción no se encuentra disponible temporalmente.');
-        return DwRedirect::toAction('listar');
+    public function restaurar($key='') {                  
+        if(!Input::isAjax()) {
+            DwMessage::error('Método incorrecto para restaurar el sistema.');
+            return DwRedirect::toAction('listar');
+        }        
+        if(!$id = DwSecurity::isValidKey($key, 'restaurar_backup', 'int')) {
+            return View::ajax();
+        }        
+        $pass = Input::post('password');
+        $usuario = Usuario::getUsuarioLogueado();
+        if($usuario->password != md5(sha1($pass))) {
+            DwMessage::error('Acceso incorrecto al sistema. Tu no tienes los permisos necesarios para realizar esta acción.');
+            return View::ajax();
+        }
+        if($backup = Backup::restoreBackup($id, 'files/backup')) {
+            DwMessage::valid('El sistema se ha restaurado satisfactoriamente con la copia de seguridad <b>'.$backup->archivo.'</b>');
+        } else {
+            DwMessage::error('Se ha producido un error interno al restaurar el sistema. Por favor contacta al administrador.');
+        }
+        return View::ajax();
+        
     }
     
     /**

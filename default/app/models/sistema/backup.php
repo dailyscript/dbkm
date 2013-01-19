@@ -141,6 +141,47 @@ class Backup extends ActiveRecord {
             return 'cancel';
         }
     }
+    
+    /**
+     * Método para restaurar el sistema
+     * @param type $id
+     */
+    public static function restoreBackup($id) {
+        $id = Filter::get($id, 'int');
+        if(empty($id)) {
+            return FALSE;
+        }
+        $obj = new Backup();
+        if(!$obj->find_first($id)) {
+            DwMessage::get('id_no_found');
+            return FALSE;
+        }
+        $path = dirname(APP_PATH) . '/public/files/backup/';
+        $file = $path.$obj->archivo;
+        if(!is_file($file)) {
+            DwMessage::error('Error: BKP-RES001. Se ha producido un error en la restauración del sistema. <br />No se pudo localizar el archivo de restaruación.');
+            return FALSE;
+        }
+        //Almaceno las copias de seguridad anteriores
+        $old_backup = $obj->find('order: registrado_at ASC');
+        
+        $system = $obj->_getSystem(TRUE); //Verifico el sistema operativo para la restauración
+        $database = Config::get('config.application.database'); //tomo el entorno actual
+        $config = $obj->_getConfig($database);//Tomo la configuración de conexión        
+        $exec = "gunzip < $file | $system -h ".$config['host']." -u ".$config['username']." --password=".$config['password']." ".$config['name'];        
+        system($exec, $result);
+        if(!$result) {
+            //Inserto los backups anteriores
+            foreach($old_backup as $backup) {
+                if($backup->id >= $obj->id ) {
+                    $obj->sql("REPLACE INTO `backup` (`id`,`usuario_id`,`denominacion`,`tamano`,`archivo`,`registrado_at`) VALUES ('$backup->id', '$backup->usuario_id', '$backup->denominacion', '$backup->tamano', '$backup->archivo', '$backup->registrado_at')");
+                }
+            }        
+            return ($obj) ? $obj : FALSE;
+        }
+        return FALSE;
+        
+    }
        
     
 }

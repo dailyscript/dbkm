@@ -45,6 +45,7 @@
 		cConfirm: function(event) {
                         event.preventDefault();
 			var este=$(this);
+                        var este_tmp = this;
                         var dialogo = $("#modal_confirmar");
                         var data_body = este.attr('confirm-body');
                         var data_title = este.attr('confirm-title');
@@ -68,7 +69,12 @@
                             footer.append('<button class="btn btn-success">Aceptar</a>');
                         }                            
                         $('.btn-success', dialogo).on('click',function(){
-                            dialogo.modal('hide');
+                            dialogo.modal('hide')                            
+                            if(este.attr('on-confirm')!=undefined) {                                
+                                fn = este.attr('on-confirm')+'(este)';
+                                eval(fn);
+                                return false;
+                            }
                             if(!($(this).hasClass('dw-ajax'))) {
                                 document.location.href = este.attr('href');                                    
                             }
