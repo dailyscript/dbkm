@@ -88,7 +88,7 @@ CREATE TABLE `ciudad` (
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
   `modificado_in` datetime DEFAULT NULL COMMENT 'Fecha de la última modificación',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las ciudades que se manejan del sistema';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `empresa` (
   PRIMARY KEY (`id`),
   KEY `fk_empresa_tipo_nuip_idx` (`tipo_nuip_id`),
   CONSTRAINT `fk_empresa_tipo_nuip` FOREIGN KEY (`tipo_nuip_id`) REFERENCES `tipo_nuip` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene la información básica de la empresa';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Autidorias','sistema/auditoria/listar/',94,'icon-eye-open',1,1),(15,10,14,'Visor de susesos','sistema/sucesos/',95,'icon-filter',1,1),(16,10,15,'Mantenimiento','sistema/mantenimiento/',96,'icon-bolt',1,1),(17,10,16,'Archivos de configuración','sistema/configuracion/',97,'icon-wrench',1,1);
+INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Autidorias','sistema/auditoria/',94,'icon-eye-open',1,1),(15,10,14,'Visor de susesos','sistema/sucesos/',95,'icon-filter',1,1),(16,10,15,'Mantenimiento','sistema/mantenimiento/',96,'icon-bolt',1,1),(17,10,16,'Archivos de configuración','sistema/configuracion/',97,'icon-wrench',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `perfil` (
   `id` int(2) NOT NULL AUTO_INCREMENT COMMENT 'Identificador del perfil',
   `perfil` varchar(45) NOT NULL COMMENT 'Nombre del perfil',
   `estado` int(1) NOT NULL DEFAULT '1' COMMENT 'Indica si el perfil esta activo o inactivo',
-  `plantilla` varchar(45) DEFAULT 'backend' COMMENT 'Plantilla para usar en el sitema',
+  `plantilla` varchar(45) DEFAULT 'default' COMMENT 'Plantilla para usar en el sitema',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro del perfil',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los grupos de los usuarios';
@@ -224,7 +224,7 @@ CREATE TABLE `perfil` (
 
 LOCK TABLES `perfil` WRITE;
 /*!40000 ALTER TABLE `perfil` DISABLE KEYS */;
-INSERT INTO `perfil` VALUES (1,'Super Usuario',1,'backend','2013-01-01 00:00:01');
+INSERT INTO `perfil` VALUES (1,'Super Usuario',1,'default','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `perfil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +346,7 @@ CREATE TABLE `sucursal` (
   KEY `fk_sucursal_ciudad_idx` (`ciudad_id`),
   CONSTRAINT `fk_sucursal_empresa` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_sucursal_ciudad` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudad` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene las sucursales de la empresa';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -370,7 +370,7 @@ CREATE TABLE `tipo_nuip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_nuip` varchar(45) NOT NULL COMMENT 'Nombre del tipo de identificación',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Tabla que contiene los tipos de identificación de las personas';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
