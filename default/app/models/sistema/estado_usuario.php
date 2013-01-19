@@ -83,7 +83,7 @@ class EstadoUsuario extends ActiveRecord {
             $obj->estado_usuario = self::COD_BLOQUEADO;                    
         } else if( ($accion == 'reactivar') && ($actual!= self::ACTIVO) ) {            
             $obj->estado_usuario = self::COD_ACTIVO;                            
-        } else {                       
+        } else {                     
             return false;
         }        
         return $obj->create();
@@ -94,6 +94,20 @@ class EstadoUsuario extends ActiveRecord {
      */
     public function before_create() {
         $this->descripcion = Filter::get($this->descripcion, 'string');
+    }
+    
+    /**
+     * Callback que se ejecuta desupés de crear un registro
+     */
+    public function after_create() {
+        //Obtengo el usuario por la relación definida en el initialize
+        $usuario = $this->getUsuario();
+        if($this->estado_usuario == self::COD_ACTIVO) {
+            DwAudit::debug("Se activa el acceso al usuario $usuario->login. Motivo: $this->descripcion");
+        } else if($this->estado_usuario == self::COD_BLOQUEADO) {
+            DwAudit::debug("Se bloquea el acceso al sistema al usuario $usuario->login. Motivo: $this->descripcion");
+        }
+        
     }
       
 }

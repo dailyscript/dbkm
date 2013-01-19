@@ -125,7 +125,10 @@ class Backup extends ActiveRecord {
         $obj->tamano =  round($tamano/pow(1024,($i = floor(log($tamano, 1024)))), 2 ).$clase[$i];
         $obj->update();
         @chmod($file, 0744);        
-        ActiveRecord::commitTrans();        
+        ActiveRecord::commitTrans();
+        if($obj) {
+            DwAudit::debug("Se crea una copia de seguridad bajo la denominación: $obj->denominacion");
+        }
         return $obj;         
     }
     
@@ -176,7 +179,10 @@ class Backup extends ActiveRecord {
                 if($backup->id >= $obj->id ) {
                     $obj->sql("REPLACE INTO `backup` (`id`,`usuario_id`,`denominacion`,`tamano`,`archivo`,`registrado_at`) VALUES ('$backup->id', '$backup->usuario_id', '$backup->denominacion', '$backup->tamano', '$backup->archivo', '$backup->registrado_at')");
                 }
-            }        
+            }          
+            if($obj) {
+                DwAudit::debug("Se ha restaurado el sistema con la copia de seguridad: $obj->denominacion");
+            }
             return ($obj) ? $obj : FALSE;
         }
         return FALSE;

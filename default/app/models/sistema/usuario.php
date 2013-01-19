@@ -225,6 +225,9 @@ class Usuario extends ActiveRecord {
             }
         } 
         $rs = $obj->$method();
+        if($rs) {
+            ($method == 'create') ? DwAudit::debug("Se ha registrado el usuario $obj->login en el sistema") : DwAudit::debug("Se ha modificado la información del usuario $obj->login");
+        }
         return ($rs) ? $obj : FALSE;
     }
     

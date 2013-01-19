@@ -85,7 +85,13 @@ class Sistema {
      */
     public function getDesfragmentacion($tabla) {
         if(in_array($tabla, $this->_tables)) {
-            return ($this->_db->query("ALTER TABLE $tabla ENGINE=INNODB"));            
+            $rs = ($this->_db->query("ALTER TABLE $tabla ENGINE=INNODB"));            
+            if($rs) {
+                DwAudit::info("Se ha realizado el mantenimiento de desfragmentación a la tabla $tabla");
+            } else {
+                DwAudit::error("Se ha generado un error al realizar el mantenimiento de desfragmentación a la tabla $tabla");
+            }
+            return $rs;
         } else {
             return FALSE;
         }
@@ -96,7 +102,13 @@ class Sistema {
      */
     public function getVaciadoCache($tabla) {
         if(in_array($tabla, $this->_tables)) {
-            return ($this->_db->query("FLUSH TABLE $tabla"));            
+            $rs = ($this->_db->query("FLUSH TABLE $tabla"));            
+            if($rs) {
+                DwAudit::info("Se ha realizado el mantenimiento de vaciado del caché a la tabla $tabla");
+            } else {
+                DwAudit::error("Se ha generado un error al realizar el mantenimiento de vaciado del caché a la tabla $tabla");
+            }
+            return $rs;
         } else {
             return FALSE;
         }
@@ -107,7 +119,13 @@ class Sistema {
      */
     public function getReparacionTabla($tabla) {
         if(in_array($tabla, $this->_tables)) {
-            return ($this->_db->query("REPAIR TABLE $tabla"));
+            $rs = ($this->_db->query("REPAIR TABLE $tabla"));
+            if($rs) {
+                DwAudit::info("Se ha realizado el mantenimiento de reparación a la tabla $tabla");
+            } else {
+                DwAudit::error("Se ha generado un error al realizar el mantenimiento de reparación a la tabla $tabla");
+            }
+            return $rs;
         } else {
             return FALSE;
         }
@@ -118,7 +136,13 @@ class Sistema {
      */    
     public function getOptimizacion($tabla) {
         if(in_array($tabla, $this->_tables)) {
-            return ($this->_db->query("OPTIMIZE TABLE $tabla"));            
+            $rs = ($this->_db->query("OPTIMIZE TABLE $tabla"));            
+            if($rs) {
+                DwAudit::info("Se ha realizado el mantenimiento de optimización a la tabla $tabla");
+            } else {
+                DwAudit::error("Se ha generado un error al realizar el mantenimiento de optimización a la tabla $tabla");
+            }
+            return $rs;
         } else {
             return FALSE;
         }
@@ -173,6 +197,9 @@ class Sistema {
             $menu->activo = ($config['app_office'] == 'Off') ? Menu::INACTIVO : Menu::ACTIVO;
             $menu->update();
         }
+        if($rs) {
+            DwAudit::info('Se ha actualizado el archivo de configuración del sistema');
+        }
         return $rs;
     }
     
@@ -195,7 +222,11 @@ class Sistema {
         if(empty($data['/'])) {
             $data['/'] = 'principal';
         }
-        return DwConfig::write('routes', $data, 'routes');
+        $rs = DwConfig::write('routes', $data, 'routes');
+        if($rs) {
+            DwAudit::info('Se ha actualizado el archivo de enrutamiento interno del sistema');
+        }
+        return $rs;
     }
     
     /**
@@ -218,7 +249,11 @@ class Sistema {
         $data['type'] = 'mysqli';
         //Se utiliza por defecto el charset UTF-8
         $data['charset'] = 'UTF-8';
-        return DwConfig::write('databases', $data, $source);
+        $rs =  DwConfig::write('databases', $data, $source);
+        if($rs) {
+            DwAudit::info('Se ha actualizado el archivo de conexión del sistema');
+        }
+        return $rs;
     }
     
     /**
@@ -261,7 +296,8 @@ class Sistema {
                 copy($org, $des);//Copio el original
                 @chmod("$des", 0777);//Permisos                                                            
             }
-        }        
+        }            
+        DwAudit::info('Se han restaurado los archivos de configuración, enrutamiento y de conexión del sistema');
         //@TODO revisar esto;
         return true;
     }
