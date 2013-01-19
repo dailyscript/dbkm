@@ -172,6 +172,33 @@ class Sistema {
         return $paginate->paginate($result, "page: $page", "per_page: 50");                
     }
     
+    /**
+     * Método para leer las autidorías del sistema
+     */
+    public static function getAudit($fecha, $page) {
+        $audit = DwRead::file('audit'.$fecha);
+        //Armo un nuevo array para ordenarlos 
+        $contador = 0;
+        $new_log = array();
+        if(!empty($audit)) {
+            foreach($audit as $key => $row) {
+                $data = explode(']', $row);
+                $new_log[$contador]['item'] = $contador;
+                $new_log[$contador]['fecha'] = date("Y-m-d H:i:s", strtotime(trim($data[0],'[')));
+                $new_log[$contador]['tipo'] = trim($data[1],'[');
+                $new_log[$contador]['ruta'] = trim($data[2],'[');
+                $new_log[$contador]['usuario'] = trim($data[3],'[');
+                $new_log[$contador]['ip'] = trim($data[4],'[');
+                $new_log[$contador]['descripcion'] = trim($data[5],'[');
+                $contador++;
+            }                
+        }
+        $result = DwUtils::orderArray($new_log, 'item', TRUE);                
+        //Pagino el array
+        $paginate = new DwPaginate();
+        return $paginate->paginate($result, "page: $page", "per_page: 50");                
+    }
+    
     
     /**
      * Método para actualizar el archivo config.ini según los parámetros enviados

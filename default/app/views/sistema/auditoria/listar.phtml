@@ -1,0 +1,52 @@
+<?php View::notify(); ?>
+
+<div class="container-fluid dw-shell-view">
+    
+    <?php View::process($page_module, $page_title, $set_title); ?>        
+    
+    <div class="dw-overflow">
+
+        <table class="table table-bordered table-hover table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th class="no-responsive dw-text-middle" style="width: 15px;">NUM</th>
+                    <th class="no-responsive dw-text-middle">FECHA</th>
+                    <th class="no-responsive dw-text-middle">TIPO</th>
+                    <th class="no-responsive dw-text-middle">USUARIO</th>
+                    <th class="no-responsive dw-text-middle">IP</th>
+                    <th class="no-responsive dw-text-center">DESCRIPCION</th>
+                </tr>                
+            </thead>
+            <tbody>
+                <?php if($audits->items) { ?>
+                    <?php foreach($audits->items as $audit): ?>
+                    <tr>
+                        <td><?= $audits->counter; ?></td>
+                        <td><?= $audit['fecha']; ?></td>
+                        <td>
+                            <?php if($audit['tipo'] == 'ERROR' OR $audit['tipo'] == 'ALERT') { ?>
+                                <span class="label label-important"><?= $audit['tipo']; ?></span>
+                            <?php } else if($audit['tipo'] == 'WARNING' OR $audit['tipo'] == 'CRITICAL' OR $audit['tipo'] == 'EMERGENCE') { ?>
+                                <span class="label label-warning"><?= $audit['tipo']; ?></span>
+                            <?php } else if($audit['tipo'] == 'NOTICE' OR $audit['tipo'] == 'INFO') { ?>
+                                <span class="label label-info"><?= $audit['tipo']; ?></span>
+                            <?php } else { ?>
+                                <span class="label"><?= $audit['tipo']; ?></span>
+                            <?php } ?>
+                        </td>
+                        <td><?= $audit['usuario']; ?></td>
+                        <td><?= $audit['ip']; ?></td>
+                        <td><?= $audit['descripcion']; ?></td>
+                    </tr>
+                    <?php $audits->counter++; ?>
+                    <?php endforeach; ?>
+                <?php } ?>                    
+            </tbody>
+
+        </table>
+
+    </div>
+      
+    <?php View::partial('paginators/default', false, array('page'=>$audits, 'url'=>"sistema/sucesos/listar/$fecha/")); ?>
+    
+</div>
