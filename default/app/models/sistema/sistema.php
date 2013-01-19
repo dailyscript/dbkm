@@ -151,7 +151,7 @@ class Sistema {
     /**
      * Método para leer los logs del sistema
      */
-    public function getLogger($fecha, $page) {
+    public static function getLogger($fecha, $page) {
         $log = DwRead::file('log'.$fecha);
         //Armo un nuevo array para ordenarlos 
         $contador = 0;

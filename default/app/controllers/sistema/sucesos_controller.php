@@ -48,8 +48,7 @@ class SucesosController extends BackendController {
         }
         $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
         
-        $sistema = new Sistema();
-        $loggers = $sistema->getLogger($fecha, $page);
+        $loggers = Sistema::getLogger($fecha, $page);
         $this->loggers = $loggers;
         $this->fecha = $fecha;
         $this->page_module = 'Logs del sistema '.$fecha;
