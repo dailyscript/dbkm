@@ -74,7 +74,7 @@ class RecursoPerfil extends ActiveRecord {
         } 
         if(!empty($privilegios)) {
             foreach($privilegios as $value) {                 
-                $data = explode('-', $value); //el formato es 1-4 = recurso-rol
+                $data = explode('-', $value); //el formato es 1-4 = recurso_id-perfil_id
                 $obj->recurso_id = $data[0];
                 $obj->perfil_id = $data[1];
                 if($obj->exists("recurso_id=$obj->recurso_id AND perfil_id=$obj->perfil_id")){

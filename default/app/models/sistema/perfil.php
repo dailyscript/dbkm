@@ -112,10 +112,13 @@ class Perfil extends ActiveRecord {
     }
     
     /**
-     * Callback que se ejecuta después de crear un perfil
+     * Callback que se ejecuta después de guardar/modificar un perfil
      */
-    protected function after_create() {
-        RecursoPerfil::setRecursoPerfil(array(''=>Recurso::DASHBOARD.'-'.$this->id, ''=>Recurso::MI_CUENTA.'-'.$this->id));
+    protected function after_save() {
+        $data = array();
+        $data[] = Recurso::DASHBOARD.'-'.$this->id;
+        $data[] = Recurso::MI_CUENTA.'-'.$this->id;
+        RecursoPerfil::setRecursoPerfil($data);
     }
 
 
