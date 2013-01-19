@@ -105,5 +105,24 @@ class View extends KumbiaView {
         View::select(NULL, NULL);
         echo json_encode($data);
     }
+    
+    /**
+     * Método que muestra el reporte según el formato. Si es un formato desconocido muesra la página de error
+     *
+     * @param string $formato Formato a mostrar: html, pdf, xls, xml, ticket, etc
+     * @return boolean
+     */
+    public static function report($formato) {
+        $formato = Filter::get($formato,'string');        
+        $template = ($formato=='html') ? 'backend/impress' : NULL;
+        if($formato == 'error') {
+            self::error();
+        } else if( ($formato!='html' && $formato!='pdf' && $formato!='xls' && $formato!='xlsx' && $formato!='doc' && $formato!='docx' && $formato!='csv' && $formato!='xml' && $formato!='ticket') or $formato == null) {
+            DwMessage::error('Error: ACCESO DENEGADO. El formato del reporte es incorrecto.');
+            self::error();
+        } else {
+            self::response($formato, $template);
+        }                            
+    }
 
 }

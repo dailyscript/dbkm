@@ -175,7 +175,7 @@ class Sistema {
     /**
      * Método para leer las autidorías del sistema
      */
-    public static function getAudit($fecha, $page) {
+    public static function getAudit($fecha, $page=0) {
         $audit = DwRead::file('audit'.$fecha);
         //Armo un nuevo array para ordenarlos 
         $contador = 0;
@@ -194,9 +194,12 @@ class Sistema {
             }                
         }
         $result = DwUtils::orderArray($new_log, 'item', TRUE);                
-        //Pagino el array
-        $paginate = new DwPaginate();
-        return $paginate->paginate($result, "page: $page", "per_page: 50");                
+        if($page > 0) {
+            //Pagino el array
+            $paginate = new DwPaginate();
+            return $paginate->paginate($result, "page: $page", "per_page: 50");                
+        }   
+        return $result;
     }
     
     
