@@ -57,15 +57,7 @@
                     <div class="span6">
                         <?= DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', 'mi_cuenta'), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), $usuario->perfil_id, 'Perfil'); ?>
                     </div>
-                </div>   
-                
-                <?php if(APP_OFFICE) { ?>
-                <div class="row-fluid">                                        
-                    <div class="span6">
-                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), empty($usuario->sucursal_id) ? 'todas' : $usuario->sucursal_id, 'Sucursal'); ?>
-                    </div>                    
-                </div>
-                <?php } ?>
+                </div>                                   
                 
                 <div class="row-fluid">                                        
                     <div class="span6">

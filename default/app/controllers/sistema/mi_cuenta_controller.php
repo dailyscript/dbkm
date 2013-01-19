@@ -40,7 +40,7 @@ class MiCuentaController extends BackendController {
                 //Guardo la persona
                 $persona = Persona::setPersona('update', Input::post('persona'), array('id'=>$usuario->persona_id));
                 if($persona) {
-                    $usuario = Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'oldpassword'=>Input::post('oldpassword'), 'id'=>$usuario->id, 'login'=>$usuario->login));
+                    $usuario = Usuario::setUsuario('update', Input::post('usuario'), array('persona_id'=>$persona->id, 'repassword'=>Input::post('repassword'), 'oldpassword'=>Input::post('oldpassword'), 'id'=>$usuario->id, 'login'=>$usuario->login, 'sucursal_id'=>$usuario->sucursal_id));
                     if($usuario) {
                         ActiveRecord::commitTrans();
                         DwMessage::valid('El usuario se ha actualizado correctamente.');                        
