@@ -52,7 +52,7 @@ class BackupController extends BackendController {
     /**
      * Método para listar
      */
-    public function listar($order='order.id.asc', $page='pag.1') { 
+    public function listar($order='order.id.desc', $page='pag.1') { 
         $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
         $backup = new Backup();
         $backups = $backup->getListadoBackup($order, $page);
