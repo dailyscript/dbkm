@@ -30,7 +30,7 @@ class ConfiguracionController extends BackendController {
             try {                
                 Sistema::setConfig(Input::post('application'), 'application');
                 Sistema::setConfig(Input::post('custom'), 'custom'); 
-                DwMessage::valid('El archivo de configuración se ha actualizaco correctamente!');
+                DwMessage::valid('El archivo de configuración se ha actualizado correctamente!');
             } catch(KumbiaException $e) {
                 DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
             } 
@@ -49,7 +49,7 @@ class ConfiguracionController extends BackendController {
             try {                
                 Sistema::setConfig(Input::post('application'), 'application');
                 Sistema::setConfig(Input::post('custom'), 'custom'); 
-                DwMessage::valid('El archivo de configuración se ha actualizaco correctamente!');
+                DwMessage::valid('El archivo de configuración se ha actualizado correctamente!');
             } catch(KumbiaException $e) {
                 DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
             } 
@@ -67,7 +67,7 @@ class ConfiguracionController extends BackendController {
         if(Input::hasPost('routes')) {            
             try {                
                 Sistema::setRoutes(Input::post('routes'));
-                DwMessage::valid('El archivo de enrutamiento se ha actualizaco correctamente!');
+                DwMessage::valid('El archivo de enrutamiento se ha actualizado correctamente!');
             } catch(KumbiaException $e) {
                 DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
             } 
@@ -76,6 +76,45 @@ class ConfiguracionController extends BackendController {
         $this->routes = DwConfig::read('routes', '', true);        
         $this->page_module = 'Configuración de enrutamientos';
     } 
+    
+    /**
+     * Método para editar el databases
+     */
+    public function databases() {
+        if(Input::hasPost('development') && Input::hasPost('production')) {
+            try {                                
+                Sistema::setDatabases(Input::post('development'), 'development');
+                Sistema::setDatabases(Input::post('production'), 'production');
+                DwMessage::valid('El archivo de conexión se ha actualizado correctamente!');
+            } catch(KumbiaException $e) {
+                DwMessage::error('Oops!. Se ha realizado algo mal internamente. <br />Intentalo de nuevo!.');
+            } 
+            Input::delete('databases');            
+        }        
+        $this->databases = DwConfig::read('databases', '', true);        
+        $this->page_module = 'Configuración de conexión';
+    } 
+    
+    /**
+     * Método para verificar la conexión de la bd
+     */
+    public function test() {
+        if(!Input::isAjax()) {
+            DwMessage::error('Acceso incorrecto para la verificación del sistema.');
+            DwRedirect::to('dashboard');
+        }        
+        if(!Input::hasPost('development') OR !(Input::hasPost('production')) ) {
+            DwMessage::error('Oops!. No hemos recibido algún parámetro de configuración.');            
+        } else {
+            if(Input::hasPost('development')) { 
+                Sistema::testConnection(Input::post('development'), 'development', true);
+            }
+            If(Input::hasPost('production')) {            
+                Sistema::testConnection(Input::post('production'), 'production', true);
+            }               
+        }                  
+        View::ajax();
+    }
     
     /**
      * Método para resetear las configuraciones del sistema

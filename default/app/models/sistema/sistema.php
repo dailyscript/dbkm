@@ -32,7 +32,7 @@ class Sistema {
     /**
      * Método contructor
      */
-    public function __construct() {
+    public function __construct() {        
         //Reviso la configuración actual
         $config = Config::read('config');
         $this->_database =  $config['application']['database'];
@@ -173,6 +173,11 @@ class Sistema {
      * 
      */
     public static function setRoutes($data=null) {
+        //Verifico si tiene permisos de escritura para crear y editar un archvivo.ini
+        if(!is_writable(APP_PATH.'config')) {            
+            DwMessage::warning('Asigna temporalmente el permiso de escritura a la carpeta "config" de tu app!.');
+            return false;
+        }  
         if($data==null) {
             //Si está en proceso de instalación
             $data = array('/'=>'principal',
@@ -184,6 +189,53 @@ class Sistema {
         }
         return DwConfig::write('routes', $data, 'routes');
     }
+    
+    /**
+     * Método para crear el archivo databases.ini según los parámetros enviados
+     * 
+     * @param type $data Campos de los formularios
+     * @param type $source Production o Deveploment
+     * @param type $createDb Indica si se crea o no la base de datos
+     * @return boolean
+     */
+    public static function setDatabases($data, $source='development') {        
+        //Verifico si tiene permisos de escritura para crear y editar un archvivo.ini
+        if(!is_writable(APP_PATH.'config')) {            
+            DwMessage::warning('Asigna temporalmente el permiso de escritura a la carpeta "config" de tu app!.');
+            return false;
+        }     
+        //Filtro el array con los parámetros
+        $data = Filter::data($data, array('host', 'username', 'password', 'name', 'type'), 'trim');
+        //Se utiliza por defecto el driver mysqli por ser orientado a objetos
+        $data['type'] = 'mysqli';
+        //Se utiliza por defecto el charset UTF-8
+        $data['charset'] = 'UTF-8';
+        return DwConfig::write('databases', $data, $source);
+    }
+    
+    /**
+     * Método que verifica la conexión con la base de datos
+     * @param type $data
+     * @param type $source
+     * @return boolean 
+     */
+    public static function testConnection($data, $source, $db=false) {       
+        //Filtro el array con los parámetros
+        $data = Filter::data($data, array('host', 'username', 'password', 'name', 'type'), 'trim');
+        //Se utiliza por defecto el driver mysqli por ser orientado a objetos
+        $data['type'] = 'mysqli';     
+        $data['charset'] = 'UTF-8';  
+        try {                
+            //Seteo las variables del core
+            Config::set("databases.{$source}", $data);
+            //Reviso la conexión, sino, genera la excepción
+            @Db::factory($source, true);
+            DwMessage::valid("Conexión establecida en modo <b>$source!</b>");                        
+        } catch (KumbiaException $e) {                
+            DwMessage::error("Error en modo '$source': <br /> ".$e->getMessage());
+            return false;
+        }
+    } 
     
     /**
      * Métdo que resetea la configuración del sistema
