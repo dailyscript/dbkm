@@ -89,7 +89,7 @@ class DwAcl {
         $controlador = Router::get('controller');
         $accion = Router::get('action'); 
         if (isset($this->_templates["$perfil"]) && !Input::isAjax()) {
-            View::template("{$this->_templates["$perfil"]}");
+            View::template("backend/{$this->_templates["$perfil"]}");
         }
         if ($modulo) {
             $recurso1 = "$modulo/$controlador/$accion";//Por si tiene acceso a una única acción

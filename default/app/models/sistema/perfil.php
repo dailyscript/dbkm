@@ -102,12 +102,18 @@ class Perfil extends ActiveRecord {
     public function before_save() {
         $this->perfil = Filter::get($this->perfil, 'string');
         $this->plantilla = Filter::get($this->plantilla, 'string');
-        $this->plantilla = (!empty($this->plantilla)) ? DwUtils::getSlug($this->plantilla, '_') : 'backend';
+        $this->plantilla = (!empty($this->plantilla)) ? DwUtils::getSlug($this->plantilla, '_') : 'default';
         if(!empty($this->id)) {
             if($this->id == Perfil::SUPER_USUARIO) {
                 DwMessage::warning('Lo sentimos, pero este perfil no se puede editar.');
                 return 'cancel';
             }
+        }
+        $path = APP_PATH.'views/_shared/templates/backend/'.$this->plantilla.'.phtml';
+        //Verifico si se encuentra el template
+        if(!is_file($path)) {
+            DwMessage::error('Lo sentimos, pero no hemos podidio ubicar la plantilla '.$this->plantilla); 
+            return 'cancel';
         }
     }
     
