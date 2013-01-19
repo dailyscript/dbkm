@@ -37,7 +37,10 @@
                 </tr>            
             </thead>
             <tbody>            
-                <?php foreach($menus->items as $menu): ?>                
+                <?php foreach($menus->items as $menu): ?>  
+                    <?php if(!APP_OFFICE && $menu->id == Menu::SUCURSAL) { ?>
+                        <?php continue; ?>
+                    <?php } ?>
                     <?php $key_upd = DwSecurity::getKey($menu->id, 'upd_menu'); ?>
                     <?php $key_ina = DwSecurity::getKey($menu->id, 'inactivar_menu'); ?>
                     <?php $key_rea = DwSecurity::getKey($menu->id, 'reactivar_menu'); ?>

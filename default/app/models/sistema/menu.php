@@ -31,7 +31,12 @@ class Menu extends ActiveRecord {
     /**
      * Constante para definir un menú visible en el frontend
      */
-    const FRONTEND = 2;         
+    const FRONTEND = 2; 
+    
+    /**
+     * Constante para definir el ID de las sucursales
+     */
+    const SUCURSAL = 9;
         
     /**
      * Método para definir las relaciones y validaciones

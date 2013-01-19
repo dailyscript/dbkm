@@ -44,7 +44,7 @@ class MenuController extends BackendController {
     public function agregar() {
         if(Input::hasPost('menu')) {
             if(Menu::setMenu('create', Input::post('menu'), array('activo'=>Menu::ACTIVO))){
-                DwMessage::valid('El menú se ha creado correctamente!');
+                DwMessage::valid('El menú se ha creado correctamente! <br/>Por favor recarga la página para verificar los cambios.');
                 return DwRedirect::toAction('listar');
             }          
         }
@@ -73,7 +73,7 @@ class MenuController extends BackendController {
         if(Input::hasPost('menu')) {
             if(DwSecurity::isValidKey(Input::post('menu_id_key'), 'form_key')) {
                 if(Menu::setMenu('update', Input::post('menu'), array('id'>$id))){
-                    DwMessage::valid('El menú se ha actualizado correctamente!');
+                    DwMessage::valid('El menú se ha actualizado correctamente! <br/>Por favor recarga la página para verificar los cambios.');
                     return DwRedirect::toAction('listar');
                 }
             }

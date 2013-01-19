@@ -165,7 +165,15 @@ class Sistema {
         }     
         //Filtro el array
         $data = Filter::data($data, null, 'trim');         
-        return DwConfig::write('config', $data, $source);
+        $rs = DwConfig::write('config', $data, $source);
+        if($rs && $source=='custom'){ //Para verificar si está habilitado el manejo de sucursales
+            $config = DwConfig::read('config', 'custom');
+            $menu = new Menu();
+            $menu->find_first(Menu::SUCURSAL);
+            $menu->activo = ($config['app_office'] == 'Off') ? Menu::INACTIVO : Menu::ACTIVO;
+            $menu->update();
+        }
+        return $rs;
     }
     
     /**

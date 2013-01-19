@@ -55,6 +55,11 @@ class Empresa extends ActiveRecord {
     
     public function after_save() {
         Session::delete('empresa', 'config');
+        //Si no está habilitado para el manejo de sucursal
+        //registro la ubicación de la empresa como sucursal
+        if(!APP_OFFICE && Input::hasPost('sucursal')) {             
+            Sucursal::setSucursal('save', Input::post('sucursal'), array('sucursal'=>'Oficina Principal', 'empresa_id'=>$this->id));
+        }
     }
 
     /**

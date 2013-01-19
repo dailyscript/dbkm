@@ -96,7 +96,10 @@ class DwMenu {
                 $html.= DwHtml::link('#', $text, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), NULL, FALSE);
                 if(array_key_exists($main->menu, self::$_items)) {
                     $html.= '<ul class="dropdown-menu">';
-                    foreach(self::$_items[$main->menu] as $item) {                        
+                    foreach(self::$_items[$main->menu] as $item) { 
+                        if(!APP_OFFICE && $item->id == Menu::SUCURSAL) {
+                            continue;
+                        }
                         $active = ($item->url==$route) ? 'active' : null;                        
                         $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, NULL, $item->icon, FALSE).'</li>';
                     }
@@ -120,7 +123,10 @@ class DwMenu {
             $html.= '<div id="sub-menu-'.strtolower($menu).'" class="subnav hidden">'.PHP_EOL;
             $html.= '<ul class="nav nav-pills">'.PHP_EOL;
             if(array_key_exists($menu, self::$_items)) {
-                foreach(self::$_items[$menu] as $item) {                    
+                foreach(self::$_items[$menu] as $item) {
+                    if(!APP_OFFICE && $item->id == Menu::SUCURSAL) {
+                        continue;
+                    }
                     $active = ($item->url==$route or $item->url=='principal') ? 'active' : null;
                     $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icono).'</li>'.PHP_EOL;
                 }

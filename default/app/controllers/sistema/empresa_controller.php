@@ -43,6 +43,12 @@ class EmpresaController extends BackendController {
             return DwRedirect::to('dashboard');
         }
         
+        if(!APP_OFFICE) {
+            $sucursal = new Sucursal();
+            $this->sucursal = $sucursal->getInformacionSucursal(1);
+            $this->ciudades = Load::model('params/ciudad')->getCiudadesToJson();
+        }
+        
         $this->empresa = $empresa;
         $this->page_title = 'Información de la empresa';
     }

@@ -15,7 +15,10 @@
         <ul class="nav nav-pills nav-stacked">
         <?php } ?>        
             <li class="active"><a href="#tab1" data-toggle="tab">Información general</a></li>            
-            <li><a href="#tab2" data-toggle="tab">Cargar logo</a></li>
+            <?php if(!APP_OFFICE) { ?>
+            <li><a href="#tab2" data-toggle="tab">Información de ubicación</a></li>
+            <?php } ?>
+            <li><a href="#tab3" data-toggle="tab">Cargar logo</a></li>
         </ul>
         <div class="tab-content">
             
@@ -62,19 +65,47 @@
                         <?= DwForm::email('empresa.email', array('class'=>'input-xxlarge mask-email show-error'), NULL, 'Email'); ?>
                     </div>                    
                 </div>  
-                
+                <?php if(APP_OFFICE) { ?>
                 <div class="row-fluid">
                     <div class="span6">
                         <?= DwForm::tel('empresa.telefono', array('class'=>'input-xxlarge mask-pint show-error'), NULL, 'Teléfono'); ?>
                     </div>
                     <div class="span6">
                         <?= DwForm::tel('empresa.fax', array('class'=>'input-xxlarge show-error'), NULL, 'Fax'); ?>
-                    </div>            
+                    </div>                                
                 </div>
+                <?php } ?>
                 
             </div>                        
             
+            <?php if(!APP_OFFICE) { ?>
             <div class="tab-pane" id="tab2">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= DwForm::text('sucursal.direccion', array('class'=>'input-xxlarge input-required input-alphanum mask-alphanum show-error'), NULL, 'Dirección'); ?>
+                    </div>
+                    <div class="span6">
+                        <?= DwForm::text('ciudad', array('class'=>'input-xxlarge input-required input-alphanum mask-alphanum show-error', 'autocomplete'=>'off'), empty($sucursal->ciudad) ? NULL : $sucursal->ciudad, 'Ciudad'); ?>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4">
+                        <?= DwForm::tel('sucursal.celular', array('class'=>'input-numeric mask-pint show-error'), NULL, 'Celular'); ?>
+                    </div>                    
+                    <div class="span4">
+                        <?= DwForm::tel('sucursal.telefono', array('class'=>'input-numeric mask-pint show-error'), NULL, 'Teléfono'); ?>
+                    </div>
+                    <div class="span4">
+                        <?= DwForm::tel('sucursal.fax', array('class'=>'input-numeric mask-pint show-error'), NULL, 'Fax'); ?>
+                    </div>
+                    <?php if(!empty($sucursal->id)) { ?>
+                    <?= DwForm::hidden('sucursal.id', NULL, $sucursal->id); ?>
+                    <?php } ?>
+                </div>
+            </div>
+            <?php } ?>
+            
+            <div class="tab-pane" id="tab3">
                 
                 <div class="row fileupload-buttonbar">
                     
@@ -121,6 +152,17 @@
 </div>
 
 <?php View::partial('jquery.file-upload'); ?>
+
+<?php if(!APP_OFFICE) { ?>
+<script type="text/javascript">    
+    var ciudades = <?= $ciudades; ?>;
+    $(function() {        
+        $('#ciudad').typeahead({
+                source: ciudades, items:5
+        });        
+    });    
+</script>
+<?php } ?>
 
 <script type="text/javascript">
     $('#logo').fileupload({
