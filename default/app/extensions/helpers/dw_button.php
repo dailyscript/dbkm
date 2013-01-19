@@ -87,6 +87,68 @@ class DwButton {
             return DwHtml::button($redir, 'REGRESAR', $attrs, $icon); 
         }
     }
+    
+    /**
+     * Método para crear un botón para imprimir reportes
+     * @param type $path Ruta del controlador del módulo de reporte
+     * @param type $file Tipos de formato de reporte
+     * @param type $text (opcional) Texto a mostrar en el botón
+     * @return type
+     */
+    public static function report($path, $files='html', $title='', $text='imprimir') {        
+        $path = '/reporte/'.trim($path, '/').'/';
+        //Verifico los tipos de archivo para llevar un orden específico
+        $types = array();
+        //Verifico si tiene el formato de impresora fiscal
+        if(preg_match("/\bticket\b/i", $files)) {
+            $types[] = 'ticket';
+        }
+        //Verifico si tiene el formato html
+        if(preg_match("/\bhtml\b/i", $files)) {
+            $types[] = 'html';
+        }
+        //Verifico si tiene el formato pdf
+        if(preg_match("/\bpdf\b/i", $files)) {
+            $types[] = 'pdf';
+        }
+        //Verifico si tiene el formato xls
+        if(preg_match("/\bxls\b/i", $files)) {
+            $types[] = 'xls';
+        }
+        //Verifico si tiene el formato xlsx
+        if(preg_match("/\bxlsx\b/i", $files)) {
+            $types[] = 'xlsx';
+        }
+        //Verifico si tiene el formato doc
+        if(preg_match("/\bdoc\b/i", $files)) {
+            $types[] = 'doc';
+        }
+        //Verifico si tiene el formato docx
+        if(preg_match("/\bdocx\b/i", $files)) {
+            $types[] = 'docx';
+        }
+        //Verifico si tiene el formato xml
+        if(preg_match("/\bxml\b/i", $files)) {
+            $types[] = 'xml';
+        }
+        //Verifico si tiene el formato docx
+        if(preg_match("/\bcsv\b/i", $files)) {
+            $types[] = 'csv';
+        }        
+        //Uno los tipos
+        $files = join('|', $types);
+            
+        $attrs = array();
+        $attrs['class'] = 'btn-info js-report no-load';
+        $attrs['title'] = 'Imprimir reporte';
+        $attrs['data-report-title'] = (empty($title)) ? 'Imprimir reporte' : $title;
+        $attrs['data-report-format'] = $files;
+        if(empty($text)) {
+            return DwHtml::button($path, '', $attrs, 'print'); 
+        } else {
+            return DwHtml::button($path, strtoupper($text), $attrs, 'print'); 
+        }
+    }
 
     /**
      * Método para crear un botón para envío de formularios

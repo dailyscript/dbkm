@@ -173,6 +173,50 @@
 				}
 			}, 'json');
 		},
+                
+                /**
+		 * Muestra mensaje para seleccionar el tipo de reporte
+		 *
+		 * @param Object event
+		 */
+		cReport: function(event) {
+                        event.preventDefault();
+			var este = $(this);                        
+                        var reporte = $("#modal_reporte");
+                        var data_title = este.attr('data-report-title');                        
+                        var data_format = este.attr('data-report-format').split('|');                        
+                        if(data_title==undefined) {
+                            data_title = 'Imprmir reporte';
+                        }
+                        if ($("#modal_reporte").size() > 0 ){
+                            reporte.empty();
+                        }
+                        
+                        var tmp_check = '';                        
+                        for(i=0 ; i < data_format.length ; i++) { 
+                            tmp_checked = (i==0) ? 'checked="checked"' : '';
+                            tmp_check = tmp_check + '<label class="checkbox inline" style="font-size: 12px;"><input name="report-format-type" type="radio" '+tmp_checked+' value="'+data_format[i].toLowerCase()+'" style="margin: 0px;">&nbsp;'+data_format[i].toUpperCase()+'</label>';
+                        }                                                
+                        var tmp_form = '<div class="row-fluid"><form>'+tmp_check+'</form></div>';
+                        
+                        //Armo el modal
+                        reporte = $('<div id="modal_reporte"></div>').addClass('modal fade');
+                        var header = $('<div><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3><i class="icon-warning-sign" style="padding-right:5px; margin-top:5px;"></i>'+data_title+'</h3></div>').addClass('modal-header');                        
+                        var cuerpo = $('<div><p>En qué formato deseas ver este reporte?</p><p>Recuerda reciclar el papel</p>'+tmp_form+'</div>').addClass('modal-body');
+                        var footer = $('<div></div>').addClass('modal-footer');
+                        reporte.append(header);
+                        reporte.append(cuerpo);
+                        reporte.append(footer);
+                        footer.append('<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>');                        
+                        footer.append('<button class="btn btn-success">Aceptar</a>');                        
+                        $('.btn-success', reporte).on('click',function(){                            
+                            reporte.modal('hide') 
+                            checked = $("input:checked", reporte).val();                            
+                            popup_url = rtrim(este.attr('href'), '/')+'/'+checked+'/';                            
+                            (checked=='ticket') ? DwPopupTicket(popup_url) : DwPopupReport(popup_url);
+                        });                        
+                        reporte.modal();
+		},
 
 		/**
 		 * Carga y Enlaza Unobstrusive DatePicker en caso de ser necesario
@@ -245,6 +289,9 @@
 
             // Formulario ajax
 			$("body").on('submit', 'form.js-remote', this.cFRemote);
+                        
+                        //Link para reportes
+                        $("body").on('click', '.js-report', this.cReport);
 
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").on('change', this.cUpdaterSelect);

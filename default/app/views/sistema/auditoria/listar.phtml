@@ -4,6 +4,12 @@
     
     <?php View::process($page_module, $page_title, $set_title); ?>        
     
+    <div class="btn-toolbar btn-toolbar-top">        
+        <div class="btn-actions">            
+            <?= DwButton::report("auditoria/listar/$fecha/", 'html|xls|pdf', 'Reporte de auditorías'); ?> 
+        </div>
+    </div>
+    
     <div class="dw-overflow">
 
         <table class="table table-bordered table-hover table-striped table-condensed">
