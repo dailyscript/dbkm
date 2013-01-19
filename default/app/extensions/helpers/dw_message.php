@@ -37,9 +37,9 @@ class DwMessage {
      *
      * @param string $name Tipo de mensaje y para CSS class='$name'.
      * @param string $msg Mensaje a mostrar
-     * @param boolean $logger Indica si el mensaje se almacena como logger
+     * @param boolean $audit Indica si el mensaje se almacena como auditoría
      */
-    public static function set($name, $msg, $logger=false) {        
+    public static function set($name, $msg, $audit=FALSE) {        
         //Verifico si hay mensajes almacenados en sesión por otro request.
         if(self::has('dw-messages')) {            
             self::$_contentMsj = Session::get('dw-messages');                
@@ -53,8 +53,8 @@ class DwMessage {
         //Almaceno los mensajes guardados en una variable de sesión, para mostrar los mensajes provenientes de otro request.
         Session::set('dw-messages', self::$_contentMsj);
         //Verifico si el mensaje se almacena como looger
-        if($logger) {
-            DwLogger::$name($msg);
+        if($audit) {
+            ($name=='success') ? DwAudit::debug($msg) : DwAudit::$name($msg);
         }            
     }
     
@@ -64,7 +64,7 @@ class DwMessage {
      * @return bool
      */
     public static function has() {
-        return Session::has('dw-messages') ?  true : false;
+        return Session::has('dw-messages') ?  TRUE : FALSE;
     }
     
     /**
@@ -88,51 +88,51 @@ class DwMessage {
      * Carga un mensaje de error
      *
      * @param string $msg
-     * @param boolean $logger Indica si se registra el mensaje como un logger
+     * @param boolean $autid Indica si se registra el mensaje como una auditoría
      */
-    public static function error($msg, $logger=false) {
-        self::set('error',$msg, $logger);          
+    public static function error($msg, $audit=FALSE) {
+        self::set('error',$msg, $audit);          
     }
 
     /**
      * Carga un mensaje de advertencia en pantalla
      *
      * @param string $msg
-     * @param boolean $logger Indica si se registra el mensaje como un logger
+     * @param boolean $autid Indica si se registra el mensaje como una auditoría
      */
-    public static function warning($msg, $logger=false) {
-        self::set('warning',$msg, $logger);
+    public static function warning($msg, $audit=FALSE) {
+        self::set('warning',$msg, $audit);
     }
 
     /**
      * Carga informacion en pantalla
      *
      * @param string $msg
-     * @param boolean $logger Indica si se registra el mensaje como un logger
+     * @param boolean $autid Indica si se registra el mensaje como una auditoría
      */
-    public static function info($msg, $logger=false) {
-        self::set('info',$msg, $logger);
+    public static function info($msg, $audit=FALSE) {
+        self::set('info',$msg, $audit);
     }
     
     /**
      * Carga información de suceso correcto en pantalla
      *
      * @param string $msg
-     * @param boolean $logger Indica si se registra el mensaje como un logger
+     * @param boolean $autid Indica si se registra el mensaje como una auditoría
      */
-    public static function valid($msg, $logger=false) {
-        self::set('success',$msg, $logger);
+    public static function valid($msg, $audit=FALSE) {
+        self::set('success',$msg, $audit);
     }
 
     /** 
      * Carga mensajes por defecto almacenados en un array
      * 
      * @param type $num Nombre del mensaje a mostrar
-     * @param type $logger 
+     * @param type $audit 
      */
-    public static function get($msg, $logger=false) {
+    public static function get($msg, $audit=FALSE) {
         $message = self::$_msg[$msg];
-        self::set($message[0], $message[1], $logger);        
+        self::set($message[0], $message[1], $audit);        
     }    
     
 }
