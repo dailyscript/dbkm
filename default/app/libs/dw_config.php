@@ -52,8 +52,8 @@ class DwConfig {
         $vars = self::read($file, '', TRUE);        
         $org = APP_PATH."config/$file.ini";//Archivo actual
         @chmod(APP_PATH . "config/$file.ini", 0777);//Le damos permisos para editar
-        //Verifico si tiene copia del original
-        if(!is_file(APP_PATH."config/$file.org.ini")) { //Verifico si tiene una copia del original              
+        //Verifico si tiene copia del original, sino se crea
+        if(!is_file(APP_PATH."config/$file.org.ini")) { 
             //@TODO Verificar que funcione en windows
             $org = APP_PATH."config/$file.ini";
             $des = APP_PATH."config/$file.org.ini";
@@ -73,29 +73,42 @@ class DwConfig {
         if(!array_key_exists($source, $vars)) {
             $vars[$source] = $data;
         } 
-        //Recorro el archivo
+        //Recorro el archivo para ver que variables cambian, se crean o se eliminan
         foreach($vars as $seccion => $filas) {
             $ini.= "[$seccion]".PHP_EOL;
             if(is_array($filas)) {
-                foreach($filas as $variable => $valor) { 
-                    if($source && $seccion==$source) {                            
+                foreach($filas as $variable => $valor) {                     
+                    if($source && $seccion==$source) {
                         if(array_key_exists($variable, $data)) {
                             if($data[$variable]!='delete-var') {//Verifico si es para eliminar la variable
                                 $valor = $data[$variable];                                 
                             } else {
                                 continue;
                             }
-                        }
+                        } 
                     }                     
                     $variable = Filter::get($variable, 'lower');                    
                     if ( in_array($valor , array('On', 'Off')) || is_numeric($valor) ) {                     
                         $ini.= "$variable = $valor" . PHP_EOL;
                     } else {
                         $valor = Filter::get($valor, 'htmlspecialchars');
-                        $ini.= "$variable = \"$valor\"" . PHP_EOL;
+                        $ini.= "$variable = $valor" . PHP_EOL;
                     } 
                 }
-            }
+                if($source && $seccion==$source) { //Verifico si está en el source correspondiente                    
+                    foreach($data as $variable => $valor) { //Verifico que variables se crean
+                        if(!array_key_exists($variable, $filas)) {
+                            $variable = DwUtils::getSlug($variable, '_');
+                            if ( in_array($valor , array('On', 'Off')) || is_numeric($valor) ) {                     
+                                $ini.= "$variable = $valor" . PHP_EOL;
+                            } else {
+                                $valor = Filter::get($valor, 'htmlspecialchars');
+                                $ini.= "$variable = $valor" . PHP_EOL;
+                            }                            
+                        }
+                    }
+                }
+            }                        
             $ini.= PHP_EOL;
         }
         $ini.= PHP_EOL;        

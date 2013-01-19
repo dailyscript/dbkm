@@ -9,11 +9,9 @@
             <?= DwHtml::button("sistema/configuracion/", 'basic', array('class'=>'btn-success'), 'asterisk', APP_AJAX); ?> 
             <?= DwHtml::button("sistema/configuracion/routes/", 'routes', array('class'=>'btn-warning'), 'random', APP_AJAX); ?> 
             <?= DwHtml::button("sistema/configuracion/databases/", 'databases', array('class'=>'btn-warning'), 'hdd', APP_AJAX); ?> 
-            <!--
             <div class="pull-right">
                 <?= DwHtml::button("sistema/configuracion/reset/", 'reset', array('class'=>'btn-danger js-confirm', 'confirm-title'=>'Restarurar archivos de configuración', 'confirm-body'=>'Está seguro de querer restastaurar los archivos de configuración? <br />Recuerda que esta operación no se puede reversar.'), 'warning-sign', APP_AJAX); ?>                 
-            </div>            
-            -->
+            </div>
         </div>
     </div>
         
@@ -57,7 +55,7 @@
             <div class="span1">&nbsp;</div> 
             
             <div class="span4">                                            
-                <?php echo DwForm::fieldset("<a id='add-config' href='#form-add-config' class='btn' data-toggle='modal'><i class='icon-ok icon-expand'></i>Agregar configuración</a>"); ?>
+                <?php echo DwForm::fieldset("<a id='add-config' href='#form-add-config' class='btn' data-toggle='modal'><i class='icon-ok icon-expand'></i>Agregar parámetro</a>"); ?>
                 <?php if(isset($config['custom'])) { ?>
                     <?php foreach($config['custom'] as $campo => $valor): ?>                        
                         <?php
@@ -138,7 +136,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>   
-            <?php echo DwForm::submit("Guardar", array('class'=>'btn btn-primary')); ?>            
+            <?php echo DwForm::submit("Crear", array('class'=>'btn btn-primary')); ?>            
         </div>
     </div>    
 <?php echo DwForm::close(); ?>
