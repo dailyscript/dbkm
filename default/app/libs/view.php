@@ -124,5 +124,13 @@ class View extends KumbiaView {
             self::response($formato, $template);
         }                            
     }
+    
+    /**
+     * Método para mostrar una ventana de error
+     */
+    public static function error($template='backend/error') {        
+        self::$_path = '_shared/errors/';
+        self::select('popup', $template);        
+    }
 
 }
