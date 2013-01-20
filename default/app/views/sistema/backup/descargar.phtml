@@ -1,0 +1,7 @@
+<?php
+$ruta = dirname(APP_PATH) . '/public/files/backup/' . $backup->archivo;
+
+header( "Content-Disposition: attachment; filename=".$backup->archivo."");
+header( "Content-type: application/octet-stream" );  
+header("Content-Length: ".$backup->tamano); //header que envia al navegador el tamaño del archivo.
+readfile($ruta);

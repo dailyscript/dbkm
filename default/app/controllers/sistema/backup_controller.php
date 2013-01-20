@@ -107,8 +107,16 @@ class BackupController extends BackendController {
      * Método para descargar
      */
     public function descargar($key='') {
-        DwMessage::info('Esta opción no se encuentra disponible temporalmente.');
-        return DwRedirect::toAction('listar');
+        if(!$id = DwSecurity::isValidKey($key, 'descargar_backup', 'int')) {
+            return View::ajax();
+        }        
+        $backup = new Backup();
+        if(!$backup->find_first($id)) {
+            DwMessage::get('id_no_found');
+            return DwRedirect::toAction('listar');
+        }
+        View::template(NULL);
+        $this->backup = $backup;        
     }
     
 }
