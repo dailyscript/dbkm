@@ -115,6 +115,12 @@ class BackupController extends BackendController {
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
         }
+        $file = dirname(APP_PATH) . '/public/files/backup/' . $backup->archivo;
+        if(!is_file($file)) {
+            DwMessage::warning('No hemos podido localizar el archivo. Por favor contacta al administrador del sistema.');
+            DwAudit::error("No se ha podido encontrar la copia de seguridad $backup->archivo en el sistema");
+            return DwRedirect::toAction('listar');
+        }
         View::template(NULL);
         $this->backup = $backup;        
     }
