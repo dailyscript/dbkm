@@ -24,7 +24,10 @@ class AppController extends Controller {
      * Callback que se ejecuta antes de los métodos de todos los controladores
      */
     final protected function initialize() {
-        
+        if(!APP_UPDATE) {
+            DwMessage::info('Estamos en labores de mantenimiento y actualización.');
+            View::select(NULL, 'update');
+        }
     }
 
     /**
