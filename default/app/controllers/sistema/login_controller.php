@@ -28,7 +28,7 @@ class LoginController extends BackendController {
      * Método que se ejecuta antes de cualquier acción
      */
     protected function before_filter() {
-        View::template('login');
+        View::template('backend/login');
     }
     
     /**
@@ -47,7 +47,7 @@ class LoginController extends BackendController {
                 return DwRedirect::to('dashboard/');
             }                       
         } else if(DwAuth::isLogged()) {
-            return DwRedirect::to('dashboard//');
+            return DwRedirect::to('dashboard/');
         }
     }
     
