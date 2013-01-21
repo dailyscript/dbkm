@@ -33,7 +33,7 @@ class AccesoController extends BackendController {
     public function listar($order='order.fecha.desc', $page='pag.1') { 
         $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
         $acceso = new Acceso();
-        $this->accesos = $acceso->getListadoAcceso('todos', $order, $page);        
+        $this->accesos = $acceso->getListadoAcceso(NULL, 'todos', $order, $page);        
         $this->order = $order;        
         $this->page_title = 'Entrada y salida de usuarios';
     }        

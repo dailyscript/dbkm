@@ -637,6 +637,20 @@ class DwForm extends Form {
     }
     
     /**
+     * Método para generar un select con un único registro
+     * @param string $field Nombre del campo
+     * @param string $value Valor del campo
+     * @param array $attrs Atributos para el select
+     * @param string $label Nombre del label
+     * @param string $help 
+     * @return string
+     */
+    public static function oneSelect($field, $value, $attrs=NULL, $label='', $help='') {                
+        $input = self::select($field, array($value=>$value), $attrs, $value, $label, $help);        
+        return $input.PHP_EOL;
+    }
+    
+    /**
      * Método para abrir/cerrar un fieldset
      * @staticvar boolean $i
      * @param type $text Texto a mostrar del fieldset

@@ -150,6 +150,31 @@ class UsuarioController extends BackendController {
     }
     
     /**
+     * Método para ver
+     */
+    public function ver($key) {        
+        if(!$id = DwSecurity::isValidKey($key, 'shw_usuario', 'int')) {
+            return DwRedirect::toAction('listar');
+        }
+        
+        $usuario = new Usuario();
+        if(!$usuario->getInformacionUsuario($id)) {
+            DwMessage::get('id_no_found');    
+            return DwRedirect::toAction('listar');
+        }                
+        
+        $estado = new EstadoUsuario();
+        $this->estados = $estado->getListadoEstadoUsuario($usuario->id);
+        
+        $acceso = new Acceso();
+        $this->accesos = $acceso->getListadoAcceso($usuario->id, 'todos', 'order.fecha.desc');
+        
+        $this->usuario = $usuario;
+        $this->page_title = 'Información del usuario';
+        
+    }
+    
+    /**
      * Método para subir imágenes
      */
     public function upload() {     

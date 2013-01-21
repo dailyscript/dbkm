@@ -50,11 +50,11 @@ class Acceso extends ActiveRecord {
      * Método para listar los accesos de los usuario     
      * @return ActiveRecord
      */
-    public function getListadoAcceso($estado='todos', $order='', $page=0) {
+    public function getListadoAcceso($usuario=NULL, $estado='todos', $order='', $page=0) {
         $columns = 'acceso.*, usuario.login, persona.nombre, persona.apellido';
         $join = 'INNER JOIN usuario ON usuario.id = acceso.usuario_id ';        
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';
-        $conditions = "usuario.id > '1'";//Por el super usuario "error"
+        $conditions = (empty($usuario)) ? "usuario.id > '1'" : "usuario.id=$usuario";
         
         $order = $this->get_order($order, 'fecha', array(  'fecha'      =>array('ASC'=>'acceso.registrado_at ASC, persona.nombre ASC, persona.apellido ASC',
                                                                                 'DESC'=>'acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC'), 

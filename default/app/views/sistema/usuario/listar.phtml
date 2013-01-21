@@ -37,11 +37,12 @@
                     <th class="col-collapse" data-search="sucursal">SUCURSAL</th>
                     <? } ?>
                     <th class="col-collapse" data-search="estado_usuario">ESTADO</th>
-                    <th class="btn-actions no-responsive" style="width: 100px;">ACCIONES</th>
+                    <th class="btn-actions no-responsive" style="width: 150px;">ACCIONES</th>
                 </tr>            
             </thead>
             <tbody>            
                 <?php foreach($usuarios->items as $usuario): ?>                
+                    <?php $key_shw = DwSecurity::getKey($usuario->id, 'shw_usuario'); ?>
                     <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
                     <?php $key_ina = DwSecurity::getKey($usuario->id, 'bloquear_usuario'); ?>
                     <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>                    
@@ -55,13 +56,14 @@
                         <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
                         <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
                         <? } ?>                        
-                        <td><?= ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success">Activo</span>' : '<span class="label label-important">Bloqueado</span>'; ; ?></td>
-                        <td>                                                
-                            <?= DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", null, 'info', 'edit'); ?>
+                        <td><?= ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success" title="'.$usuario->descripcion.'" rel="tooltip">Activo</span>' : '<span class="label label-important" title="'.$usuario->descripcion.'" rel="tooltip">Bloqueado</span>'; ; ?></td>
+                        <td>
+                            <?= DwHtml::buttonTable('Ver usuario', "sistema/usuario/ver/$key_shw/", NULL, 'warning', 'search'); ?>
+                            <?= DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", NULL, 'info', 'edit'); ?>
                             <?php if($usuario->estado_usuario == EstadoUsuario::ACTIVO) { ?>
-                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/bloquear/$key_ina/", null, 'success', 'flag'); ?>
+                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/bloquear/$key_ina/", NULL, 'success', 'flag'); ?>
                             <?php } else { ?>
-                                <?= DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", null, 'danger', 'flag'); ?>
+                                <?= DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", NULL, 'danger', 'flag'); ?>
                             <?php } ?>                            
                         </td>                    
                     </tr>
