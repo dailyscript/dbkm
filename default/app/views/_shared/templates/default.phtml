@@ -15,17 +15,27 @@
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
         <?php } ?>
         <style type="text/css">                    
-            
+            .row-fluid .span4 { font-size: 14px;}
         </style>     
         <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>        
         
     </head>
-    <body>
+    <body style="padding-top: 50px !important; font-family: Play,Lucila,Verdana,sans-serif;">
+        
+        <div class="navbar navbar-fixed-top user-nav">	
+            <div class="navbar-inner">		
+                <div class="container">			                    			
+                    <span class="brand"><?php echo APP_NAME; ?></span>
+                    <div class="pull-right">
+                        <?= DwHtml::button("sistema/login/entrar/", 'Ingesar', array('class'=>'btn-success'), 'signin', FALSE); ?>
+                    </div>                    
+                </div>                                
+            </div>
+        </div>
         
         <div id="dw-shell-load">             
             <div id="dw-console" class="container"></div>            
-            <div id="dw-shell-content" class="container-fluid"> 
-                <noscript><h5 style="text-align: center;">¡Tu navegador no soporta Javascript!.. Activa el uso de Javascript en tu navegador.</h5><meta http-equiv="refresh" content="1; URL=<?php echo PUBLIC_PATH; ?>sistema/login/salir/no-script/" /></noscript>
+            <div id="dw-shell-content" class="container-fluid">                 
                 <?php View::content(); ?>                                                         
             </div>                        
         </div>

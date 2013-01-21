@@ -1,23 +1,50 @@
+<?php View::notify(); ?>
 
-<div id='logo-kumbia'><?php echo Html::img('default/kumbia.png','KumbiaPHP logo') ?></div>
-    <div id='info'>
-		<h1>KumbiaPHP está listo para usarse</h1>
-        <p><strong>Bienvenido a KumbiaPHP Framework</strong>. El framework ya está listo para desarrollar aplicaciones web con PHP, rápida y fácilmente
-       , sin tener que reinventar la rueda, y preocupandose por lo más importante, la lógica de su aplicación.</p>
-         <h2>Como empezar</h2>
-        <p>En nuestra <a href="http://wiki.kumbiaphp.com/">wiki</a> podrás encontrar información actualizada sobre el uso del framework,
-        si estas comenzando con <em>KumbiaPHP</em> deberías realizar  la
-        <strong><a href="http://wiki.kumbiaphp.com/Hola_Mundo_KumbiaPHP_Framework">Aplicación Hola Mundo</a></strong>
-        tambien puede interesarte saber sobre:</p>
-		<ul>
-			<li><h3><a href="http://wiki.kumbiaphp.com/Beta2_CRUD_en_KumbiaPHP_Framework">Creacion de CRUD(Create, Read, Update, Delete)</a></h3></li>
-			<li><h3><a href="http://wiki.kumbiaphp.com/Como_Usar_los_Modelos_en_KumbiaPHP">Uso de modelos</a></h3></li>
-			<li><h3><a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">Configurar conexiones a bases de datos</a></h3></li>
-		</ul>
-		<p>Estos son solo algunos ejemplos puedes ver más en la <a href="http://wiki.kumbiaphp.com/Categor%C3%ADa:Tutoriales_KumbiaPHP" title="Tutoriales KumbiaPHP">sección de tutoriales de la wiki</a></p>
+<div class="container-fluid dw-shell-view">
+    
+    <div class="hero-unit">
+        <h1><small>Daily Backend Manager - DBKM</small></h1>
+        <p class="">El DBKM es un módulo de administración y configuración del sistema.</p>
+        <p class="">Por medio del DBKM podrás gestionar de manera 
+            rápida y segura los usuarios, perfiles, recursos, menús, y mucho más!.</p>
+        <p class="dw-text-right">
+            <a class="btn btn-primary btn-large" href="http://github.com/dailyscript/dbkm/" target="_blank"><i class="icon-expand icon-github icon-2x"></i> Ver proyecto en GitHub</a>
+        </p>
     </div>
-
-
-<div class="form-actions">
-    <?= Html::link('sistema/login/entrar/', 'Ingresar', array('class'=>'btn btn-success btn-large dw-text-bold dw-text-large')); ?>
+        
+    <div class="row-fluid">
+        <div class="span4">
+            <h4><i class="icon-expand icon-fullscreen icon-2x"></i> 100% Responsivo</h4>
+            Basado en Bootstrap de Twitter, provee un diseño adaptado a todo tipo de pantalla.
+        </div>
+        <div class="span4">
+            <h4><i class="icon-expand icon-ok icon-2x"></i> 100% Cuztomizable</h4>
+            Puedes personalizar el backend con temas, apariencias y variables de configuración
+        </div>
+        <div class="span4">
+            <h4><i class="icon-expand icon-group icon-2x"></i> 100% OpenSource</h4>
+            El DBKM está licenciado bajo la New BSD, lo cual te provee de toda una libertad a nivel de programación
+        </div>
+    </div>
+    
+    <div class="row-fluid">
+        <div class="span4">
+            <h4><i class="icon-expand icon-cogs icon-2x"></i> Arquitectura MVC</h4>
+            Realizado bajo el patrón de diseño MVC y construido con la solidez de KumbiaPHP
+        </div>
+        <div class="span4">
+            <h4><i class="icon-expand icon-magic icon-2x"></i> RICH App </h4>
+            El DBKM está construido para ser utilizado en su totalidad con AJAX, aunque si lo prefieres, también responde a peticiones normales
+        </div>
+        <div class="span4">
+            <h4><i class="icon-expand icon-asterisk icon-2x"></i> Características</h4>
+            <ul>
+                <li>Rápido escalado</li>
+                <li>Diseño orientado al usuario final</li>
+                <li>Rápido, sencillo y estable gracias al poder de KumbiaPHP</li>
+                <li>Control de autidorías y sucesos del sistema</li>
+            </ul>
+        </div>
+    </div>              
+    
 </div>
