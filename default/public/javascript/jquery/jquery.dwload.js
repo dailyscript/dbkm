@@ -65,7 +65,8 @@
         }).done(function(data) {            
             //Verifico si carga la data o la adhiere
             (opt.append_data==true) ? $("#"+opt.capa).append(data) : $("#"+opt.capa).html(data);             
-            $("[rel=tooltip]").tooltip();         
+            $("[rel=tooltip]").tooltip(); 
+            DwDatePicker();//Actualizo los datepicker
             request = true;
         });  
         

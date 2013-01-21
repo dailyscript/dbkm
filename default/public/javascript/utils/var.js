@@ -151,6 +151,8 @@ function DwUcWords(string){ var arrayWords; var returnString = ""; var len; arra
 function DwUcFirst(string){ return string.substr(0,1).toUpperCase()+string.substr(1,string.length).toLowerCase(); }
 function DwPopupReport(url) { var report = window.open(url , 'impresion', "width=800,height=500,left=50,top=50,scrollbars=yes,menubars=no,statusbar=NO,status=NO,resizable=YES,location=NO"); report.focus(); }
 function DwPopupTicket(url) { var ticket = window.open(url , 'ticket', "width=800,height=500,left=50,top=50,scrollbars=yes,menubars=no,statusbar=NO,status=NO,resizable=YES,location=NO"); ticket.focus(); }
+function DwDatePicker() { var dp = document.createElement("input"); dp.setAttribute("type", "date"); if(dp.type == 'date') { return true; } else { var inputs = $('input.js-datepicker'); if(!inputs.is('input')) { return true; } inputs.datepicker({format: 'yyyy-mm-dd'}); inputs.datepicker().on('changeDate', function(ev){ $(this).datepicker('hide'); }); } return true; }
+
 /**
  * Funciones para limpiar caracteres al igual que el trim de php
  */

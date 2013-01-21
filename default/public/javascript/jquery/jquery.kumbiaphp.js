@@ -250,12 +250,12 @@
                         }					
 			
 			// Carga la hoja de estilos
-			$('head').append('<link href="' + this.publicPath + 'css/bootstrap/datepicker.css" type="text/css" rel="stylesheet"/>');
+			//$('head').append('<link href="' + this.publicPath + 'css/bootstrap/datepicker.css" type="text/css" rel="stylesheet"/>');
 
 			// Carga DatePicker
-			$.getScript(this.publicPath + 'javascript/bootstrap/bootstrap-datepicker.js', function(){
+			//$.getScript(this.publicPath + 'javascript/bootstrap/bootstrap-datepicker.js', function(){
 				bindInputs();
-			});
+			//});
 		},
 
 		/**
