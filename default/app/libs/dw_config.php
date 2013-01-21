@@ -136,11 +136,11 @@ class DwConfig {
                     $valor = ($valor=='On') ? TRUE : FALSE;
                 }
                 if($variable=='APP_AJAX') {                      
-                    $valor = (Session::get('app_ajax') && ($valor)) ? TRUE : FALSE;
-                    define($variable, $valor);
-                } else {
-                    define($variable, $valor);
-                }
+                    $valor = (Session::get('app_ajax') && ($valor)) ? TRUE : FALSE;                    
+                } else if($variable=='DATAGRID') {
+                    $valor = (Session::get('datagrid') > 0) ? Session::get('datagrid') : $valor;
+                } 
+                define($variable, $valor);                
             }    
         }        
         //Se verifica que tipo de dispositivo es

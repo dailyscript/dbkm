@@ -47,7 +47,7 @@ class DwAuth {
             ($keyPass) ? $auth->setPass($keyPass) : $auth->setPass($fieldPass);
             $auth->setCheckSession(true);
             $auth->setModel('sistema/usuario');                                        
-            $auth->setFields(array('id', 'persona_id', 'login', 'tema', 'ajax', 'perfil_id'));            
+            $auth->setFields(array('id', 'persona_id', 'login', 'tema', 'ajax', 'datagrid', 'perfil_id'));            
             if($auth->identify($valUser, $valPass) && $auth->isValid()) {  
                 Session::set(SESSION_KEY, true);
                 return true;

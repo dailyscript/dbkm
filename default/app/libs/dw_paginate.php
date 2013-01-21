@@ -33,7 +33,7 @@ class DwPaginate {
                 
         $params = Util::getParams(func_get_args($model));
         $page_number = isset($params['page']) ? Filter::get($params['page'], 'numeric') : 1; //Numero de la página       
-        $per_page = isset($params['per_page']) ? Filter::get($params['per_page'], 'numeric') : PAG_MED; //Datos por página        
+        $per_page = isset($params['per_page']) ? Filter::get($params['per_page'], 'numeric') : DATAGRID; //Datos por página        
         $counter = ($page_number > 1) ? ( ($page_number * $per_page) - ($per_page-1) ) : 1; //Determino el contador para utilizarlo en la vista       
         
         $start = $per_page * ($page_number - 1); //Determino el offset      
@@ -130,7 +130,7 @@ class DwPaginate {
 
         $params = Util::getParams(func_get_args());
         $page_number = isset($params['page']) ? Filter::get($params['page'], 'numeric') : 1; //Numero de la página
-        $per_page = isset($params['per_page']) ? Filter::get($params['per_page'], 'numeric') : PAG_MED; //Datos por página
+        $per_page = isset($params['per_page']) ? Filter::get($params['per_page'], 'numeric') : DATAGRID; //Datos por página
         $counter = ($page_number > 1) ? ( ($page_number * $per_page) - ($per_page-1) ) : 1; //Determino el contador para utilizarlo en la vista
 
         $start = $per_page * ($page_number - 1); //Determino el offset
