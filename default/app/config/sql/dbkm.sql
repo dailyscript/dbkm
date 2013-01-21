@@ -71,7 +71,7 @@ CREATE TABLE `backup` (
 
 LOCK TABLES `backup` WRITE;
 /*!40000 ALTER TABLE `backup` DISABLE KEYS */;
-INSERT INTO `backup` VALUES (1,2,'Sistema inicial','4.04 KB','backup-1.sql.gz','2013-01-01 00:00:01');
+INSERT INTO `backup` VALUES (1,2,'Sistema inicial','4.12 KB','backup-1.sql.gz','2013-01-01 00:00:01');
 /*!40000 ALTER TABLE `backup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +197,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',83,'icon-list',1,1),(7,3,7,'Privilegios','sistema/privilegio/listar/',84,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Auditorías','sistema/auditoria/',94,'icon-eye-open',1,1),(15,10,14,'Visor de susesos','sistema/sucesos/',95,'icon-filter',1,1),(16,10,15,'Mantenimiento','sistema/mantenimiento/',96,'icon-bolt',1,1),(17,10,16,'Archivos de configuración','sistema/configuracion/',97,'icon-wrench',1,1);
+INSERT INTO `menu` VALUES (1,NULL,NULL,'Dashboard','#',10,'icon-home',1,1),(2,1,1,'Dashboard','dashboard/',11,'icon-home',1,1),(3,NULL,NULL,'Configuraciones','#',80,'icon-wrench',1,1),(4,3,4,'Perfiles','sistema/perfil/listar/',81,'icon-group',1,1),(5,3,5,'Recursos','sistema/recurso/listar/',82,'icon-lock',1,1),(6,3,6,'Menús','sistema/menu/listar/',84,'icon-list',1,1),(7,3,7,'Permisos','sistema/privilegio/listar/',83,'icon-magic',1,1),(8,3,8,'Empresa','sistema/empresa/',85,'icon-briefcase',1,1),(9,3,9,'Sucursales','sistema/sucursal/listar/',86,'icon-sitemap',1,1),(10,NULL,NULL,'Sistema','#',90,'icon-cogs',1,1),(11,10,10,'Accesos','sistema/acceso/listar/',91,'icon-exchange',1,1),(12,10,11,'Backups','sistema/backup/listar/',92,'icon-hdd',1,1),(13,10,12,'Usuarios','sistema/usuario/listar/',93,'icon-user',1,1),(14,10,13,'Auditorías','sistema/auditoria/',94,'icon-eye-open',1,1),(15,10,14,'Visor de susesos','sistema/sucesos/',95,'icon-filter',1,1),(16,10,15,'Mantenimiento','sistema/mantenimiento/',96,'icon-bolt',1,1),(17,10,16,'Archivos de configuración','sistema/configuracion/',97,'icon-wrench',1,1);
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,6 +400,7 @@ CREATE TABLE `usuario` (
   `email` varchar(45) DEFAULT NULL COMMENT 'Dirección del correo electónico',
   `tema` varchar(45) DEFAULT 'default' COMMENT 'Tema aplicable para la interfaz',
   `app_ajax` int(1) DEFAULT '1' COMMENT 'Indica si la app se trabaja con ajax o peticiones normales',
+  `datagrid` int(11) DEFAULT '30' COMMENT 'Datos por página en los datagrid',
   `registrado_at` datetime DEFAULT NULL COMMENT 'Fecha de registro',
   `modificado_in` datetime DEFAULT NULL COMMENT 'Fecha de la última modificación',
   PRIMARY KEY (`id`),
@@ -418,7 +419,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,NULL,'default',1,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,NULL,'default',1,'2013-01-01 00:00:01',NULL);
+INSERT INTO `usuario` VALUES (1,NULL,1,'error','963db57a0088931e0e3627b1e73e6eb5',1,NULL,'default',1,30,'2013-01-01 00:00:01',NULL),(2,NULL,2,'admin','d93a5def7511da3d0f2d171d9c344e91',1,NULL,'default',1,30,'2013-01-01 00:00:01',NULL);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -431,4 +432,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-17 12:48:17
+-- Dump completed on 2013-01-21 18:36:50
