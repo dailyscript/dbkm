@@ -140,10 +140,10 @@ class Filter
      * @return array datos filtrados. (Ademas solo devuelve los indices
      * especificados en el segundo parametro).
      */
-    public static function data($data=array(), $fields=array(), $filterAll = NULL)
+    public static function data($data=array(), $fields=NULL, $filterAll = NULL)
     {
         $filtered = array(); //datos filtrados a devolver.
-        if($fields) { //Si hay campos a filtrar, de lo contrario aplica el filttersAll para todo                   
+        if(is_array($fields)) { //Si hay campos a filtrar, de lo contrario aplica el filttersAll para todo                   
             foreach ($fields as $index => $filters) {
                 if (is_numeric($index) && array_key_exists($filters, $data)) {
                     //si el indice es numerico, no queremos usar filtro para ese campo
