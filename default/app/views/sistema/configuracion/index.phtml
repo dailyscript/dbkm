@@ -52,9 +52,9 @@
                         ?>
                         <?php
                         switch ($campo) {
-                            case 'app_update':      $text = 'Sistema en actualización';
+                            case 'app_update':      $text = 'Sistema en mantenimiento';
                                                     break;
-                            case 'app_update_time': $text = 'Tiempo de la actualización';
+                            case 'app_update_time': $text = 'Tiempo de la mantenimiento';
                                                     break;
                             case 'app_version':     $text = 'Versión de la aplicación';
                                                     break;
@@ -68,14 +68,8 @@
                                                     break;
                             case 'login_exclusion': $text = 'Nombre de usuarios excluidos';
                                                     break;
-                            case 'pag_min':         $text = 'Datos por página pequeña';
-                                                    break;
-                            case 'pag_med':         $text = 'Datos por página mediana';
-                                                    break;
-                            case 'pag_max':         $text = 'Datos por página larga';
-                                                    break;
-                            case 'pag_ext':         $text = 'Datos por página extendida';
-                                                    break;
+                            case 'datagrid':        $text = 'Cantidad de datos por página en los reportes';
+                                                    break;                            
                             default:                $text = $campo;
                                                     break;
                         }

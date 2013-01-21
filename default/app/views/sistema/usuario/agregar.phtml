@@ -69,6 +69,12 @@
                 
                 <div class="row-fluid">
                     <div class="span6">
+                        <?= DwForm::number('usuario.datagrid', array('class'=>'input-numeric show-error input-required'), 30, 'Cantidad de datos por página', 'Esta información se utiliza en los listados de informaciones y reportes'); ?>
+                    </div>                    
+                </div>
+                
+                <div class="row-fluid">
+                    <div class="span6">
                         <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), '', 'Contraseña'); ?>
                     </div>
                     <div class="span6">

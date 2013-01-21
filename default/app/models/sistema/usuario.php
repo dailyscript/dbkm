@@ -276,6 +276,7 @@ class Usuario extends ActiveRecord {
             DwMessage::error('El correo electrónico ya se encuentra registrado.');
             return 'cancel';
         }
+        $this->datagrid = Filter::get($this->datagrid, 'int');
         
     }
     
