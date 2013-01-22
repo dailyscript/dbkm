@@ -169,7 +169,7 @@ class Sistema {
         $result = DwUtils::orderArray($new_log, 'item', TRUE);                
         //Pagino el array
         $paginate = new DwPaginate();
-        return $paginate->paginate($result, "page: $page", "per_page: 50");                
+        return $paginate->paginate($result, "page: $page");
     }
     
     /**
@@ -197,7 +197,7 @@ class Sistema {
         if($page > 0) {
             //Pagino el array
             $paginate = new DwPaginate();
-            return $paginate->paginate($result, "page: $page", "per_page: 50");                
+            return $paginate->paginate($result, "page: $page");
         }   
         return $result;
     }
