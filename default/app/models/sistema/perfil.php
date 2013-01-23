@@ -123,6 +123,8 @@ class Perfil extends ActiveRecord {
     protected function after_save() {
         $data = array();
         $data[] = Recurso::DASHBOARD.'-'.$this->id;
+        RecursoPerfil::setRecursoPerfil($data);
+        $data = array();
         $data[] = Recurso::MI_CUENTA.'-'.$this->id;
         RecursoPerfil::setRecursoPerfil($data);
     }

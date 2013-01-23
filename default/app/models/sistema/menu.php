@@ -36,7 +36,7 @@ class Menu extends ActiveRecord {
     /**
      * Constante para definir el ID de las sucursales
      */
-    const SUCURSAL = 9;
+    const SUCURSAL = 17;
         
     /**
      * Método para definir las relaciones y validaciones
@@ -147,7 +147,7 @@ class Menu extends ActiveRecord {
         $this->url = Filter::get($this->url, 'string');
         $this->icono = Filter::get($this->icono, 'string');
         $this->posicion = Filter::get($this->posicion, 'int');        
-        if($this->id <= 2) {
+        if(!empty($this->id) && ($this->id <= 2) ) { //Para no editar el dashboard
             DwMessage::warning('Lo sentimos, pero este menú no se puede editar.');
             return 'cancel';            
         }

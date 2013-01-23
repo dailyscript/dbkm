@@ -104,60 +104,26 @@ a:hover { text-decoration: none; }
 
 /*----- Responsive -----*/
 @media (min-width: 768px) and (max-width: 979px) {
-    body {
-        padding-top: 0px !important;
-    }
-    .main-nav-wrapper {        
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-    }   
-    .subnav {
-        position: static;
-        top: auto !important;
-    }
+    body { padding-top: 0px !important; }
+    .main-nav-wrapper { width: 100%; margin-left: 0; margin-right: 0; }   
+    .subnav { position: static; top: auto !important; }
     .subnav .nav > li:first-child > a,
-    .subnav .nav > li:first-child > a:hover {
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-    }
-    .main-nav .btn-group {
-        margin-top: 18px;
-    }
+    .subnav .nav > li:first-child > a:hover { -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; }
+    .main-nav .btn-group { margin-top: 18px; }
 }
 
 @media (min-width: 980px) {
-    body, #dw-loading-content {    
-        padding-top: 110px !important;
-    
-    }    
-    .main-nav-wrapper {        
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-    }    
+    body, #dw-loading-content { padding-top: 110px !important; }    
+    .main-nav-wrapper { width: 100%; margin-left: 0; margin-right: 0; }    
     .subnav .nav > li:first-child > a,
-    .subnav .nav > li:first-child > a:hover {
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-    }
-    .main-nav .btn-group {
-        margin-top: 18px;
-    }
+    .subnav .nav > li:first-child > a:hover { -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; }
+    .main-nav .btn-group { margin-top: 18px; }
 }
 
 @media (max-width: 1020px) {        
-    .nav-collapse .dropdown-menu:before, .nav-collapse .dropdown-menu:after {
-        display: none !important;
-    }
-    .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
-        color: #999 !important;        
-    }
-    .nav-collapse .nav > li .active a {            
-        color: #fff !important;
-    }    
+    .nav-collapse .dropdown-menu:before, .nav-collapse .dropdown-menu:after { display: none !important; }
+    .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a { color: #999 !important; }
+    .nav-collapse .nav > li .active a { color: #fff !important; }    
 }
 
 footer.navbar-inner { min-height: 20px !important; }

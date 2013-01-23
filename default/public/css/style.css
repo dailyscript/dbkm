@@ -102,7 +102,13 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 @media (max-width: 1020px) {            
     #dw-loading-content { z-index: -1 !important;}
 }
-
+@media (max-width: 1024px) {
+    .icon-expand { padding-right: 2px;}
+    .subnav > .nav-tabs > li > a, .nav-pills > li > a {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
 
 /* Formatea los mensajes Flash::xxx() de KumbiaPHP */
 .flash { border: 1px solid; margin: 1px 0; min-height: 32px; padding:3px 10px 3px 50px; background-repeat: no-repeat; background-position: 10px center; line-height: 32px; }

@@ -24,19 +24,20 @@ class Recurso extends ActiveRecord {
     const INACTIVO = 2;
     
     /**
+     * Constante para identificar el comodín *
+     */
+    const COMODIN = 1;
+    
+    /**
      * Constante para definir el recurso principal
      */
-    const DASHBOARD = 1;
+    const DASHBOARD = 2;
     
     /**
      * Constante para definir el recurso "Mi Cuenta"
      */
     const MI_CUENTA = 2;
-    
-    /**
-     * Constante para identificar el comodín *
-     */
-    const COMODIN = 3;
+       
     
     /**
      * Método para definir las relaciones y validaciones
