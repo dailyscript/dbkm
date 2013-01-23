@@ -102,11 +102,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 @media (max-width: 1020px) {            
     #dw-loading-content { z-index: -1 !important;}
 }
-@media (max-width: 1024px) {
+@media (max-width: 1130px) {
     .icon-expand { padding-right: 2px;}
     .subnav > .nav-tabs > li > a, .nav-pills > li > a {
-        padding-left: 4px;
-        padding-right: 4px;
+        padding-left: 7px;
+        padding-right: 7px;
     }
 }
 
