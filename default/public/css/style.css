@@ -76,7 +76,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     line-height: 17px;
     margin-bottom: 5px;
 }
-.nav-tabs li a, .nav-pills li a { font-size: 14px !important}
+.nav-tabs li a, .nav-pills li a, .accordion-heading a { font-size: 14px !important}
 .bar { height: 17px }
 .dw-picture-profile { max-width: 200px}
 
