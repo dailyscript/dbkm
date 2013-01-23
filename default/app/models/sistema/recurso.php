@@ -111,7 +111,7 @@ class Recurso extends ActiveRecord {
         }
         $this->recurso = trim($this->modulo.'/'.$this->controlador.'/'.$this->accion.'/', '/');
         $this->descripcion = Filter::get($this->descripcion, 'string');
-        if($this->id <= 16) {
+        if(!empty($this->id) && $this->id <= 16) {
             DwMessage::warning('Lo sentimos, pero este recurso no se puede editar.');
             return 'cancel';            
         }
