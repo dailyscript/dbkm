@@ -12,7 +12,10 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)  
  */
 
-class RecursoPerfil extends ActiveRecord {     
+class RecursoPerfil extends ActiveRecord {
+    
+    //Se desabilita el logger para no llenar el archivo de "basura"
+    public $logger = FALSE;
         
     /**
      * Método para definir las relaciones y validaciones

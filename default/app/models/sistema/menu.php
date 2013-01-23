@@ -13,6 +13,9 @@
 
 class Menu extends ActiveRecord {
     
+    //Se desabilita el logger para no llenar el archivo de "basura"
+    public $logger = FALSE;
+    
     /**
      * Constante para definir un menú como activo
      */

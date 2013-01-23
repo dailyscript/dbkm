@@ -12,6 +12,9 @@
  */
 
 class Recurso extends ActiveRecord {
+    
+    //Se desabilita el logger para no llenar el archivo de "basura"
+    public $logger = FALSE;
 
     /**
      * Constante para definir un recurso como activo
