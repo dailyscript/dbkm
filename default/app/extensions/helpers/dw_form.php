@@ -389,7 +389,7 @@ class DwForm extends Form {
      */
     public static function select($field, $data, $attrs = NULL, $value = NULL, $label='', $help='') {        
         $attrs = self::_getAttrsClass($attrs, 'select');
-        if(is_null($data)) {
+        if(empty($data)) {
             $data = array(''=>'[SELECCION]');
         }                
         $input = self::getControls();        
@@ -422,8 +422,12 @@ class DwForm extends Form {
     public static function dbSelect($field, $show=null, $data=null, $blank='Selección', $attrs=null, $value=null, $label='', $help='') {
 
         $attrs = self::_getAttrsClass($attrs, 'select');
-        if(is_null($data)) {
+        if(empty($data)) {
             $data = array(''=>'Selección');
+        }
+        
+        if(empty($blank)) {
+            $blank = 'Selección';
         }
         
         $attrs2 = $attrs;
