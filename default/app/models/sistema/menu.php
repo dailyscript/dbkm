@@ -148,6 +148,9 @@ class Menu extends ActiveRecord {
     public function before_save() {
         $this->menu = Filter::get($this->menu, 'string');
         $this->url = Filter::get($this->url, 'string');
+        if(empty($this->url)) {
+            $this->url = '#';
+        }
         $this->icono = Filter::get($this->icono, 'string');
         $this->posicion = Filter::get($this->posicion, 'int');        
         if(!empty($this->id) && ($this->id <= 2) ) { //Para no editar el dashboard
