@@ -14,7 +14,7 @@
                 <?= DwForm::dbSelect('menu.menu_id', 'menu', array('sistema/menu', 'getListadoMenu', Menu::ACTIVO), 'Ninguno', array('class'=>'mask-pint show-errors'), NULL, 'Menú padre'); ?>
             </div>
             <div class="span4">
-                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), NULL, array('class'=>'mask-pint show-errors'), NULL, 'Recurso'); ?>
+                <?= DwForm::dbSelect('menu.recurso_id', 'recurso', array('sistema/recurso', 'getListadoRecurso', Recurso::ACTIVO), 'Ninguno', array('class'=>'mask-pint show-errors'), NULL, 'Recurso'); ?>
             </div>            
         </div>
         <div class="row-fluid">
