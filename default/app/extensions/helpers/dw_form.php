@@ -190,9 +190,11 @@ class DwForm extends Form {
      * @param int $range Rango mínimo utilizado en los textarea     
      * @return string 
      */
-    public static function label($text, $field='', $attrs=NULL, $req='', $type='text', $range=0) {
+    public static function label($text, $field, $attrs=NULL, $req='', $type='text', $range=0) {
         //Extraigo el id y name
-        extract(self::_getFieldName($field));
+        if(!empty($field)) {
+            extract(self::_getFieldName($field));
+        }
         //Verifico si tiene atributos
         if(is_array($attrs)) {
             //Reviso si esta deshabilitado
@@ -204,6 +206,7 @@ class DwForm extends Form {
         }        
         $label = '';
         if($text!='') {
+            $id = (empty($id)) ? NULL : $id; //Por si el field=NULL
             //Si es checkbox o radio
             if( ($type == 'checkbox') or ($type == 'radio') ) {
                 $type = (self::$_style != 'form-horizontal' OR preg_match("/\binline\b/i", $req) ) ? $type.' inline' : $type;
