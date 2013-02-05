@@ -63,8 +63,10 @@ class Sucursal extends ActiveRecord {
         $order = $this->get_order($order, 'sucursal', array('sucursal'=>array('ASC'=>'sucursal.sucursal ASC, ciudad.ciudad ASC, empresa.siglas ASC',
                                                                               'DESC'=>'sucursal.sucursal DESC, ciudad.ciudad ASC, empresa.siglas ASC'),
                                                             'ciudad'=>array('ASC'=>'ciudad.ciudad ASC, sucursal.direccion ASC, sucursal.sucursal ASC, empresa.siglas ASC',
-                                                                              'DESC'=>'ciudad.ciudad DESC, sucursal.direccion ASC, sucursal.sucursal ASC, empresa.siglas ASC')
-                                                            ));                        
+                                                                              'DESC'=>'ciudad.ciudad DESC, sucursal.direccion ASC, sucursal.sucursal ASC, empresa.siglas ASC'),
+                                                            'telefono',
+                                                            'fax',
+                                                            'direccion'));
         if($page) {                
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
         } else {
