@@ -111,7 +111,34 @@ class Usuario extends ActiveRecord {
         $join.= 'INNER JOIN perfil ON perfil.id = usuario.perfil_id ';
         $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
         $conditions = "perfil.id = $perfil";
-        $order = $this->get_order($order, 'nombre');        
+        
+        $order = $this->get_order($order, 'nombre', array(                        
+            'login' => array(
+                'ASC'=>'usuario.login ASC, persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'usuario.login DESC, persona.nombre DESC, persona.apellido DESC'
+            ),
+            'nombre' => array(
+                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+            ),
+            'apellido' => array(
+                'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+            ),
+            'email' => array(
+                'ASC'=>'usuario.email ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'usuario.email DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'sucursal' => array(
+                'ASC'=>'sucursal.sucursal ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'sucursal.sucursal DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'estado_usuario' => array(
+                'ASC'=>'estado_usuario.estado_usuario ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'estado_usuario.estado_usuario DESC, persona.apellido DESC, persona.nombre DESC'
+            )
+        ));
+        
         if($page) {
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
         } 
@@ -133,10 +160,33 @@ class Usuario extends ActiveRecord {
         $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
         $conditions = "usuario.id > '2'";//Por el super usuario
         
-        $order = $this->get_order($order, 'nombre', array(  'id'        =>'usuario.id', 
-                                                            'nombre'    =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) ); 
+        $order = $this->get_order($order, 'nombre', array(                        
+            'login' => array(
+                'ASC'=>'usuario.login ASC, persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'usuario.login DESC, persona.nombre DESC, persona.apellido DESC'
+            ),
+            'nombre' => array(
+                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+            ),
+            'apellido' => array(
+                'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+            ),
+            'email' => array(
+                'ASC'=>'usuario.email ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'usuario.email DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'sucursal' => array(
+                'ASC'=>'sucursal.sucursal ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'sucursal.sucursal DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'estado_usuario' => array(
+                'ASC'=>'estado_usuario.estado_usuario ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'estado_usuario.estado_usuario DESC, persona.apellido DESC, persona.nombre DESC'
+            )
+        ));
+        
         //Defino los campos habilitados para la búsqueda
         $fields = array('login', 'nombre', 'apellido', 'email', 'perfil', 'sucursal', 'estado_usuario');
         if(!in_array($field, $fields)) {
@@ -160,11 +210,34 @@ class Usuario extends ActiveRecord {
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';        
         $join.= 'LEFT JOIN sucursal ON sucursal.id = usuario.sucursal_id ';
         $conditions = "usuario.id > '2'";//Por el super usuario
+                
+        $order = $this->get_order($order, 'nombre', array(                        
+            'login' => array(
+                'ASC'=>'usuario.login ASC, persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'usuario.login DESC, persona.nombre DESC, persona.apellido DESC'
+            ),
+            'nombre' => array(
+                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
+                'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+            ),
+            'apellido' => array(
+                'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+            ),
+            'email' => array(
+                'ASC'=>'usuario.email ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'usuario.email DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'sucursal' => array(
+                'ASC'=>'sucursal.sucursal ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'sucursal.sucursal DESC, persona.apellido DESC, persona.nombre DESC'
+            ),
+            'estado_usuario' => array(
+                'ASC'=>'estado_usuario.estado_usuario ASC, persona.apellido ASC, persona.nombre ASC', 
+                'DESC'=>'estado_usuario.estado_usuario DESC, persona.apellido DESC, persona.nombre DESC'
+            )
+        ));
         
-        $order = $this->get_order($order, 'nombre', array(  'id'        =>'usuario.id', 
-                                                            'nombre'    =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC')) );        
         if($estado == 'activos') {
             $conditions.= " AND estado_usuario.estado_usuario = '".EstadoUsuario::USR_ACTIVO."'";
         } else if($estado == 'bloqueados') {
