@@ -38,4 +38,4 @@ dwsync.xml
 nbproject
 /default/public/img/upload/
 !/default/public/files/backup/
-!/default/app/temp/backup/
+/default/public/files/
