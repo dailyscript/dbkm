@@ -104,8 +104,31 @@ class Menu extends ActiveRecord {
         $conditions = 'menu.id IS NOT NULL';        
         if($estado!='todos') {
             $conditions.= ($estado==self::ACTIVO) ? " AND menu.activo=".self::ACTIVO : " AND menu.activo=".self::INACTIVO;
-        }        
-        $order = 'padre_posicion ASC, '.$this->get_order($order, 'posicion');
+        }    
+        
+        $order = $this->get_order($order, 'padre_posicion', array(
+            'posicion' => array(
+                'ASC'  => 'padre_posicion ASC, menu.posicion ASC',
+                'DESC' => 'padre_posicion DESC, menu.posicion DESC'
+            ),
+            'padre' => array(
+                'ASC'  => 'padre ASC, padre_posicion ASC, menu.posicion ASC',
+                'DESC' => 'padre DESC, padre_posicion DESC, menu.posicion DESC'
+            ),
+            'menu' => array(
+                'ASC'  => 'padre ASC, menu ASC, padre_posicion ASC, menu.posicion ASC',
+                'DESC' => 'padre DESC, menu DESC, padre_posicion DESC, menu.posicion DESC'
+            ),
+            'visibilidad' => array(
+                'ASC'  => 'padre.visibilidad ASC, menu.visibilidad ASC, menu ASC, padre_posicion ASC, menu.posicion ASC',
+                'DESC' => 'padre.visibilidad DESC, menu.visibilidad DESC, padre DESC, menu DESC, padre_posicion DESC, menu.posicion DESC'
+            ),
+            'activo' => array(
+                'ASC'  => 'menu.activo ASC, padre_posicion ASC, menu.posicion ASC',
+                'DESC' => 'menu.activo DESC, menu.visibilidad DESC, padre DESC, menu DESC, padre_posicion DESC, menu.posicion DESC'
+            )
+        ));
+                
         if($page) {            
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
         }
