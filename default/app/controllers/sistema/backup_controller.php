@@ -94,7 +94,7 @@ class BackupController extends BackendController {
             DwMessage::error('Acceso incorrecto al sistema. Tu no tienes los permisos necesarios para realizar esta acción.');
             return View::ajax();
         }
-        if($backup = Backup::restoreBackup($id, 'files/backup')) {
+        if($backup = Backup::restoreBackup($id)) {
             DwMessage::valid('El sistema se ha restaurado satisfactoriamente con la copia de seguridad <b>'.$backup->archivo.'</b>');
         } else {
             DwMessage::error('Se ha producido un error interno al restaurar el sistema. Por favor contacta al administrador.');
@@ -114,8 +114,8 @@ class BackupController extends BackendController {
         if(!$backup->find_first($id)) {
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
-        }
-        $file = dirname(APP_PATH) . '/public/files/backup/' . $backup->archivo;
+        }        
+        $file = APP_PATH . 'temp/backup/' . $backup->archivo;
         if(!is_file($file)) {
             DwMessage::warning('No hemos podido localizar el archivo. Por favor contacta al administrador del sistema.');
             DwAudit::error("No se ha podido encontrar la copia de seguridad $backup->archivo en el sistema");
