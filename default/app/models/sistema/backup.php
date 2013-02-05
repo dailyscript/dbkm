@@ -33,12 +33,27 @@ class Backup extends ActiveRecord {
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';
         $conditions = "backup.id > 0";
         
-        $order = $this->get_order($order, 'nombre', array('nombre'      =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC'),
-                                                          'apellido'    =>array('ASC'=>'persona.apellido ASC, persona.nombre ASC', 
-                                                                                'DESC'=>'persona.apellido DESC, persona.nombre DESC')
-                                                          ));
+        $order = $this->get_order($order, 'backup.regisrado_at', array( 'nombre'    =>array(                                                                                
+                                                                            'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
+                                                                            'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+                                                                        ),
+                                                                        'apellido'  =>array(
+                                                                            'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                                                                            'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+                                                                        ),
+                                                                        'fecha'     =>array(
+                                                                            'ASC'=>'backup.registrado_at ASC' ,
+                                                                            'DESC'=>'backup.registrado_at DESC'
+                                                                        ),                                                                                            
+                                                                        'denominacion'  =>array(
+                                                                            'ASC'=>'backup.denominacion ASC, backup.registrado_at DESC' ,
+                                                                            'DESC'=>'backup.denominacion DESC, backup.registrado_at DESC'
+                                                                        ),
+                                                                        'tamano'  =>array(
+                                                                            'ASC'=>'backup.tamano ASC, backup.registrado_at DESC' ,
+                                                                            'DESC'=>'backup.tamano DESC, backup.registrado_at DESC'
+                                                                        )));
+        
         //Por seguridad defino los campos habilitados para la búsqueda
         $fields = array('denominacion', 'nombre', 'apellido', 'fecha');
         if(!in_array($field, $fields)) {
@@ -69,12 +84,26 @@ class Backup extends ActiveRecord {
         $join = 'INNER JOIN usuario ON usuario.id = backup.usuario_id ';
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';                        
         
-        $order = $this->get_order($order, 'nombre', array('nombre'      =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC'),
-                                                          'apellido'    =>array('ASC'=>'persona.apellido ASC, persona.nombre ASC', 
-                                                                                'DESC'=>'persona.apellido DESC, persona.nombre DESC')
-                                                          ));                
+        $order = $this->get_order($order, 'backup.regisrado_at', array( 'nombre'    =>array(                                                                                
+                                                                            'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
+                                                                            'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+                                                                        ),
+                                                                        'apellido'  =>array(
+                                                                            'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                                                                            'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+                                                                        ),
+                                                                        'fecha'     =>array(
+                                                                            'ASC'=>'backup.registrado_at ASC' ,
+                                                                            'DESC'=>'backup.registrado_at DESC'
+                                                                        ),                                                                                            
+                                                                        'denominacion'  =>array(
+                                                                            'ASC'=>'backup.denominacion ASC, backup.registrado_at DESC' ,
+                                                                            'DESC'=>'backup.denominacion DESC, backup.registrado_at DESC'
+                                                                        ),
+                                                                        'tamano'  =>array(
+                                                                            'ASC'=>'backup.tamano ASC, backup.registrado_at DESC' ,
+                                                                            'DESC'=>'backup.tamano DESC, backup.registrado_at DESC'
+                                                                        )));
         if($page) {
             return $this->paginated("columns: $columns", "join: $join", "order: $order", "page: $page");
         } else {
