@@ -65,7 +65,16 @@ class Recurso extends ActiveRecord {
         if($estado!='todos') {
             $conditions.= ($estado==self::ACTIVO) ? " AND activo=".self::ACTIVO : " AND activo=".self::INACTIVO;
         }        
-        $order = $this->get_order($order, 'modulo');         
+        $order = $this->get_order($order, 'modulo', array(            
+            'controlador' => array(
+                'ASC' => 'controlador ASC, modulo ASC, accion ASC',
+                'DESC' => 'controlador DESC, modulo DESC, accion DESC'
+            ),
+            'accion' => array(
+                'ASC' => 'accion ASC, modulo ASC, controlador ASC',
+                'DESC' => 'accion DESC, modulo DESC, controlador DESC'
+            )
+        ));
         if($page) {            
             return $this->paginated("conditions: $conditions", "order: $order", "page: $page");
         }
