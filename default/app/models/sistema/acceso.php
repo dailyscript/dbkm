@@ -56,14 +56,19 @@ class Acceso extends ActiveRecord {
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';
         $conditions = (empty($usuario)) ? "usuario.id > '1'" : "usuario.id=$usuario";
         
-        $order = $this->get_order($order, 'fecha', array(  'fecha'      =>array('ASC'=>'acceso.registrado_at ASC, persona.nombre ASC, persona.apellido ASC',
-                                                                                'DESC'=>'acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC'), 
-                                                            'nombre'    =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
-                                                            'apellido'  =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC')) );        
+        $order = $this->get_order($order, 'acceso.registrado_at', array(  'fecha'       =>array( 
+                                                                                                'ASC'=>'acceso.registrado_at ASC, persona.nombre ASC, persona.apellido ASC',
+                                                                                                'DESC'=>'acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC'), 
+                                                                          'nombre'      =>array(
+                                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
+                                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
+                                                                          'apellido'    =>array(
+                                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
+                                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
+                                                                           'ip',
+                                                                           'tipo_acceso'=>array(
+                                                                                                'ASC'=>'acceso.tipo_acceso ASC, acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC', 
+                                                                                                'DESC'=>'acceso.tipo_acceso DESC, acceso.registrado_at DESC, persona.nombre DESC, persona.apellido DESC')) );
         
         if($estado != 'todos') {
             $conditions.= ($estado!=self::ENTRADA) ? " AND acceso.tipo_acceso = ".self::ENTRADA : " AND acceso.tipo_acceso = ".self::SALIDA;
@@ -90,14 +95,19 @@ class Acceso extends ActiveRecord {
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';
         $conditions = "usuario.id > '1'";//Por el super usuario "error"
         
-        $order = $this->get_order($order, 'fecha', array(  'fecha'      =>array('ASC'=>'acceso.registrado_at ASC, persona.nombre ASC, persona.apellido ASC',
-                                                                                'DESC'=>'acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC'), 
-                                                            'nombre'    =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
-                                                            'apellido'  =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC')) );        
+        $order = $this->get_order($order, 'acceso.registrado_at', array(  'fecha'       =>array( 
+                                                                                                'ASC'=>'acceso.registrado_at ASC, persona.nombre ASC, persona.apellido ASC',
+                                                                                                'DESC'=>'acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC'), 
+                                                                          'nombre'      =>array(
+                                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
+                                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
+                                                                          'apellido'    =>array(
+                                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC, acceso.registrado_at DESC', 
+                                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC, acceso.registrado_at DESC'),
+                                                                           'ip',
+                                                                           'tipo_acceso'=>array(
+                                                                                                'ASC'=>'acceso.tipo_acceso ASC, acceso.registrado_at DESC, persona.nombre ASC, persona.apellido ASC', 
+                                                                                                'DESC'=>'acceso.tipo_acceso DESC, acceso.registrado_at DESC, persona.nombre DESC, persona.apellido DESC')) );
         
         //Defino los campos habilitados para la búsqueda por seguridad
         $fields = array('fecha', 'nombre', 'apellido', 'tipo_acceso',  'ip');
