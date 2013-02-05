@@ -31,12 +31,14 @@ class ActiveRecord extends KumbiaActiveRecord  {
         $column = (empty($s[1])) ? $default : Filter::get($s[1], 'string');        
         $type = (empty($s[2])) ? NULL : strtoupper($s[2]);   
         $type = ($type!='ASC' && $type!='DESC') ? ' ASC' : $type;        
-        if(!empty($resource) && array_key_exists($column, $resource)) {
-            $tmp = $resource[$column];
-            $column = (is_array($tmp) && array_key_exists($type, $tmp)) ? $tmp[$type] : $tmp;
-            return $column;
-        }
-        //$column = ( !empty($resource) && array_key_exists($column, $resource) ) ? $resource[$column] : $column;
+        if(!empty($resource)) {
+            if(array_key_exists($column, $resource)) { //Verifico si la columna está en las permitidas
+                $tmp = $resource[$column];
+                $column = (is_array($tmp) && array_key_exists($type, $tmp)) ? $tmp[$type] : $tmp;
+                return $column;
+            } 
+            $column = $default;
+        }                
         return $column.' '.$type;        
     }
     
