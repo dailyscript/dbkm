@@ -2,7 +2,7 @@
 /**
  * Dailyscript - app | web | media
  *
- * Clase que permite crear llave de seguridad en los formularios y en las url. Además provee un algoritmo de criptografía
+ * Clase que permite crear llave de seguridad en las url. Además provee un algoritmo de criptografía
  *
  * @package     Libs
  * @author      Iván D. Meléndez
@@ -59,33 +59,7 @@ class DwSecurity {
             return FALSE;
         }                
         return ($filter) ? Filter::get($id, $filter) : $id;
-    }        
-   
-    /**
-     * Genera un input tipo hidden con el valor de la llave     
-     * @return string
-     */
-    public static function getFormKey(){
-        $h = date("G")>12 ? 1 : 0;
-        $time = uniqid().mktime($h, 0, 0, date("m"), date("d"), date("Y"));
-        $key = sha1($time);        
-        Session::set('rsa32_key',$key);        
-        return Form::hidden('rsa32_key', null, $key).PHP_EOL;        
-    }
-    
-    
-    /**
-     * Devuelve el resultado de la llave almacenada en sesion con la enviada en el form    
-     * @return boolean
-     */
-    public static function isValidForm() {
-        $key = Session::get('rsa32_key');        
-        if( (!is_null($key) ) && ($key === Input::post('rsa32_key')) ) {
-            return true;
-        } else {
-            return false;
-        }
-    }        
+    }                
     
     /**
      * Método para cifrar texto o palabras

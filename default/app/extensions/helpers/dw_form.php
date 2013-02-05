@@ -879,4 +879,28 @@ class DwForm extends Form {
         $input.= '</label>';//Cierro el label        
         return $input.PHP_EOL;                                      
     }
+    
+    /**
+     * Método para generar un token en los formularios
+     */
+    public static function token() {
+        $h = date("G")>12 ? 1 : 0;
+        $time = uniqid().mktime($h, 0, 0, date("m"), date("d"), date("Y"));
+        $key = sha1($time);
+        Session::set('rsa32_key',$key);
+        return self::hidden('rsa32_key', NULL, $key);
+    }    
+    
+    /**
+     * Devuelve el resultado del token almacenado en sesion con la enviada en el form    
+     * @return boolean
+     */
+    public static function isValidToken() {
+        $key = Session::get('rsa32_key');        
+        if( (!is_null($key) ) && ($key === Input::post('rsa32_key')) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }  
 }

@@ -50,7 +50,7 @@ class Usuario extends ActiveRecord {
             if(DwAuth::isLogged()) {
                 return true;
             } else {                                
-                if(DwSecurity::isValidForm()) {
+                if(DwForm::isValidToken()) {
                     if(DwAuth::login(array('login'=>$user), array('password'=>sha1($pass)), $mode)) {
                         $usuario = self::getUsuarioLogueado();                         
                         if( ($usuario->id!=2) &&  ($usuario->estado_usuario != EstadoUsuario::ACTIVO) ) { 
