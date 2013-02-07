@@ -58,7 +58,20 @@ class Perfil extends ActiveRecord {
                 $conditions.= ($estado==self::ACTIVO) ? " AND estado=".self::ACTIVO : " AND estado=".self::INACTIVO;                
             }
         }        
-        $order = $this->get_order($order, 'perfil'); 
+        $order = $this->get_order($order, 'perfil', array(            
+            'usuarios' => array(
+                'ASC' => 'usuarios ASC, perfil.perfil ASC',
+                'DESC' => 'usuarios DESC, perfil.perfil DESC'
+            ),
+            'estado' => array(
+                'ASC' => 'perfil.estado ASC, perfil.perfil ASC',
+                'DESC' => 'perfil.estado DESC, perfil.perfil DESC'
+            ),
+            'plantilla' => array(
+                'ASC' => 'perfil.plantilla ASC, perfil.perfil ASC',
+                'DESC' => 'perfil.plantilla DESC, perfil.perfil DESC'
+            )
+        ));
         $group = 'perfil.id';
         if($page) {            
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order", "page: $page");

@@ -33,12 +33,30 @@ class Backup extends ActiveRecord {
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';
         $conditions = "backup.id > 0";
         
-        $order = $this->get_order($order, 'nombre', array('nombre'      =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC'),
-                                                          'apellido'    =>array('ASC'=>'persona.apellido ASC, persona.nombre ASC', 
-                                                                                'DESC'=>'persona.apellido DESC, persona.nombre DESC')
-                                                          ));
+        $order = $this->get_order($order, 'backup.registrado_at', array(
+                'nombre'=>array(
+                    'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
+                    'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+                ),
+                'apellido'=>array(
+                    'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                    'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+                ),
+                'fecha'=>array(
+                    'ASC'=>'backup.registrado_at ASC' ,
+                    'DESC'=>'backup.registrado_at DESC'
+                ),                                                                                            
+                'denominacion'=>array(
+                    'ASC'=>'backup.denominacion ASC, backup.registrado_at DESC' ,
+                    'DESC'=>'backup.denominacion DESC, backup.registrado_at DESC'
+                ),
+                'tamano'=>array(
+                    'ASC'=>'backup.tamano ASC, backup.registrado_at DESC' ,
+                    'DESC'=>'backup.tamano DESC, backup.registrado_at DESC'
+                )
+            )
+        );
+        
         //Por seguridad defino los campos habilitados para la búsqueda
         $fields = array('denominacion', 'nombre', 'apellido', 'fecha');
         if(!in_array($field, $fields)) {
@@ -69,12 +87,30 @@ class Backup extends ActiveRecord {
         $join = 'INNER JOIN usuario ON usuario.id = backup.usuario_id ';
         $join.= 'INNER JOIN persona ON persona.id = usuario.persona_id ';                        
         
-        $order = $this->get_order($order, 'nombre', array('nombre'      =>array(
-                                                                                'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
-                                                                                'DESC'=>'persona.nombre DESC, persona.apellido DESC'),
-                                                          'apellido'    =>array('ASC'=>'persona.apellido ASC, persona.nombre ASC', 
-                                                                                'DESC'=>'persona.apellido DESC, persona.nombre DESC')
-                                                          ));                
+        $order = $this->get_order($order, 'backup.registrado_at', array(
+                'nombre'=>array(
+                    'ASC'=>'persona.nombre ASC, persona.apellido ASC', 
+                    'DESC'=>'persona.nombre DESC, persona.apellido DESC'
+                ),
+                'apellido'=>array(
+                    'ASC'=>'persona.apellido ASC, persona.nombre ASC', 
+                    'DESC'=>'persona.apellido DESC, persona.nombre DESC'
+                ),
+                'fecha'=>array(
+                    'ASC'=>'backup.registrado_at ASC' ,
+                    'DESC'=>'backup.registrado_at DESC'
+                ),                                                                                            
+                'denominacion'=>array(
+                    'ASC'=>'backup.denominacion ASC, backup.registrado_at DESC' ,
+                    'DESC'=>'backup.denominacion DESC, backup.registrado_at DESC'
+                ),
+                'tamano'=>array(
+                    'ASC'=>'backup.tamano ASC, backup.registrado_at DESC' ,
+                    'DESC'=>'backup.tamano DESC, backup.registrado_at DESC'
+                )
+            )
+        );
+        
         if($page) {
             return $this->paginated("columns: $columns", "join: $join", "order: $order", "page: $page");
         } else {
@@ -102,7 +138,7 @@ class Backup extends ActiveRecord {
             return FALSE;
         }
         if(empty($path)) {
-            $path = dirname(APP_PATH) . '/public/files/backup/';
+            $path = APP_PATH . 'temp/backup/';
         }
         if(!is_writable($path)) {
             ActiveRecord::rollbackTrans();
@@ -149,7 +185,7 @@ class Backup extends ActiveRecord {
      * Método para restaurar el sistema
      * @param type $id
      */
-    public static function restoreBackup($id) {
+    public static function restoreBackup($id, $path='') {
         $id = Filter::get($id, 'int');
         if(empty($id)) {
             return FALSE;
@@ -159,7 +195,9 @@ class Backup extends ActiveRecord {
             DwMessage::get('id_no_found');
             return FALSE;
         }
-        $path = dirname(APP_PATH) . '/public/files/backup/';
+        if(empty($path)) {
+            $path = APP_PATH . 'temp/backup/';
+        }
         $file = $path.$obj->archivo;
         if(!is_file($file)) {
             DwMessage::error('Error: BKP-RES001. Se ha producido un error en la restauración del sistema. <br />No se pudo localizar el archivo de restaruación.');

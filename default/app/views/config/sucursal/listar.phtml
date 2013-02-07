@@ -4,7 +4,7 @@
     $(function() {
         $('table').dwGrid({             
             order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
-            order_action: $.KumbiaPHP.publicPath+"sistema/sucursal/listar/"
+            order_action: $.KumbiaPHP.publicPath+"config/sucursal/listar/"
         });
     });    
 </script>
@@ -15,7 +15,7 @@
     
     <div class="btn-toolbar btn-toolbar-top">        
         <div class="btn-actions">            
-            <?= DwHtml::button("sistema/sucursal/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+            <?= DwHtml::button("config/sucursal/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
         </div>
     </div>
     
@@ -47,8 +47,8 @@
                         <td><?= $sucursal->telefono; ?></td>
                         <td><?= $sucursal->fax; ?></td>
                         <td>
-                            <?= DwHtml::buttonTable('Modificar sucursal', "sistema/sucursal/editar/$key_upd/", null, 'info', 'edit'); ?>
-                            <?= DwHtml::buttonTable('Eliminar sucursal', "sistema/sucursal/eliminar/$key_del/", array('class'=>'js-confirm', 'confirm-title'=>'Eliminar sucursal', 'confirm-body'=>'Está seguro de eliminar esta sucursal? <br />Recuerda que esta operación no se puede reversar.'), 'danger', 'ban-circle'); ?>
+                            <?= DwHtml::buttonTable('Modificar sucursal', "config/sucursal/editar/$key_upd/", null, 'info', 'edit'); ?>
+                            <?= DwHtml::buttonTable('Eliminar sucursal', "config/sucursal/eliminar/$key_del/", array('class'=>'js-confirm', 'confirm-title'=>'Eliminar sucursal', 'confirm-body'=>'Está seguro de eliminar esta sucursal? <br />Recuerda que esta operación no se puede reversar.'), 'danger', 'ban-circle'); ?>
                         </td>
                     </tr>
                     <?php $sucursal->counter++; ?>
@@ -58,6 +58,6 @@
         
     </div>
     
-    <?php View::partial('paginators/default', false, array('page'=>$sucursales, 'url'=>"sistema/sucursal/listar/$order/")); ?>
+    <?php View::partial('paginators/default', false, array('page'=>$sucursales, 'url'=>"config/sucursal/listar/$order/")); ?>
     
 </div>

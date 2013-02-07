@@ -22,21 +22,25 @@ class ActiveRecord extends KumbiaActiveRecord  {
     /**
      * Método que devuelve el order en SQL tomado de la url
      * @param string $s
-     * @param string $default
-     * @param array $resource Para no generar errores de ambigüedad en la bd
+     * @param string $default Campo por defecto si no se encuentra en el resource
+     * @param array $resource Variable que contiene las columnas permitidas y su respectivo ordenamiento
      * @return string
      */
-    protected function get_order($s, $default=NULL, $resource=array()) {
+    protected function get_order($s, $default, $resource=array()) {
         $s = explode('.', $s);        
         $column = (empty($s[1])) ? $default : Filter::get($s[1], 'string');        
         $type = (empty($s[2])) ? NULL : strtoupper($s[2]);   
         $type = ($type!='ASC' && $type!='DESC') ? ' ASC' : $type;        
-        if(!empty($resource) && array_key_exists($column, $resource)) {
-            $tmp = $resource[$column];
-            $column = (is_array($tmp) && array_key_exists($type, $tmp)) ? $tmp[$type] : $tmp;
-            return $column;
-        }
-        //$column = ( !empty($resource) && array_key_exists($column, $resource) ) ? $resource[$column] : $column;
+        if(!empty($resource)) {
+            //Verifico si están definidas las columnas permitidas para ordenar
+            if(array_key_exists($column, $resource)) { //Si está como key (cuando se especifica el order)
+                $tmp = $resource[$column];
+                $column = (is_array($tmp) && array_key_exists($type, $tmp)) ? $tmp[$type] : $tmp;
+                return $column;
+            } else if(!in_array($column, $resource)) { //Si no está como valor, se toma el default
+                $column = $default;
+            }            
+        }                
         return $column.' '.$type;        
     }
     
