@@ -6,10 +6,9 @@
         <meta charset="<?php echo APP_CHARSET; ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">                      
         <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>        
-        <?php Tag::css('font-awesome.min'); ?>                
-        <?php Tag::css('base'); ?>
-        <?php Tag::css('style'); ?>
-        <?php Tag::css('themes/default/default'); ?>        
+        <?php Tag::css('font-awesome.min'); ?>                        
+        <?php Tag::css('style'); ?>                
+        <?php Tag::css('backend/style'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
@@ -34,7 +33,6 @@
         </div>
         
         <div id="dw-shell-load">             
-            <div id="dw-console" class="container"></div>            
             <div id="dw-shell-content" class="container-fluid">                 
                 <?php View::content(); ?>                                                         
             </div>                        

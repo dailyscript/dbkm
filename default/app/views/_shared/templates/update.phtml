@@ -11,10 +11,11 @@
         <!--[if IE 7]>
             <link rel="stylesheet" href="<?= PUBLIC_PATH; ?>css/font-awesome-ie7.min.css">
         <![endif]-->
-        <?php Tag::css('base'); ?>
-        <?php Tag::css('style'); ?>
-        <?php Tag::css('login'); ?>
-        <?php Tag::css('themes/default/default'); ?>
+        <?php Tag::css('style'); ?>        
+        <?php Tag::css('backend/base'); ?>
+        <?php Tag::css('backend/style'); ?>
+        <?php Tag::css('backend/login'); ?>
+        <?php Tag::css('backend/themes/default/default'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">

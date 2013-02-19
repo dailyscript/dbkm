@@ -7,9 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">                      
         <meta name="robots" content="noindex,nofollow" />
         <?php Tag::css('bootstrap/'.SKIN.'/css/bootstrap.min', 'all'); ?>        
-        <?php Tag::css('base', 'all'); ?>
         <?php Tag::css('style', 'all'); ?>                
-        <?php Tag::css('printer', 'all'); ?>                
+        <?php Tag::css('backend/base', 'all'); ?> 
+        <?php Tag::css('backend/style', 'all'); ?>
+        <?php Tag::css('backend/printer', 'all'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
