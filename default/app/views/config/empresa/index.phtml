@@ -166,7 +166,7 @@
 
 <script type="text/javascript">
     $('#logo').fileupload({
-        url: '/sistema/empresa/upload/',
+        url: '<?= PUBLIC_PATH; ?>config/empresa/upload/',
         dataType: 'json',
         maxFileSize: 2000000, //2MB
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,        

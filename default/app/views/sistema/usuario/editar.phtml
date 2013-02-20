@@ -143,7 +143,7 @@
 
 <script type="text/javascript">
     $('#fotografia').fileupload({
-        url: '/sistema/usuario/upload/',
+        url: '<?= PUBLIC_PATH; ?>sistema/usuario/upload/',
         dataType: 'json',
         maxFileSize: 2000000, //2MB
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,        
