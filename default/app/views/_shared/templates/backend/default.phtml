@@ -4,54 +4,54 @@
         <title><?php echo $page_title; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="<?php echo APP_CHARSET; ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">                      
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="noindex,nofollow" />
-        <?php Tag::css('bootstrap/'.SKIN.'/css/bootstrap.min'); ?>
+        <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>
         <?php Tag::css('bootstrap/datepicker'); ?>
-        <?php Tag::css('font-awesome.min'); ?>                
+        <?php Tag::css('font-awesome.min'); ?>
         <?php Tag::css('style'); ?>
-        <?php Tag::css('backend/base'); ?>        
-        <?php Tag::css('backend/style'); ?>        
-        <?php Tag::css('backend/themes/'.SKIN.'/'.SKIN); ?>        
+        <?php Tag::css('backend/base'); ?>
+        <?php Tag::css('backend/style'); ?>
+        <?php Tag::css('backend/themes/'.SKIN.'/'.SKIN); ?>
         <?php Tag::css('file-upload'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
         <?php } ?>
-        <style type="text/css">                    
-            
-        </style>     
-        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>                
-        <script type="text/javascript">            
-            function DwTitle(title) { if($(document).attr('title') != title) { $(document).attr('title', title); } } 
+        <style type="text/css">
+
+        </style>
+        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>
+        <script type="text/javascript">
+            function DwTitle(title) { if($(document).attr('title') != title) { $(document).attr('title', title); } }
         </script>
-        
+
     </head>
     <body>
-        
+
         <?php DwMenu::load(Menu::BACKEND, Session::get('perfil_id')); ?>
-        
+
         <?php View::partial('backend/header'); ?>
-        
+
         <?php if(DESKTOP) {?>
             <?php View::partial('backend/main'); ?>
         <?php } ?>
 
-        <div id="dw-shell-load">             
-            <div id="dw-console" class="container"></div>            
-            <div id="dw-shell-content" class="container-fluid"> 
+        <div id="dw-shell-load">
+            <div id="dw-console" class="container"></div>
+            <div id="dw-shell-content" class="container-fluid">
                 <noscript><h5 style="text-align: center;">¡Tu navegador no soporta Javascript!.. Activa el uso de Javascript en tu navegador.</h5><meta http-equiv="refresh" content="1; URL=<?php echo PUBLIC_PATH; ?>sistema/login/salir/no-script/" /></noscript>
-                <?php View::content(); ?>                                                         
-            </div>                        
+                <?php View::content(); ?>
+            </div>
         </div>
-        
+
         <?php View::partial('backend/footer'); ?>
-        
+
         <div id="dw-loading-content" class="alpha60"></div>
         <div id="dw-spinner" class="preview dw-corner-all dw-shadow-dark"></div>
-        
-        <?php echo Tag::js('bootstrap/bootstrap.min').PHP_EOL; ?>        
-        <?php echo Tag::js('bootstrap/bootstrap-datepicker').PHP_EOL; ?>        
+
+        <?php echo Tag::js('bootstrap/bootstrap.min').PHP_EOL; ?>
+        <?php echo Tag::js('bootstrap/bootstrap-datepicker').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.kumbiaphp').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.keyfilter').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.dwgrid').PHP_EOL; ?>
@@ -61,77 +61,77 @@
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <?php echo Tag::js('vendors/html5').PHP_EOL; ?>
-        <![endif]--> 
-        <?php echo Tag::js('utils/var').PHP_EOL; ?> 
+        <![endif]-->
+        <?php echo Tag::js('utils/var').PHP_EOL; ?>
         <?php echo Tag::js('utils/validador').PHP_EOL; ?>
-        
-        
-        <script type="text/javascript">              
-            $(document).ready(function() {                
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
                 url = (window.location.hash.lenth >1) ? window.hash : window.location.pathname;
-                url = url.split('order')[0].split('pag')[0];                                
+                url = url.split('order')[0].split('pag')[0];
                 var activePageSubMenuId;
-                var activePageMainMenuElement;                
-                $(".subnav").each(function (i) { 
-                    if(!$(this).hasClass("hidden")) { 
+                var activePageMainMenuElement;
+                $(".subnav").each(function (i) {
+                    if(!$(this).hasClass("hidden")) {
                         activePageSubMenuId = $(this).attr("id");
-                    } else {                     
-                        contenedor = $(this).attr('id');                        
-                        $(this).find('a').each(function(i) {                                                                                 
-                            if(url==$(this).attr('href')) {                                                            
+                    } else {
+                        contenedor = $(this).attr('id');
+                        $(this).find('a').each(function(i) {
+                            if(url==$(this).attr('href')) {
                                 $('#'+contenedor).removeClass('hidden');
-                                $(this).parent().addClass('active');                                
-                                $('[data-filter="'+contenedor+'"]').each(function () {                                
+                                $(this).parent().addClass('active');
+                                $('[data-filter="'+contenedor+'"]').each(function () {
                                     $(this).parent().addClass('main-nav-arrow active');
                                     $(this).removeClass('hidden');
-                                    return false;                                
-                                });                                                                       
+                                    return false;
+                                });
                                 return false;
                             }
-                        });                                       
+                        });
                     }
-                });                   
-                $(".dropdown-menu").each(function(i) { 
+                });
+                $(".dropdown-menu").each(function(i) {
                     $(this).find('a').each(function(i){
-                        if(url==$(this).attr('href')) {                            
-                            $(this).parent().addClass('active');                             
+                        if(url==$(this).attr('href')) {
+                            $(this).parent().addClass('active');
                             return false;
-                        } 
-                    });                       
-                });                
-                $('.dropdown-menu a').on('click', function(){                    
-                    este = $(this);                    
-                    $(".dropdown-menu a").each(function(i){                       
+                        }
+                    });
+                });
+                $('.dropdown-menu a').on('click', function(){
+                    este = $(this);
+                    $(".dropdown-menu a").each(function(i){
                         $(this).parents().removeClass('active');
-                    });                    
-                    este.parent().addClass('active');                                        
-                });                
+                    });
+                    este.parent().addClass('active');
+                });
                 //Activa el menú actual
-                $(".main-menu-link").each(function (i) {                
-                    if($(this).parent().hasClass("active")){                        
+                $(".main-menu-link").each(function (i) {
+                    if($(this).parent().hasClass("active")){
                         activePageMainMenuElement = $(this).attr("id");
                     }
-                });                  
+                });
                 // Habilita el submenú
-                $(".main-menu-link").on('click', function(){                    
-                    var submenu = $("#" +$(this).attr("data-filter"));                    
+                $(".main-menu-link").on('click', function(){
+                    var submenu = $("#" +$(this).attr("data-filter"));
                     $(".subnav").each(function (i) {
                         $(this).attr("class","subnav hidden");
-                    });                    
-                    submenu.attr("class", "subnav");                    
+                    });
+                    submenu.attr("class", "subnav");
                     $(".main-menu-link").each(function(i) {
                        $(this).parent().removeClass("main-nav-arrow");
-                    });                    
+                    });
                     $(this).parent().addClass("main-nav-arrow");
-                });                
+                });
                 //Activa el submenú actual
-                $('.subnav a').on('click', function(){                    
-                    este = $(this);                    
+                $('.subnav a').on('click', function(){
+                    este = $(this);
                     $(".subnav li").removeClass('active');
                     $(".main-menu-link").parent().removeClass('active');
                     este.parent().addClass('active');
-                    $('.main-nav-arrow').addClass('active');                    
-                    //este.parents('div.subnav').removeClass('hidden');                    
+                    $('.main-nav-arrow').addClass('active');
+                    //este.parents('div.subnav').removeClass('hidden');
                     //$(this).parent().addClass("main-nav-arrow");
                 });
                 //Activa el menú manualmente
@@ -141,13 +141,13 @@
                        $(this).parent().addClass('active');
                    }
                 });
-                                        
+
             });
-            $(function() { 
-                $("[rel=tooltip]").tooltip();                
+            $(function() {
+                $("[rel=tooltip]").tooltip();
             });
         </script>
-        
+
         <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>
         <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?>
         <?php echo DwDialog::alert('Usted no posee los permisos necesarios para realizar esta acción.', 'title: Acceso denegado', 'name: accessControl'); ?>
