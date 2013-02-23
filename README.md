@@ -5,6 +5,12 @@ Backend para aplicaciones web con KumbiaPHP con la elegancia de Bootstrap de Twi
 
 Con el DBKM podrás gestionar de manera rápida y segura los usuarios, perfiles, recursos, menús, y mucho más!.
 
+Documentación
+-------------------
+
+    * `Guía de inicio rápido <doc/index.rst>`_
+
+
 Instalación
 -------------------
 Para instalar el DBKM simplemente lo descargas, creas una base de datos e importas el archivo backup-1.sql.gz ubicado en la carpeta "app/temp/backup", editas el databases.ini y databases.org.ini con los parámetros de conexión.
