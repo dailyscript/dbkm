@@ -8,7 +8,7 @@ Con el DBKM podrás gestionar de manera rápida y segura los usuarios, perfiles,
 Documentación
 -------------------
 
-    * `Guía de inicio rápido <doc/index.rst>`_
+`Guía de inicio rápido <doc/index.rst>`_
 
 
 Instalación
