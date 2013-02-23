@@ -26,22 +26,22 @@ Para crear un link básico hacemos uso del helper DwHtml.
     <?php echo DwHtml::link('sistema/usuario', 'Usuarios') ?>
 
     //Ejemplo con ícono
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
 
     //Ejemplo con ícono
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
 
     //Si la app está en ajax pero aún así no queremos que cargue con ajax el link
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', array('class'=>'no-ajax no-spinner'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', array('class'=>'no-ajax no-spinner'); ?>
 
     //Si se quiere cambiar el contenedor
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', array('data-div'=>'contenedor'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', array('data-div'=>'contenedor'); ?>
 
     //Si no se quiere cambiar la url en el navegador (Aplica cuando se trabaja con ajax)
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', array('class'=>'dw-no-change'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', array('class'=>'dw-no-change'); ?>
 
     //Si se utilizan callback (Aplica cuando se trabaja con ajax)
-    <?php echo DwHTml::link('sistema/usuario', 'Usuarios', array('before-load'=>'funcion1();', 'after-load'=>'funcion2();'); ?>
+    <?php echo DwHtml::link('sistema/usuario', 'Usuarios', array('before-load'=>'funcion1();', 'after-load'=>'funcion2();'); ?>
 
 Creando link tipo button
 --------------------
@@ -66,22 +66,22 @@ El comportamiento es igual al ``DwHtml::link`` sólo que este lo genera tipo ``b
     <?php echo DwHtml::button('sistema/usuario', 'Usuarios') ?>
 
     //Ejemplo con ícono
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
 
     //Ejemplo con ícono
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', NULL, 'icon-user'); ?>
 
     //Si la app está en ajax pero aún así no queremos que cargue con ajax el link
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', array('class'=>'no-ajax no-spinner'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', array('class'=>'no-ajax no-spinner'); ?>
 
     //Si se quiere cambiar el contenedor (Aplica cuando se trabaja con ajax)
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', array('data-div'=>'contenedor'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', array('data-div'=>'contenedor'); ?>
 
     //Si no se quiere cambiar la url en el navegador (Aplica cuando se trabaja con ajax)
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', array('class'=>'dw-no-change'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', array('class'=>'dw-no-change'); ?>
 
     //Si se utilizan callback (Aplica cuando se trabaja con ajax)
-    <?php echo DwHTml::button('sistema/usuario', 'Usuarios', array('before-load'=>'funcion1();', 'after-load'=>'funcion2();'); ?>
+    <?php echo DwHtml::button('sistema/usuario', 'Usuarios', array('before-load'=>'funcion1();', 'after-load'=>'funcion2();'); ?>
 
 **Nota:** Si se ha especificado un ícono y está visualizado en un dispositivo móvil, este se ocultará.
 
