@@ -20,7 +20,7 @@ Para crear un link básico hacemos uso del helper DwHtml.
      * @param type $loadAjax Si el link carga con ajax o no. Por defecto toma el comportamiento de la app.
      * @return type
      */
-    link ($action, $text, $attrs = NULL, $icon='', $loadAjax = APP_AJAX) {
+    link ($action, $text, $attrs = NULL, $icon='', $loadAjax = APP_AJAX)
 
     //Ejemplo Básico:
     <?php echo DwHtml::link('sistema/usuario', 'Usuarios') ?>
@@ -60,7 +60,7 @@ El comportamiento es igual al ``DwHtml::link`` sólo que este lo genera tipo ``b
      * @param type $loadAjax Si el link carga con ajax o no. Por defecto toma el comportamiento de la app.
      * @return type
      */
-    button($action, $text = NULL, $attrs = NULL, $icon='', $loadAjax = APP_AJAX);
+    button($action, $text = NULL, $attrs = NULL, $icon='', $loadAjax = APP_AJAX)
 
     //Ejemplo Básico:
     <?php echo DwHtml::button('sistema/usuario', 'Usuarios') ?>
@@ -103,7 +103,7 @@ El comportamiento es similar a los anteriores y se utiliza en los datagrid
      * @param type $loadAjax Si el link carga con ajax o no. Por defecto toma el comportamiento de la app.
      * @return type
      */
-    buttonTable($title, $action, $attrs = NULL, $type='info', $icon='search', $loadAjax = APP_AJAX) {
+    buttonTable($title, $action, $attrs = NULL, $type='info', $icon='search', $loadAjax = APP_AJAX)
 
     //Ejemplo Básico:
     <?= DwHtml::buttonTable('Modificar sucursal', "config/sucursal/editar/5/", NULL, 'info', 'edit'); ?>
