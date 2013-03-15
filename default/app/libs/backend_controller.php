@@ -20,12 +20,12 @@ require_once CORE_PATH . 'kumbia/controller.php';
 Load::models('sistema/usuario', 'sistema/menu');
 
 class BackendController extends Controller {
-    
+
     /**
     * Titulo de la página
     */
     public $page_title = 'Página sin título';
-    
+
     /**
     * Nombre del módulo en el que se encuentra
     */
@@ -35,7 +35,7 @@ class BackendController extends Controller {
     * Tipo de formato del reporte
     */
     public $page_format;
-    
+
     /**
      * Variable que indica el cambio de título de la página en las respuestas ajax
      */
@@ -51,7 +51,7 @@ class BackendController extends Controller {
         if(Input::isAjax()) {
             View::template(null);
         }
-        
+
         /**
          * Verifico que haya iniciado sesión
          */
@@ -62,21 +62,21 @@ class BackendController extends Controller {
                 //Verifico que no sea una ventana emergente
                 if($this->module_name == 'reporte') {
                     View::error();//TODO: crear el método error()
-                } else {                            
+                } else {
                     DwRedirect::toLogin('sistema/login/entrar/');
                 }
                 return false;
-            } 
+            }
         } else if( DwAuth::isLogged() && $this->controller_name!='login' ) {
             $acl = new DwAcl(); //Cargo los permisos y templates
             if(APP_UPDATE && (Session::get('perfil_id') != Perfil::SUPER_USUARIO) ) { //Solo el super usuario puede hacer todo
                 if($this->module_name!='dashboard' && $this->controller_name!='index') {
                     $msj = 'Estamos en labores de actualización y mantenimiento.';
-                    $msj.= '<br />';                                    
-                    $msj.= 'El servicio se reanudará dentro de '.APP_UPDATE_TIME;                                    
+                    $msj.= '<br />';
+                    $msj.= 'El servicio se reanudará dentro de '.APP_UPDATE_TIME;
                     if(Input::isAjax()) {
-                        View::update();                         
-                    } else {                        
+                        View::update();
+                    } else {
                         DwMessage::info($msj);
                         DwRedirect::to("dashboard");
                     }
@@ -90,7 +90,7 @@ class BackendController extends Controller {
             }
             if(!defined('SKIN')) {
                 define('SKIN', Session::get('tema'));
-            }                       
+            }
         }
     }
 
@@ -100,17 +100,17 @@ class BackendController extends Controller {
     final protected function finalize() {
         if(defined('APP_CLIENT')) {
             $this->page_title = trim($this->page_title).' | '.APP_CLIENT.' ‹ '.APP_NAME;
-        } else {	                    
-            $this->page_title = trim($this->page_title).' ‹ '.APP_NAME;          
-        }         
+        } else {
+            $this->page_title = trim($this->page_title).' ‹ '.APP_NAME;
+        }
         //Se muestra la vista según el tipo de reporte
-        if(Router::get('module') == 'reporte') {                        
-            View::report($this->page_format);            
-        }        
+        if(Router::get('module') == 'reporte') {
+            View::report($this->page_format);
+        }
         //Se verifica si se cambia el título de la página
-        if($this->set_title && Input::isAjax()) {            
+        if($this->set_title && Input::isAjax()) {
             $this->set_title = TRUE;
-        }        
+        }
     }
 
 }
