@@ -1,7 +1,7 @@
-<div class="navbar navbar-fixed-top user-nav">	
-    <div class="navbar-inner">		
-        <div class="container">			                    			
-            <?php echo DwHtml::link('principal', '<i class="icon-globe icon-expand"></i>'.APP_NAME, array('class'=>'brand'), '' , FALSE); ?>
+<div class="navbar navbar-fixed-top user-nav">
+    <div class="navbar-inner">
+        <div class="container">
+            <?php echo DwHtml::link('dashboard', DwHtml::img("upload/empresa/".APP_CLIENT_LOGO, APP_NAME, array('style'=>'height: 40px;')), '' , FALSE); ?>
             <button class="btn btn-navbar btn-list-phone" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,19 +12,19 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="icon-user"></i> <?php echo Session::get('login'); ?> <b class="caret"></b>
-                        </a>                        
+                        </a>
                         <ul class="dropdown-menu">
-                            <li><?php echo DwHtml::link('sistema/mi_cuenta/', 'Perfil'); ?></li>                            
+                            <li><?php echo DwHtml::link('sistema/mi_cuenta/', 'Perfil'); ?></li>
                             <li class="divider"></li>
                             <li><?php echo DwHtml::link('sistema/login/salir', 'Salir', array('class'=>'no-load'), 'icon-off', FALSE); ?></li>
                         </ul>
-                    </li>                    
-                </ul>	                        
-            </div>                    
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="hidden-desktop">                    
-            <div class="nav-collapse nav-list-phone">                
+        <div class="hidden-desktop">
+            <div class="nav-collapse nav-list-phone">
                 <?php echo DwMenu::phone(); ?>
             </div>
         </div><!-- fin contenedor menú-->

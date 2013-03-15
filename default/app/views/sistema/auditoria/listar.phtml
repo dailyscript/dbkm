@@ -1,15 +1,15 @@
 <?php View::notify(); ?>
 
 <div class="container-fluid dw-shell-view">
-    
-    <?php View::process($page_module, $page_title, $set_title); ?>        
-    
-    <div class="btn-toolbar btn-toolbar-top">        
-        <div class="btn-actions">            
-            <?= DwButton::report("auditoria/listar/$fecha/", 'html', 'Reporte de auditorías'); ?> 
+
+    <?php View::process($page_module, $page_title, $set_title); ?>
+
+    <div class="btn-toolbar btn-toolbar-top">
+        <div class="btn-actions">
+            <?= DwButton::report("auditoria/listar/$fecha/", 'html', 'Reporte de auditorías', 'imprimir'); ?>
         </div>
     </div>
-    
+
     <div class="dw-overflow">
 
         <table class="table table-bordered table-hover table-striped table-condensed">
@@ -21,7 +21,7 @@
                     <th class="no-responsive dw-text-middle">USUARIO</th>
                     <th class="no-responsive dw-text-middle">IP</th>
                     <th class="no-responsive dw-text-center">DESCRIPCION</th>
-                </tr>                
+                </tr>
             </thead>
             <tbody>
                 <?php if($audits->items) { ?>
@@ -46,13 +46,13 @@
                     </tr>
                     <?php $audits->counter++; ?>
                     <?php endforeach; ?>
-                <?php } ?>                    
+                <?php } ?>
             </tbody>
 
         </table>
 
     </div>
-      
+
     <?php View::partial('paginators/default', false, array('page'=>$audits, 'url'=>"sistema/sucesos/listar/$fecha/")); ?>
-    
+
 </div>
