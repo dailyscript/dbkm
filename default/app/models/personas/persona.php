@@ -4,8 +4,8 @@
  *
  * Descripcion: Modelo encargado de registrar las personas en el sistema
  *
- * @category    
- * @package     Models 
+ * @category
+ * @package     Models
  * @author      Iván D. Meléndez (ivan.melendez@dailycript.com.co)
  * @copyright   Copyright (c) 2012 Dailyscript Team (http://www.dailyscript.com.co)
  * @revision    1.0
@@ -14,7 +14,7 @@
 Load::models('sistema/usuario');
 
 class Persona extends ActiveRecord {
-    
+
     /**
      * Método que se ejecuta antes de cualquier acción
      */
@@ -22,7 +22,7 @@ class Persona extends ActiveRecord {
         $this->has_one('usuario');
         $this->belongs_to('tipo_nuip');
     }
-    
+
     /**
      * Método para setear un Objeto
      * @param string    $method     Método a ejecutar (create, update)
@@ -32,21 +32,28 @@ class Persona extends ActiveRecord {
     public static function setPersona($method, $data=array(), $optData=array()) {
         $obj = new Persona($data);
         if(!empty($optData)) {
-            $obj->dump_result_self($optData); 
+            $obj->dump_result_self($optData);
         }
         //Creo otro objeto para comparar si existe
         $old = new Persona($data);
         $check = $old->_getPersonaRegistrada('find_first');
         if($check) { //Si existe
-            $obj->id = $old->id; //Asigno el id del encontrado al nuevo
-            if($method=='create') { //Si se crea la persona, pero ya está registrada la actualizo
-                $method == 'update';
+            if(empty($obj->id)) {
+                $obj->id = $old->id; //Asigno el id del encontrado al nuevo
+            } else { //Si se actualiza y existe otro con la misma información
+                if($obj->id != $old->id) {
+                    DwMessage::info('Lo sentimos, pero ya existe una persona registrada con el mismo número y tipo de identificación');
+                    return FALSE;
+                }
             }
-        }        
+            if($method=='create') { //Si se crea la persona, pero ya está registrada la actualizo
+                $method = 'update';
+            }
+        }
         $rs = $obj->$method();
         return ($rs) ? $obj : FALSE;
     }
-    
+
     /**
      * Método para verificar si una persona ya se encuentra registrada
      * @return obj
@@ -59,7 +66,7 @@ class Persona extends ActiveRecord {
         }
         return $this->$method("conditions: $conditions");
     }
-    
+
     /**
      * Callback que se ejecuta antes de guardar/modificar
      */
@@ -67,21 +74,8 @@ class Persona extends ActiveRecord {
         $this->nombre = Filter::get($this->nombre, 'string');
         $this->apellido = Filter::get($this->apellido, 'string');
         $this->nuip = Filter::get($this->nuip, 'numeric');
-        $this->telefono = Filter::get($this->telefono, 'numeric');        
+        $this->telefono = Filter::get($this->telefono, 'numeric');
     }
-    
-    /**
-     * Callback que se ejecuta despues de crear una persona
-     */
-    public function after_create() {        
-        //Callback que crea automáticamente el cliente
-        if (class_exists('Cliente', FALSE)) { //Verifico si existe cargado el modelo "Cliente"
-            $cliente = new Cliente();
-            if(!$cliente->count("conditions: persona_id = $this->id")) {
-                Cliente::setCliente('create', array('persona_id'=>$this->id));
-            }
-        }        
-    }
-    
+
 }
 
