@@ -149,7 +149,11 @@
         </script>
 
         <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>
+        <?php if(PRODUCTION) { ?>
         <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?>
+        <?php } else { ?>
+        <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.<br /><span id="dw-info-error-ajax"></span>', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?>
+        <?php } ?>
         <?php echo DwDialog::alert('Usted no posee los permisos necesarios para realizar esta acción.', 'title: Acceso denegado', 'name: accessControl'); ?>
     </body>
 </html>
