@@ -6,7 +6,7 @@
 
     <div class="btn-toolbar btn-toolbar-top">
         <div class="btn-actions">
-            <?= DwButton::report("auditoria/listar/$fecha/", 'html', 'Reporte de auditorías', 'imprimir'); ?>
+            <?php echo DwButton::report("auditoria/listar/$fecha/", 'html', 'Reporte de auditorías', 'imprimir'); ?>
         </div>
     </div>
 
@@ -27,22 +27,22 @@
                 <?php if($audits->items) { ?>
                     <?php foreach($audits->items as $audit): ?>
                     <tr>
-                        <td><?= $audits->counter; ?></td>
-                        <td><?= $audit['fecha']; ?></td>
+                        <td><?php echo $audits->counter; ?></td>
+                        <td><?php echo $audit['fecha']; ?></td>
                         <td>
                             <?php if($audit['tipo'] == 'ERROR' OR $audit['tipo'] == 'ALERT') { ?>
-                                <span class="label label-important"><?= $audit['tipo']; ?></span>
+                                <span class="label label-important"><?php echo $audit['tipo']; ?></span>
                             <?php } else if($audit['tipo'] == 'WARNING' OR $audit['tipo'] == 'CRITICAL' OR $audit['tipo'] == 'EMERGENCE') { ?>
-                                <span class="label label-warning"><?= $audit['tipo']; ?></span>
+                                <span class="label label-warning"><?php echo $audit['tipo']; ?></span>
                             <?php } else if($audit['tipo'] == 'NOTICE' OR $audit['tipo'] == 'INFO') { ?>
-                                <span class="label label-info"><?= $audit['tipo']; ?></span>
+                                <span class="label label-info"><?php echo $audit['tipo']; ?></span>
                             <?php } else { ?>
-                                <span class="label"><?= $audit['tipo']; ?></span>
+                                <span class="label"><?php echo $audit['tipo']; ?></span>
                             <?php } ?>
                         </td>
-                        <td><?= $audit['usuario']; ?></td>
-                        <td><?= $audit['ip']; ?></td>
-                        <td><?= $audit['descripcion']; ?></td>
+                        <td><?php echo $audit['usuario']; ?></td>
+                        <td><?php echo $audit['ip']; ?></td>
+                        <td><?php echo $audit['descripcion']; ?></td>
                     </tr>
                     <?php $audits->counter++; ?>
                     <?php endforeach; ?>

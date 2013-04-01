@@ -33,7 +33,7 @@
 
         <?php View::partial('backend/header'); ?>
 
-        <?php if(DESKTOP) {?>
+        <?php if(!MOBILE) {?>
             <?php View::partial('backend/main'); ?>
         <?php } ?>
 

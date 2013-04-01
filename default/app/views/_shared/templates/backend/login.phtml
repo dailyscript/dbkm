@@ -4,53 +4,53 @@
         <title><?php echo $page_title; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="<?php echo APP_CHARSET; ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">       
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="noindex,nofollow" />
         <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>
         <?php Tag::css('font-awesome.min'); ?>
         <!--[if IE 7]>
-            <link rel="stylesheet" href="<?= PUBLIC_PATH; ?>css/font-awesome-ie7.min.css">
+            <link rel="stylesheet" href="<?php echo PUBLIC_PATH; ?>css/font-awesome-ie7.min.css">
         <![endif]-->
         <?php Tag::css('style'); ?>
         <?php Tag::css('backend/base'); ?>
-        <?php Tag::css('backend/style'); ?>        
-        <?php Tag::css('backend/login'); ?>        
-        <?php Tag::css('backend/themes/default/default'); ?>                        
+        <?php Tag::css('backend/style'); ?>
+        <?php Tag::css('backend/login'); ?>
+        <?php Tag::css('backend/themes/default/default'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
         <?php } ?>
-        
-        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>              
-            
+
+        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>
+
     </head>
     <body>
-    
+
         <?php View::partial('backend/header_login'); ?>
-        
-        <div id="dw-shell-load">                         
-            <div id="dw-console"></div>             
-            <div id="dw-shell-content" class="container-fluid">                
-                <?php View::content(); ?>                                     
-            </div>                        
+
+        <div id="dw-shell-load">
+            <div id="dw-console"></div>
+            <div id="dw-shell-content" class="container-fluid">
+                <?php View::content(); ?>
+            </div>
         </div>
-        
+
         <?php View::partial('backend/footer'); ?>
-        
+
         <div id="dw-loading-content" class="alpha60"></div>
         <div id="dw-spinner" class="preview dw-corner-all dw-shadow-dark"></div>
-                
-        <script type="text/javascript">                                                 
-            $(function () {	
+
+        <script type="text/javascript">
+            $(function () {
                 jQuery.support.placeholder = false;
                 test = document.createElement('input');
                 if('placeholder' in test) jQuery.support.placeholder = true;
                 if (!$.support.placeholder) {
                     $('.field').find ('label').show();
-                }                                
-            });              
+                }
+            });
         </script>
-        
+
         <?php echo Tag::js('bootstrap/bootstrap.min').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.kumbiaphp').PHP_EOL; ?>
         <?php echo Tag::js('jquery/jquery.keyfilter').PHP_EOL; ?>
@@ -60,11 +60,11 @@
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <?php echo Tag::js('vendors/html5').PHP_EOL; ?>
-        <![endif]--> 
-        <?php echo Tag::js('utils/var').PHP_EOL; ?>                
-        
-        <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?> 
-        <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>                        
-        
+        <![endif]-->
+        <?php echo Tag::js('utils/var').PHP_EOL; ?>
+
+        <?php echo DwDialog::alert('Se ha generado la siguiente excepción: <br /><span id="dw-error-ajax"></span>.', 'title: Oops! hemos realizado algo mal.', 'name: errorAjax'); ?>
+        <?php echo DwDialog::alert('Se ha producido un error en la validación del formulario.', 'subtext: Verifica los datos e intenta nuevamente.', 'title: Formulario incorrecto', 'name: errorForm'); ?>
+
     </body>
 </html>

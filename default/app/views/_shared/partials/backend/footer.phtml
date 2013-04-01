@@ -1,6 +1,6 @@
 <footer class="navbar-inner navbar-fixed-bottom">
     <div class="pull-right hidden-phone">
-        <p>Versión: <?= APP_VERSION; ?> - Ip: <?php echo Session::has('ip') ? Session::get('ip') : DwUtils::getIp(); ?> - Tiempo: <?php echo number_format(round((microtime(1)-START_TIME),4),4),' seg.'?></p>
+        <p>Versión: <?php echo APP_VERSION; ?> - Ip: <?php echo Session::has('ip') ? Session::get('ip') : DwUtils::getIp(); ?> - Tiempo: <?php echo number_format(round((microtime(1)-START_TIME),4),4),' seg.'?></p>
     </div>
     <div>
         <p>&copy; Copyright <?php echo date("Y"); ?> - <?php echo DwHtml::outLink('http://www.dailyscript.com.co/', 'Dailyscript', array('target'=>'_blank')); ?>. Todos los derechos reservados. <?php echo DwHtml::outLink('http://www.dailyscript.com.co/contacto/', 'Contacto', array('target'=>'_blank')); ?></p>
