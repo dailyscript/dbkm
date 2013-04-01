@@ -80,6 +80,9 @@
                 }
             });
             dialogo.modal();
+            $(dialogo).on('shown', function () {
+                $('.btn-success', dialogo).focus();
+            })
         },
 
         /**
