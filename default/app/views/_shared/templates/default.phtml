@@ -4,39 +4,39 @@
         <title><?php echo $page_title; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="<?php echo APP_CHARSET; ?>">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">                      
-        <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>        
-        <?php Tag::css('font-awesome.min'); ?>                        
-        <?php Tag::css('style'); ?>                
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>
+        <?php Tag::css('font-awesome.min'); ?>
+        <?php Tag::css('style'); ?>
         <?php Tag::css('backend/style'); ?>
         <?php echo Html::includeCss(); ?>
         <?php if(!APP_LOCAL) { ?>
             <link href="http://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet" type="text/css">
         <?php } ?>
-        <style type="text/css">                    
+        <style type="text/css">
             .row-fluid .span4 { font-size: 14px;}
-        </style>     
-        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>        
-        
+        </style>
+        <?php echo Tag::js('jquery/jquery.min').PHP_EOL; ?>
+
     </head>
     <body style="padding-top: 40px !important; font-family: Play,Lucila,Verdana,sans-serif;">
-        
-        <div class="navbar navbar-fixed-top user-nav">	
-            <div class="navbar-inner">		
-                <div class="container">			                    			
+
+        <div class="navbar navbar-fixed-top user-nav">
+            <div class="navbar-inner">
+                <div class="container">
                     <span class="brand"><?php echo APP_NAME; ?></span>
                     <div class="pull-right">
-                        <?= DwHtml::button("sistema/login/entrar/", 'Ingesar', array('class'=>'btn-success'), 'signin', FALSE); ?>
-                    </div>                    
-                </div>                                
+                        <?php echo DwHtml::button("sistema/login/entrar/", 'Ingesar', array('class'=>'btn-success'), 'signin', FALSE); ?>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div id="dw-shell-load">             
-            <div id="dw-shell-content" class="container-fluid">                 
-                <?php View::content(); ?>                                                         
-            </div>                        
+
+        <div id="dw-shell-load">
+            <div id="dw-shell-content" class="container-fluid">
+                <?php View::content(); ?>
+            </div>
         </div>
-                               
+
     </body>
 </html>

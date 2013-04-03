@@ -1,9 +1,9 @@
 <?php View::notify(); ?>
 
 <div class="container-fluid dw-shell-view">
-    
-    <?php View::process($page_module, $page_title, $set_title); ?>        
-    
+
+    <?php View::process($page_module, $page_title, $set_title); ?>
+
     <table class="table table-bordered table-hover table-striped table-condensed">
         <thead>
             <tr>
@@ -13,23 +13,23 @@
                 <th class="no-responsive dw-text-middle">USUARIO</th>
                 <th class="no-responsive dw-text-middle">IP</th>
                 <th class="no-responsive dw-text-center">DESCRIPCION</th>
-            </tr>                
+            </tr>
         </thead>
         <tbody>
             <?php if($audits) { ?>
                 <?php $counter = 1; ?>
                 <?php foreach($audits as $audit): ?>
                 <tr>
-                    <td><?= $counter; ?></td>
-                    <td><?= $audit['fecha']; ?></td>
-                    <td><?= $audit['tipo']; ?></td>
-                    <td><?= $audit['usuario']; ?></td>
-                    <td><?= $audit['ip']; ?></td>
-                    <td><?= $audit['descripcion']; ?></td>
+                    <td><?php echo $counter; ?></td>
+                    <td><?php echo $audit['fecha']; ?></td>
+                    <td><?php echo $audit['tipo']; ?></td>
+                    <td><?php echo $audit['usuario']; ?></td>
+                    <td><?php echo $audit['ip']; ?></td>
+                    <td><?php echo $audit['descripcion']; ?></td>
                 </tr>
                 <?php $counter++; ?>
                 <?php endforeach; ?>
-            <?php } ?>                    
+            <?php } ?>
         </tbody>
 
     </table>

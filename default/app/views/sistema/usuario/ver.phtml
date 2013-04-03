@@ -4,94 +4,94 @@
 </style>
 
 <div class="container-fluid dw-shell-view">
-    
+
     <?php View::process($page_module, $page_title, $set_title); ?>
-    
-    <?= DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
-    
+
+    <?php echo DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
+
         <?php if(DESKTOP) { ?>
         <ul class="nav nav-tabs">
         <?php } else { ?>
         <ul class="nav nav-pills nav-stacked">
-        <?php } ?>        
+        <?php } ?>
             <li class="active"><a href="#tab1" data-toggle="tab">Información personal</a></li>
             <li><a href="#tab2" data-toggle="tab">Información de la cuenta</a></li>
             <li><a href="#tab3" data-toggle="tab">Seguimiento a estados</a></li>
             <li><a href="#tab4" data-toggle="tab">Seguimiento a accesos</a></li>
         </ul>
         <div class="tab-content">
-            
+
             <div class="tab-pane active" id="tab1">
-                
+
                 <div class="row-fluid">
-                    <div class="span8">                                                
-                        <?= DwForm::text('persona.nombre', array('class'=>'input-xxlarge readonly'), $usuario->nombre, 'Nombre'); ?>
-                        <?= DwForm::text('persona.apellido', array('class'=>'input-xxlarge readonly'), $usuario->apellido, 'Apellido'); ?>
+                    <div class="span8">
+                        <?php echo DwForm::text('persona.nombre', array('class'=>'input-xxlarge readonly'), $usuario->nombre, 'Nombre'); ?>
+                        <?php echo DwForm::text('persona.apellido', array('class'=>'input-xxlarge readonly'), $usuario->apellido, 'Apellido'); ?>
                     </div>
                     <div class="span4 dw-text-right">
-                        <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px"> 
-                            <?= DwHtml::img("upload/personas/$usuario->fotografia", $usuario->nombre.' '.$usuario->apellido, array('id'=>'img-persona')); ?>
-                        </div>                        
-                    </div>            
-                </div>        
-    
-                <div class="row-fluid">
-                    <div class="span6">
-                        <?= DwForm::number('persona.nuip', array('class'=>'input-xxlarge readonly'), $usuario->nuip, 'Nuip'); ?>
+                        <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img("upload/personas/$usuario->fotografia", $usuario->nombre.' '.$usuario->apellido, array('id'=>'img-persona')); ?>
+                        </div>
                     </div>
-                    <div class="span6">
-                        <?= DwForm::oneSelect('usuario.tipo_nuip', $usuario->tipo_nuip, array('class'=>'input-xxlarge readonly'), 'Tipo de identificación'); ?>
-                    </div>            
                 </div>
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::email('usuario.email', array('class'=>'input-xxlarge readonly'), $usuario->email, 'Email'); ?>
-                    </div>                    
-                </div>               
-                
+                        <?php echo DwForm::number('persona.nuip', array('class'=>'input-xxlarge readonly'), $usuario->nuip, 'Nuip'); ?>
+                    </div>
+                    <div class="span6">
+                        <?php echo DwForm::oneSelect('usuario.tipo_nuip', $usuario->tipo_nuip, array('class'=>'input-xxlarge readonly'), 'Tipo de identificación'); ?>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?php echo DwForm::email('usuario.email', array('class'=>'input-xxlarge readonly'), $usuario->email, 'Email'); ?>
+                    </div>
+                </div>
+
             </div>
-            
+
             <div class="tab-pane" id="tab2">
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('usuario.codigo', array('class'=>'input-xxlarge readonly'), $usuario->id, 'Código'); ?>
-                    </div>                    
-                </div>                   
-                
+                        <?php echo DwForm::text('usuario.codigo', array('class'=>'input-xxlarge readonly'), $usuario->id, 'Código'); ?>
+                    </div>
+                </div>
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('usuario.login', array('class'=>'input-xxlarge readonly'), $usuario->login, 'Usuario'); ?>
+                        <?php echo DwForm::text('usuario.login', array('class'=>'input-xxlarge readonly'), $usuario->login, 'Usuario'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::oneSelect('usuario.perfil', $usuario->perfil, array('class'=>'input-xxlarge readonly'), 'Perfil'); ?>
+                        <?php echo DwForm::oneSelect('usuario.perfil', $usuario->perfil, array('class'=>'input-xxlarge readonly'), 'Perfil'); ?>
                     </div>
-                </div>   
-                
+                </div>
+
                 <?php if(APP_OFFICE) { ?>
-                <div class="row-fluid">                                        
+                <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::oneSelect('usuario.sucursal', empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal, array('class'=>'input-xxlarge readonly'), 'Sucursal'); ?>
-                    </div>                    
+                        <?php echo DwForm::oneSelect('usuario.sucursal', empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal, array('class'=>'input-xxlarge readonly'), 'Sucursal'); ?>
+                    </div>
                 </div>
                 <?php } ?>
-                
-                <div class="row-fluid">                                        
+
+                <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::oneSelect('usuario.app_ajax', ($usuario->app_ajax==1) ? 'On' : 'Off', array('class'=>'input-xxlarge readonly'), 'App con AJAX'); ?>
-                    </div>                    
+                        <?php echo DwForm::oneSelect('usuario.app_ajax', ($usuario->app_ajax==1) ? 'On' : 'Off', array('class'=>'input-xxlarge readonly'), 'App con AJAX'); ?>
+                    </div>
                     <div class="span6">
-                        <?= DwForm::oneSelect('usuario.tema', $usuario->tema, array('class'=>'input-xxlarge readonly'), 'Apariencia'); ?>                        
-                    </div>                    
-                </div>                                
-                   
+                        <?php echo DwForm::oneSelect('usuario.tema', $usuario->tema, array('class'=>'input-xxlarge readonly'), 'Apariencia'); ?>
+                    </div>
+                </div>
+
             </div>
-            
+
             <div class="tab-pane" id="tab3">
-                
+
                 <div class="dw-overflow">
-        
+
                     <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
                         <thead>
                             <tr>
@@ -99,30 +99,30 @@
                                 <th class="col-collapse">FECHA</th>
                                 <th class="col-collapse">ESTADO</th>
                                 <th class="col-collapse">DESCRIPCION</th>
-                            </tr>            
+                            </tr>
                         </thead>
-                        <tbody> 
+                        <tbody>
                             <?php $counter = 1; ?>
                             <?php foreach($estados as $estado): ?>
                             <tr>
-                                <td><?= $counter; ?></td>
-                                <td><?= $estado->fecha_estado_at; ?></td>
-                                <td><?= ($estado->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success" title="'.$usuario->descripcion.'" rel="tooltip">Activo</span>' : '<span class="label label-important" title="'.$usuario->descripcion.'" rel="tooltip">Bloqueado</span>'; ; ?></td>
-                                <td><?= $estado->descripcion; ?></td>
+                                <td><?php echo $counter; ?></td>
+                                <td><?php echo $estado->fecha_estado_at; ?></td>
+                                <td><?php echo ($estado->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success" title="'.$usuario->descripcion.'" rel="tooltip">Activo</span>' : '<span class="label label-important" title="'.$usuario->descripcion.'" rel="tooltip">Bloqueado</span>'; ; ?></td>
+                                <td><?php echo $estado->descripcion; ?></td>
                             </tr>
                             <?php $counter++; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    
+
                 </div>
-                
-            </div>                        
-            
+
+            </div>
+
             <div class="tab-pane" id="tab4">
-                
+
                 <div class="dw-overflow">
-        
+
                     <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
                         <thead>
                             <tr>
@@ -130,39 +130,39 @@
                                 <th class="col-collapse">FECHA</th>
                                 <th class="col-collapse">IP</th>
                                 <th class="col-collapse">TIPO</th>
-                            </tr>            
+                            </tr>
                         </thead>
-                        <tbody>      
+                        <tbody>
                             <?php $counter = 1; ?>
                             <?php foreach($accesos as $acceso): ?>
                             <tr>
-                                <td><?= $counter; ?></td>
-                                <td><?= date("Y-m-d", strtotime($acceso->registrado_at)); ?></td>
-                                <td><?= date("H:i:s", strtotime($acceso->registrado_at)); ?></td>
-                                <td><?= $acceso->ip; ?></td>                        
-                                <td><?= ($acceso->tipo_acceso == Acceso::ENTRADA) ? '<span class="label label-success">Entrada</span>' : '<span class="label label-important">Salida</span>'; ; ?></td>
+                                <td><?php echo $counter; ?></td>
+                                <td><?php echo date("Y-m-d", strtotime($acceso->registrado_at)); ?></td>
+                                <td><?php echo date("H:i:s", strtotime($acceso->registrado_at)); ?></td>
+                                <td><?php echo $acceso->ip; ?></td>
+                                <td><?php echo ($acceso->tipo_acceso == Acceso::ENTRADA) ? '<span class="label label-success">Entrada</span>' : '<span class="label label-important">Salida</span>'; ; ?></td>
                             </tr>
                             <?php $counter++; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    
-                </div>
-                
-            </div>                        
-            
-        </div>
-            
-        <div class="row-fluid">           
 
-            <div class="form-actions">
-                <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
-                <?= DwHtml::button("sistema/usuario/editar/$key_upd/", 'Modificar', array('class'=>'btn-warning'), 'edit'); ?>
-                <?= DwButton::cancel(); ?>
+                </div>
+
             </div>
 
         </div>
-    
-    <?= DwForm::close(); ?>
-    
+
+        <div class="row-fluid">
+
+            <div class="form-actions">
+                <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
+                <?php echo DwHtml::button("sistema/usuario/editar/$key_upd/", 'Modificar', array('class'=>'btn-warning'), 'edit'); ?>
+                <?php echo DwButton::cancel(); ?>
+            </div>
+
+        </div>
+
+    <?php echo DwForm::close(); ?>
+
 </div>

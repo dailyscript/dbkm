@@ -1,11 +1,11 @@
 <?php View::notify(); ?>
 
 <div class="container-fluid dw-shell-view">
-    
+
     <?php View::process($page_module, $page_title); ?>
-    
-    <div class="row-fluid dw-text-center" style="margin-top: 150px;">        
-        <?= DwForm::button2('CERRAR', array('onclick'=>'closePopup();', 'class'=>'btn btn-danger'), NULL, 'ban-circle'); ?>
+
+    <div class="row-fluid dw-text-center" style="margin-top: 150px;">
+        <?php echo DwForm::button2('CERRAR', array('onclick'=>'closePopup();', 'class'=>'btn btn-danger'), NULL, 'ban-circle'); ?>
     </div>
-    
+
 </div>

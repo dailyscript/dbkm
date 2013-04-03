@@ -1,9 +1,9 @@
 <?php View::notify(); ?>
 
 <div class="container-fluid dw-shell-view">
-    
-    <?php View::process($page_module, $page_title, $set_title); ?>        
-    
+
+    <?php View::process($page_module, $page_title, $set_title); ?>
+
     <div class="dw-overflow">
 
         <table class="table table-bordered table-hover table-striped table-condensed">
@@ -13,36 +13,36 @@
                     <th class="no-responsive dw-text-middle">FECHA</th>
                     <th class="no-responsive col-collapse dw-text-middle">TIPO</th>
                     <th class="no-responsive dw-text-center">DESCRIPCION</th>
-                </tr>                
+                </tr>
             </thead>
             <tbody>
                 <?php if($loggers->items) { ?>
                     <?php foreach($loggers->items as $log): ?>
                     <tr>
-                        <td><?= $loggers->counter; ?></td>
-                        <td><?= $log['fecha']; ?></td>
+                        <td><?php echo $loggers->counter; ?></td>
+                        <td><?php echo $log['fecha']; ?></td>
                         <td>
                             <?php if($log['tipo'] == 'ERROR' OR $log['tipo'] == 'ALERT') { ?>
-                                <span class="label label-important"><?= $log['tipo']; ?></span>
+                                <span class="label label-important"><?php echo $log['tipo']; ?></span>
                             <?php } else if($log['tipo'] == 'WARNING' OR $log['tipo'] == 'CRITICAL' OR $log['tipo'] == 'EMERGENCE') { ?>
-                                <span class="label label-warning"><?= $log['tipo']; ?></span>
+                                <span class="label label-warning"><?php echo $log['tipo']; ?></span>
                             <?php } else if($log['tipo'] == 'NOTICE' OR $log['tipo'] == 'INFO') { ?>
-                                <span class="label label-info"><?= $log['tipo']; ?></span>
+                                <span class="label label-info"><?php echo $log['tipo']; ?></span>
                             <?php } else { ?>
-                                <span class="label"><?= $log['tipo']; ?></span>
+                                <span class="label"><?php echo $log['tipo']; ?></span>
                             <?php } ?>
                         </td>
-                        <td><?= $log['descripcion']; ?></td>
+                        <td><?php echo $log['descripcion']; ?></td>
                     </tr>
                     <?php $loggers->counter++; ?>
                     <?php endforeach; ?>
-                <?php } ?>                    
+                <?php } ?>
             </tbody>
 
         </table>
 
     </div>
-      
+
     <?php View::partial('paginators/default', false, array('page'=>$loggers, 'url'=>"sistema/sucesos/listar/$fecha/")); ?>
-    
+
 </div>

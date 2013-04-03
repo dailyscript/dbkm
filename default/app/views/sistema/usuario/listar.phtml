@@ -1,30 +1,30 @@
 <?php View::notify(); ?>
 
-<script type="text/javascript">  
+<script type="text/javascript">
     $(function() {
-        $('table').dwGrid({             
+        $('table').dwGrid({
             form_search: true,
-            form_action: '<?= PUBLIC_PATH; ?>sistema/usuario/buscar/',
+            form_action: '<?php echo PUBLIC_PATH; ?>sistema/usuario/buscar/',
             form_load_data : 'dw-shell-content',
-            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+            order_attr: '<?php echo (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
             order_action: $.KumbiaPHP.publicPath+"sistema/usuario/listar/"
         });
-    });    
+    });
 </script>
 
 <div class="container-fluid dw-shell-view">
-    
+
     <?php View::process($page_module, $page_title, $set_title); ?>
-    
-    <div class="btn-toolbar btn-toolbar-top">        
-        <div class="btn-actions">            
-            <?= DwHtml::button("sistema/usuario/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?> 
+
+    <div class="btn-toolbar btn-toolbar-top">
+        <div class="btn-actions">
+            <?php echo DwHtml::button("sistema/usuario/agregar/", 'agregar', array('class'=>'btn-success'), 'check', APP_AJAX); ?>
         </div>
     </div>
-    
+
     <div class="dw-overflow" id="data-result">
-    
-        <table class="table table-bordered table-hover table-striped table-condensed table-responsive">        
+
+        <table class="table table-bordered table-hover table-striped table-condensed table-responsive">
             <thead>
                 <tr>
                     <th>NUM</th>
@@ -38,42 +38,42 @@
                     <? } ?>
                     <th class="col-collapse" data-search="estado_usuario">ESTADO</th>
                     <th class="btn-actions no-responsive" style="width: 150px;">ACCIONES</th>
-                </tr>            
+                </tr>
             </thead>
-            <tbody>            
-                <?php foreach($usuarios->items as $usuario): ?>                
+            <tbody>
+                <?php foreach($usuarios->items as $usuario): ?>
                     <?php $key_shw = DwSecurity::getKey($usuario->id, 'shw_usuario'); ?>
                     <?php $key_upd = DwSecurity::getKey($usuario->id, 'upd_usuario'); ?>
                     <?php $key_ina = DwSecurity::getKey($usuario->id, 'bloquear_usuario'); ?>
-                    <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>                    
+                    <?php $key_rea = DwSecurity::getKey($usuario->id, 'reactivar_usuario'); ?>
                     <tr>
-                        <td><?= $usuarios->counter; ?></td>
-                        <td><?= $usuario->login; ?></td>
-                        <td><?= $usuario->nombre; ?></td>
-                        <td><?= $usuario->apellido; ?></td>
-                        <td><?= $usuario->email; ?></td>
-                        <td><?= $usuario->perfil; ?></td>
+                        <td><?php echo $usuarios->counter; ?></td>
+                        <td><?php echo $usuario->login; ?></td>
+                        <td><?php echo $usuario->nombre; ?></td>
+                        <td><?php echo $usuario->apellido; ?></td>
+                        <td><?php echo $usuario->email; ?></td>
+                        <td><?php echo $usuario->perfil; ?></td>
                         <?if(APP_OFFICE) { //Si está activa la opción de oficinas ?>
-                        <td><?= empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
-                        <? } ?>                        
-                        <td><?= ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success" title="'.$usuario->descripcion.'" rel="tooltip">Activo</span>' : '<span class="label label-important" title="'.$usuario->descripcion.'" rel="tooltip">Bloqueado</span>'; ; ?></td>
+                        <td><?php echo empty($usuario->sucursal) ? 'Todas' : $usuario->sucursal; ?></td>
+                        <? } ?>
+                        <td><?php echo ($usuario->estado_usuario == EstadoUsuario::ACTIVO) ? '<span class="label label-success" title="'.$usuario->descripcion.'" rel="tooltip">Activo</span>' : '<span class="label label-important" title="'.$usuario->descripcion.'" rel="tooltip">Bloqueado</span>'; ; ?></td>
                         <td>
-                            <?= DwHtml::buttonTable('Ver usuario', "sistema/usuario/ver/$key_shw/", NULL, 'warning', 'search'); ?>
-                            <?= DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", NULL, 'info', 'edit'); ?>
+                            <?php echo DwHtml::buttonTable('Ver usuario', "sistema/usuario/ver/$key_shw/", NULL, 'warning', 'search'); ?>
+                            <?php echo DwHtml::buttonTable('Modificar usuario', "sistema/usuario/editar/$key_upd/", NULL, 'info', 'edit'); ?>
                             <?php if($usuario->estado_usuario == EstadoUsuario::ACTIVO) { ?>
-                                <?= DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/bloquear/$key_ina/", NULL, 'success', 'flag'); ?>
+                                <?php echo DwHtml::buttonTable('Bloquear usuario', "sistema/usuario/estado/bloquear/$key_ina/", NULL, 'success', 'flag'); ?>
                             <?php } else { ?>
-                                <?= DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", NULL, 'danger', 'flag'); ?>
-                            <?php } ?>                            
-                        </td>                    
+                                <?php echo DwHtml::buttonTable('Reactivar usuario', "sistema/usuario/estado/reactivar/$key_rea/", NULL, 'danger', 'flag'); ?>
+                            <?php } ?>
+                        </td>
                     </tr>
                     <?php $usuarios->counter++; ?>
                 <?php endforeach; ?>
-            </tbody>            
-        </table> 
-        
+            </tbody>
+        </table>
+
     </div>
-    
+
     <?php View::partial('paginators/default', false, array('page'=>$usuarios, 'url'=>"sistema/usuario/listar/$order/")); ?>
-    
+
 </div>

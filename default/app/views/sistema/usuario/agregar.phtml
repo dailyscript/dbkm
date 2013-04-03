@@ -4,179 +4,179 @@
 </style>
 
 <div class="container-fluid dw-shell-view">
-    
+
     <?php View::process($page_module, $page_title, $set_title); ?>
-    
-    <?= DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
-    
+
+    <?php echo DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
+
      <?php if(DESKTOP) { ?>
         <ul class="nav nav-tabs">
         <?php } else { ?>
         <ul class="nav nav-pills nav-stacked">
-        <?php } ?>        
+        <?php } ?>
             <li class="active"><a href="#tab1" data-toggle="tab">Información personal</a></li>
             <li><a href="#tab2" data-toggle="tab">Información de la cuenta</a></li>
             <li><a href="#tab3" data-toggle="tab">Cargar imagen</a></li>
         </ul>
         <div class="tab-content">
-            
+
             <div class="tab-pane active" id="tab1">
-    
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('persona.nombre', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Nombre'); ?>
+                        <?php echo DwForm::text('persona.nombre', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Nombre'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::text('persona.apellido', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Apellido'); ?>
-                    </div>            
-                </div>    
-    
-                <div class="row-fluid">
-                    <div class="span6">
-                        <?= DwForm::number('persona.nuip', array('class'=>'input-xxlarge input-required mask-pint show-error'), NULL, 'Nuip'); ?>
+                        <?php echo DwForm::text('persona.apellido', array('class'=>'input-xxlarge input-required mask-alphanum show-error'), NULL, 'Apellido'); ?>
                     </div>
-                    <div class="span6">
-                        <?= DwForm::dbSelect('persona.tipo_nuip_id', 'tipo_nuip', array('params/tipo_nuip', 'getListadoTipoNuip'), NULL, array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Tipo de identificación'); ?>
-                    </div>            
                 </div>
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::email('usuario.email', array('class'=>'input-xxlarge mask-email show-error'), NULL, 'Email'); ?>
-                    </div>                    
-                </div>               
-                
+                        <?php echo DwForm::number('persona.nuip', array('class'=>'input-xxlarge input-required mask-pint show-error'), NULL, 'Nuip'); ?>
+                    </div>
+                    <div class="span6">
+                        <?php echo DwForm::dbSelect('persona.tipo_nuip_id', 'tipo_nuip', array('params/tipo_nuip', 'getListadoTipoNuip'), NULL, array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Tipo de identificación'); ?>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?php echo DwForm::email('usuario.email', array('class'=>'input-xxlarge mask-email show-error'), NULL, 'Email'); ?>
+                    </div>
+                </div>
+
             </div>
-            
+
             <div class="tab-pane" id="tab2">
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::text('usuario.login', array('class'=>'input-xxlarge input-required mask-alphanum show-error input-user'), NULL, 'Usuario'); ?>
+                        <?php echo DwForm::text('usuario.login', array('class'=>'input-xxlarge input-required mask-alphanum show-error input-user'), NULL, 'Usuario'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', Perfil::ACTIVO), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), NULL, 'Perfil'); ?>
+                        <?php echo DwForm::dbSelect('usuario.perfil_id', 'perfil', array('sistema/perfil', 'getListadoPerfil', Perfil::ACTIVO), NULL, array('class'=>'input-xxlarge input-required input-list show-errors'), NULL, 'Perfil'); ?>
                     </div>
-                </div>   
-                
-                <div class="row-fluid">                    
+                </div>
+
+                <div class="row-fluid">
                     <?php if(APP_OFFICE) { ?>
                     <div class="span6">
-                        <?= DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
+                        <?php echo DwForm::dbSelect('usuario.sucursal_id', array('sucursal', 'ciudad'), array('config/sucursal', 'getListadoSucursal'), array('todas'=>'Todas'), array('class'=>'input-xxlarge input-required mask-pint show-errors'), NULL, 'Sucursal'); ?>
                     </div>
                     <?php } ?>
                 </div>
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::number('usuario.datagrid', array('class'=>'input-numeric show-error input-required'), 30, 'Cantidad de datos por página', 'Esta información se utiliza en los listados de informaciones y reportes'); ?>
-                    </div>                    
+                        <?php echo DwForm::number('usuario.datagrid', array('class'=>'input-numeric show-error input-required'), 30, 'Cantidad de datos por página', 'Esta información se utiliza en los listados de informaciones y reportes'); ?>
+                    </div>
                 </div>
-                
+
                 <div class="row-fluid">
                     <div class="span6">
-                        <?= DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), '', 'Contraseña'); ?>
+                        <?php echo DwForm::pass('usuario.password', array('class'=>'input-xxlarge input-required input-pass show-error'), '', 'Contraseña'); ?>
                     </div>
                     <div class="span6">
-                        <?= DwForm::pass('repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), '', 'Confirmación'); ?>
-                    </div>            
+                        <?php echo DwForm::pass('repassword', array('class'=>'input-xxlarge input-required input-repass show-error'), '', 'Confirmación'); ?>
+                    </div>
                 </div>
-                   
+
             </div>
-            
+
             <div class="tab-pane" id="tab3">
-                
+
                 <div class="row fileupload-buttonbar">
-                    
+
                     <div class="span2">
                         <span class="btn btn-success fileinput-button">
                             <i class="icon-plus icon-white"></i>
                             <span>Seleccionar fotografía...</span>
                             <input id="fotografia" type="file" name="fotografia" class="input-large">
-                        </span>                
+                        </span>
                     </div>
-                    
-                    <div id="upload-progress" class="span4 fileupload-progress fade">                                                    
+
+                    <div id="upload-progress" class="span4 fileupload-progress fade">
                         <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                             <div class="bar" style="width:0%;"></div>
                         </div>
                     </div>
-                    
+
                     <div class="span5 dw-text-right">
-                        <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px"> 
-                            <?= DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
-                        </div>                        
-                    </div>                   
-
-                </div>                   
-                
-                <div class="row-fluid">
-                                
-                    <?= DwForm::hidden('persona.fotografia', NULL, 'default.png'); ?>
-
-                    <div class="form-actions">
-                        <?= DwButton::save('Guardar usuario'); ?>
-                        <?= DwButton::reset('form'); ?>
-                        <?= DwButton::cancel('sistema/usuario/listar/'); ?>
+                        <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
+                        </div>
                     </div>
 
                 </div>
-                
+
+                <div class="row-fluid">
+
+                    <?php echo DwForm::hidden('persona.fotografia', NULL, 'default.png'); ?>
+
+                    <div class="form-actions">
+                        <?php echo DwButton::save('Guardar usuario'); ?>
+                        <?php echo DwButton::reset('form'); ?>
+                        <?php echo DwButton::cancel('sistema/usuario/listar/'); ?>
+                    </div>
+
+                </div>
+
             </div>
-            
-            
-            
+
+
+
         </div>
-    
-    <?= DwForm::close(); ?>
-    
+
+    <?php echo DwForm::close(); ?>
+
 </div>
 
 <?php View::partial('jquery.file-upload'); ?>
 
 <script type="text/javascript">
     $('#fotografia').fileupload({
-        url: '<?= PUBLIC_PATH; ?>sistema/usuario/upload/',
+        url: '<?php echo PUBLIC_PATH; ?>sistema/usuario/upload/',
         dataType: 'json',
         maxFileSize: 2000000, //2MB
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,        
-        start: function() {            
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        start: function() {
             $("#dw-message").empty();
             $('#upload-progress').removeClass('fade');
             $('.bar').parent().removeClass('progress-danger').addClass('progress-success');
             $('[type=submit]').attr('disabled', 'disabled');
-        }, 
+        },
         progress: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('.bar').css('width',progress + '%');
-        },        
-        add: function (e, data) {            
+        },
+        add: function (e, data) {
             var jqXHR = data.submit()
-            .done(function (result, textStatus, jqXHR) {                 
+            .done(function (result, textStatus, jqXHR) {
                 if(textStatus!='success' || result.error!=null) {
                     $('.bar').parent().removeClass('progress-success').addClass('progress-danger');
                     DwMessage('Oops! el archivo no se ha podido cargar. <br />Detalle del error: '+(result.error!=null) ? result.error : textStatus);
-                } else {     
+                } else {
                     DwMessage('El archivo se ha cargado correctamente!', 'success');
-                    $("#persona_fotografia").val(result.name);                    
-                    $("#img-persona").attr('src', '<?= PUBLIC_PATH; ?>img/upload/personas/'+result.name);
+                    $("#persona_fotografia").val(result.name);
+                    $("#img-persona").attr('src', '<?php echo PUBLIC_PATH; ?>img/upload/personas/'+result.name);
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if(textStatus!=null){
                     DwMessage('Oops! el archivo no se ha podido cargar. <br />Detalle del error: '+textStatus);
                     $('.bar').parent().removeClass('progress-success').addClass('progress-danger');
-                    setTimeout(function() { $('#upload-progress').addClass('fade'); }, 1000);                
+                    setTimeout(function() { $('#upload-progress').addClass('fade'); }, 1000);
                 } else {
                     DwMessage('Oops! al parecer el archivo no es una imágen válida. <br />Intenta con otro archivo.');
                     $('.bar').parent().removeClass('progress-success').addClass('progress-danger');
                     $('#upload-progress').addClass('fade');
-                }                
+                }
             })
-            .always(function () {              
+            .always(function () {
                 setTimeout(function() { $('#upload-progress').addClass('fade'); $('.bar').css('width','0%'); }, 1000);
                 $('[type=submit]').removeAttr('disabled');
             });
         }
-    });    
+    });
 </script>

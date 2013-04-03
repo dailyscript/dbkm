@@ -2,51 +2,51 @@
 
 <?php $old_privilegios = array(); ?>
 
-<script type="text/javascript">  
+<script type="text/javascript">
     $(function() {
-        $('table').dwGrid({             
-            order_attr: '<?= (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
+        $('table').dwGrid({
+            order_attr: '<?php echo (APP_AJAX) ? 'class="dw-ajax dw-spinner"' : ''; ?>',
             order_action: $.KumbiaPHP.publicPath+"sistema/privilegio/listar/"
         });
-    });    
+    });
 </script>
 
 <div class="container-fluid dw-shell-view">
-    
+
     <?php View::process($page_module, $page_title, $set_title); ?>
-    
-    <?= DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>            
-    
+
+    <?php echo DwForm::open('', 'post', array('id'=>'form', 'class'=>'dw-validate')); ?>
+
         <div class="dw-overflow">
-    
+
             <table class="table table-bordered table-hover table-striped table-condensed">
                 <thead>
-                    <tr>                
+                    <tr>
                         <th rowspan="2" class="no-responsive dw-text-middle">RECURSO</th>
                         <th rowspan="2" class="no-responsive col-collapse dw-text-middle">DESCRIPCION</th>
-                        <th colspan="<?= count($perfiles); ?>"class="no-responsive dw-text-center">PERFILES</th>
+                        <th colspan="<?php echo count($perfiles); ?>"class="no-responsive dw-text-center">PERFILES</th>
                     </tr>
                     <tr>
                         <?php foreach($perfiles as $perfil) { ?>
-                        <th class="no-responsive dw-text-center"><?= $perfil->perfil; ?></th>
+                        <th class="no-responsive dw-text-center"><?php echo $perfil->perfil; ?></th>
                         <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($recursos->items as $recurso) : ?>
                     <tr>
-                        <td><?= $recurso->recurso; ?></td>
-                        <td><?= $recurso->descripcion; ?></td>
+                        <td><?php echo $recurso->recurso; ?></td>
+                        <td><?php echo $recurso->descripcion; ?></td>
                         <?php foreach ($perfiles as $perfil) : ?>
-                            <?php if (in_array("$recurso->id-$perfil->id", $privilegios)) { ?>                            
-                                <td>                            
+                            <?php if (in_array("$recurso->id-$perfil->id", $privilegios)) { ?>
+                                <td>
                                     <?php $old_privilegios[] = $recurso->id.'-'.$perfil->id ?>
-                                    <?= DwForm::check('privilegios[]', $recurso->id.'-'.$perfil->id, NULL, TRUE); ?>
+                                    <?php echo DwForm::check('privilegios[]', $recurso->id.'-'.$perfil->id, NULL, TRUE); ?>
                                 </td>
                             <?php } else { ?>
-                                <td>                            
-                                    <?= DwForm::check('privilegios[]', $recurso->id.'-'.$perfil->id); ?>
-                                </td>            
+                                <td>
+                                    <?php echo DwForm::check('privilegios[]', $recurso->id.'-'.$perfil->id); ?>
+                                </td>
                             <?php } ?>
                         <?php endforeach ?>
                     </tr>
@@ -54,19 +54,19 @@
                 </tbody>
 
             </table>
-        
+
         </div>
-        
-        <?= DwForm::hidden('old_privilegios', null, join(',', $old_privilegios)); ?>
+
+        <?php echo DwForm::hidden('old_privilegios', null, join(',', $old_privilegios)); ?>
         <div class="row-fluid">
             <div class="form-actions">
-                <?= DwButton::save('Guardar privilegios'); ?>          
-                <?= DwButton::cancel('sistema/privilegio/listar'); ?>
+                <?php echo DwButton::save('Guardar privilegios'); ?>
+                <?php echo DwButton::cancel('sistema/privilegio/listar'); ?>
             </div>
         </div>
-    
+
     <?php DwForm::close() ;?>
-    
+
     <?php View::partial('paginators/default', false, array('page'=>$recursos, 'url'=>"sistema/privilegio/listar/$order/")); ?>
-    
+
 </div>
