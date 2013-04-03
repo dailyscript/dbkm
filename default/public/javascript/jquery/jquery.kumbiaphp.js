@@ -291,6 +291,9 @@
             // Lista desplegable que actualiza con ajax
             $("select.js-remote").on('change', this.cUpdaterSelect);
 
+            //Se carga el datepicker por compatibilidad con ajax
+            $("body").on('focus', 'input.js-datepicker', this.bindDatePicker);
+
             // Enlazar DatePicker
             this.bindDatePicker();
         },
