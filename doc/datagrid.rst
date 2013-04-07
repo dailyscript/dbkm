@@ -159,6 +159,9 @@ Podemos especificar un modo con formulario de búsqueda según las columnas defi
 
     </div>
 
+
+**Nota:** El form_action mandará a la siguiente url: /sistema/usuario/buscar/campo/valor/, donde ``campo`` es el valor del select y ``valor`` es el texto digitado de búsqueda
+
 Con lo anterior tendremos la siguiente vista:
 
 .. figure:: img/dwgrid_4.png
@@ -215,6 +218,8 @@ Podemos especificar un modo adicional y es el del ordenamiento según las column
         </div>
 
     </div>
+
+**Nota:** El order_action mandará a la siguiente url: /sistema/usuario/listar/order.campo.asc/, donde ``campo`` es el valor de la columna seleccionada
 
 Con lo anterior tendremos la siguiente vista:
 
