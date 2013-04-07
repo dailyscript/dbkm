@@ -24,7 +24,7 @@ Creaciones de formularios
 Datagrid
 ---------
 
-    * `DwForm <datagrid.rst>`_
+    * `DwDatagrid <datagrid.rst>`_
 
 Utilidades Html (link's y adicionales)
 ---------

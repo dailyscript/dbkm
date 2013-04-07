@@ -16,6 +16,8 @@ Aquí se puede hacer una descripción del subtítulo y se hacen bloques de códi
 
     }
 
+    ?>
+
 .. code-block:: html
 
     <a href="#">hola</a>
@@ -24,9 +26,10 @@ Aquí se puede hacer una descripción del subtítulo y se hacen bloques de códi
 
     <script type="text/javascript">
 
-        funciton hola() {
+        function hola() {
 
         }
+        
     </script>
 
 Otra descripción
