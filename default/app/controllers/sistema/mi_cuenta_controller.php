@@ -48,7 +48,7 @@ class MiCuentaController extends BackendController {
                         if($app_ajax_old != $usuario->app_ajax) {
                             Session::set('app_ajax', $usuario->app_ajax);
                             if(APP_AJAX){
-                                View::redirect('/sistema/mi_cuenta/');
+                                View::redirect('sistema/mi_cuenta/');
                             } else {
                                 DwRedirect::to('sistema/mi_cuenta');
                             }
