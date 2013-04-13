@@ -27,9 +27,32 @@ Para aplicar una redirección dentro de un controlador hacemos lo siguiente:
 
     return DwRouter::toAction('listar', 'pag/2');
 
+Hacia un método dentro de otro controlador con o sin modo AJAX
+--------------------
+Pra mantener una compatibilidad con AJAX el dbkm posee un sistema de redireccionamiento hacia otros módulo o controladores, de tal manera que sin importar el modo en que se esté trabajando, pueda redireccionar sin problema alguno.
+
+.. code-block:: php
+
+    <?php
+
+    /**
+     * Redirecciona la ejecución a otro controlador en cualquier modo de trabajo (con o sin AJAX)
+     *
+     * @param string Parámetros que puede recibir: module, controller, action, parameters
+     */
+    toRoute("module: modulo", "controller: controlador", "action: action", "parameters: todos/page.5") {
+
+    //Ejemplo:
+    DwRedirect::toRoute('module: sistema', 'controller: usuario', 'action: listar', 'parameters: todos/page.5');
+    //Redireccionará a sistema/usuario/listar/todos/page.5/
+
+    //Redirección al dashboard
+    DwRedirect::toRoute('module: dashboard', 'controller: index');
+
+
 Hacia un método dentro de otro controlador
 --------------------
-Para aplicar una redirección hacia un método de otro controlador hacemos lo siguiente:
+Cuando la aplicación no se encuentra en modo AJAX o necesitamos redireccionar y recargar la página bajo cualquier modo hacia un método de otro controlador o módulo hacemos lo siguiente:
 
 .. code-block:: php
 
