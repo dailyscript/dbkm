@@ -25,7 +25,7 @@ Para aplicar una redirección dentro de un controlador hacemos lo siguiente:
     //Redireccionando al método editar, pasando parámetros adicionales
     return DwRedirect::toAction('estado', 'suspender/5');
 
-    return DwRouter::toAction('listar', 'pag/2');
+    return DwRedirect::toAction('listar', 'pag/2');
 
 Hacia un método dentro de otro controlador con o sin modo AJAX
 --------------------
@@ -40,7 +40,7 @@ Pra mantener una compatibilidad con AJAX el dbkm posee un sistema de redireccion
      *
      * @param string Parámetros que puede recibir: module, controller, action, parameters
      */
-    toRoute("module: modulo", "controller: controlador", "action: action", "parameters: todos/page.5") {
+    toRoute("module: modulo", "controller: controlador", "action: action", "parameters: para/me/ters") {
 
     //Ejemplo:
     DwRedirect::toRoute('module: sistema', 'controller: usuario', 'action: listar', 'parameters: todos/page.5');
