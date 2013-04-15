@@ -6,7 +6,7 @@
  *
  * @package     Libs
  * @author      Iván D. Meléndez
- * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co) 
+ * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
  */
 
 class DwUtils {
@@ -17,7 +17,7 @@ class DwUtils {
     public static function getIp() {
         if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
             $client_ip = ( !empty($_SERVER['REMOTE_ADDR']) ) ? $_SERVER['REMOTE_ADDR'] : ( ( !empty($_ENV['REMOTE_ADDR']) ) ? $_ENV['REMOTE_ADDR'] : "unknown" );
-            $entries = split('[, ]', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $entries = explode('[, ]', $_SERVER['HTTP_X_FORWARDED_FOR']);
             reset($entries);
             while (list(, $entry) = each($entries)) {
                 $entry = trim($entry);
@@ -74,7 +74,7 @@ class DwUtils {
 
     /**
      * Método para ordenar un array de datos
-     * 
+     *
      * @param array $toOrderArray Array de datos
      * @param string $field Campo del array por el cual se va a ordenar
      * @param string $type Variable para indicar si ordena ASC o DESC
@@ -98,25 +98,25 @@ class DwUtils {
         }
         return $returnArray;
     }
-    
+
     /**
      * Método que devuelve un array con las carpetas de un directorio
      */
     public static function getFolders($path) {
         $folders = array();
-        if (is_dir($path)) { 
-            if ($ph = opendir($path)) { 
-                while (($source = readdir($ph)) !== false) { 
-                    if (is_dir($path . $source) && $source!="." && $source!="..") {                         
+        if (is_dir($path)) {
+            if ($ph = opendir($path)) {
+                while (($source = readdir($ph)) !== false) {
+                    if (is_dir($path . $source) && $source!="." && $source!="..") {
                         $folders[$source] = $source;
                     }
                 }
-                closedir($ph); 
+                closedir($ph);
             }
         }
         return $folders;
     }
-    
+
     /**
      * Escribe en letras un monto numerico
      *
@@ -148,7 +148,7 @@ class DwUtils {
         }
         return $val;
     }
-    
+
 }
 
 /**
@@ -188,26 +188,26 @@ function value_num($a){
             if($a>=22&&$a<=29) {
                 return "VENTI".value_num($a % 10);
             }
-            if($a==30) { 
-                return  "TREINTA";                 
+            if($a==30) {
+                return  "TREINTA";
             }
             if($a>=31&&$a<=39) {
                 return "TREINTA Y ".value_num($a % 10);
             }
             if($a==40) {
-                $b = "CUARENTA";                 
+                $b = "CUARENTA";
             }
             if($a>=41&&$a<=49) {
                 return "CUARENTA Y ".value_num($a % 10);
             }
-            if($a==50) { 
-                return "CINCUENTA";                
+            if($a==50) {
+                return "CINCUENTA";
             }
             if($a>=51&&$a<=59) {
                 return "CINCUENTA Y ".value_num($a % 10);
             }
-            if($a==60) { 
-                return "SESENTA"; 
+            if($a==60) {
+                return "SESENTA";
             }
             if($a>=61&&$a<=69) {
                 return "SESENTA Y ".value_num($a % 10);
@@ -216,13 +216,13 @@ function value_num($a){
                 return "SETENTA";
             }
             if($a>=71&&$a<=79) {
-                return "SETENTA Y ".value_num($a % 10);                
+                return "SETENTA Y ".value_num($a % 10);
             }
-            if($a==80) { 
+            if($a==80) {
                 return "OCHENTA";
             }
             if($a>=81&&$a<=89) {
-                return "OCHENTA Y ".value_num($a % 10);                
+                return "OCHENTA Y ".value_num($a % 10);
             }
             if($a==90) {
                 return "NOVENTA";
@@ -235,7 +235,7 @@ function value_num($a){
                 return "CIEN";
             }
             if($a>=101&&$a<=199) {
-                return "CIENTO ".value_num($a % 100);                            
+                return "CIENTO ".value_num($a % 100);
             }
             if($a>=200&&$a<=299) {
                 return "DOSCIENTOS ".value_num($a % 100);
