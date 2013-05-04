@@ -79,6 +79,10 @@ class DwForm extends Form {
                 if(!preg_match("/\bdw-form\b/i", $attrs['class'])) {
                     $attrs['class'] = 'dw-form '.$attrs['class'];
                 }
+                //Verifico si está definida la clase para ajax, pero si no se encuentra el aplicativo para ajax
+                if(preg_match("/\bjs-remote\b/i", $attrs['class']) && !$formAjax) {
+                    $formAjax = TRUE;
+                }
                 //Verifico si el aplicativo está con ajax
                 if($formAjax) {
                     //Verifico si está definida la clase para ajax
