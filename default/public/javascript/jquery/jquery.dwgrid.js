@@ -45,7 +45,7 @@
                             var id = "col-"+k+"-"+ i;
                             th.attr("id", id);
 
-                            if(!th.hasClass('no-responsive')) {
+                            if(!th.hasClass('no-responsive') && table.hasClass('table-responsive')) {
                                 th_responsive.push('td:nth-of-type('+(i+1)+'):before { content: "'+th.text()+': "; }');
                             }
 
