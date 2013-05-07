@@ -101,7 +101,7 @@ class Usuario extends ActiveRecord {
     /**
      * Método para listar los usuarios por perfil
      */
-    public function getUsuarioPorPerfil($perfil, $order='', $page=0) {
+    public function getUsuarioPorPerfil($perfil, $order='order.nombre.asc', $page=0) {
         $perfil = Filter::get($perfil, 'int');
         if(empty($perfil)) {
             return NULL;
@@ -142,7 +142,7 @@ class Usuario extends ActiveRecord {
         if($page) {
             return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order", "page: $page");
         } 
-        return $this->paginated("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
+        return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "order: $order");
     }
     
     /**
