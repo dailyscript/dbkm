@@ -263,7 +263,7 @@ class DwForm extends Form {
         $form = '';
         $attrs = self::_getAttrsClass($attrs, 'form'); //Verifico los atributos
         //Verifico si se valida
-        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {
+        if( (preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) && !preg_match("/\bjs-remote\b/i", $attrs['class']) ) {           
             $form.= self::_getValidationForm();
         }
         if($method=='') {
