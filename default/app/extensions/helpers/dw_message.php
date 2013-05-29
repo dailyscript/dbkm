@@ -96,7 +96,7 @@ class DwMessage {
      */
     public static function toString() {
         //Asigno los mensajes almacenados en sesión en una variable temporal
-        $tmp = Session::get('dw-messages');
+        $tmp = self::has() ? Session::get('dw-messages') : array();
         $msg = array();
         //Recorro los mensajes
         foreach($tmp as $item) {
