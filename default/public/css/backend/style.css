@@ -94,7 +94,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     .table-responsive td.btn-actions { display: none; } 
 }
 @media (min-width: 641px) {    
-    .table-responsive td.btn-actions { display: block !important; }
+    .table-responsive td.btn-actions { display: table-cell !important; }
 }
 @media (min-width: 768px) {        
     .table-responsive td div.btn-group { display: none !important; }    
