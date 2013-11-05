@@ -65,7 +65,7 @@ class DwMenu {
             foreach(self::$_main as $main) {         
                 $active = ($main->url==$route) ? 'active' : null;
                 if(self::$_entorno==Menu::BACKEND) {
-                    $html.= '<li class="'.$active.'">'.DwHtml::link($main->url, $main->menu, array('class'=>'main-menu-link', 'data-filter'=>"sub-menu-".strtolower($main->menu)), $main->icono).'</li>'.PHP_EOL;
+                    $html.= '<li class="'.$active.'">'.DwHtml::link($main->url, $main->menu, array('class'=>'main-menu-link', 'data-filter'=>"sub-menu-".DwUtils::getSlug($main->menu)), $main->icono).'</li>'.PHP_EOL;
                 } else {
                     if(!array_key_exists($main->menu, self::$_items)) {
                         $text = $main->menu.'<b class="caret"></b>';
@@ -126,7 +126,7 @@ class DwMenu {
         $route = trim(Router::get('route'), '/');
         $html = '';        
         foreach(self::$_items as $menu => $items) {
-            $html.= '<div id="sub-menu-'.strtolower($menu).'" class="subnav hidden">'.PHP_EOL;
+            $html.= '<div id="sub-menu-'.DwUtils::getSlug($menu).'" class="subnav hidden">'.PHP_EOL;
             $html.= '<ul class="nav nav-pills">'.PHP_EOL;
             if(array_key_exists($menu, self::$_items)) {
                 foreach(self::$_items[$menu] as $item) {
