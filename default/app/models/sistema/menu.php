@@ -74,17 +74,19 @@ class Menu extends ActiveRecord {
     /**
      * Método para obtener los submenús de cada menú según el perfil
      */
-    public function getListadoSubmenuPorPerfil($entorno, $perfil, $menu) {
+    public function getListadoSubmenuPorPerfil($entorno, $perfil='', $menu) {
         $columns = 'menu.*';
         $join = 'LEFT JOIN recurso ON recurso.id = menu.recurso_id ';
         $join.= 'LEFT JOIN recurso_perfil ON recurso.id = recurso_perfil.recurso_id ';
         $conditions = "menu.menu_id = $menu AND menu.visibilidad = $entorno AND menu.activo = ".self::ACTIVO;         
-        //Verifico si el perfil tiene el comodín
-        $recurso = new RecursoPerfil();
-        if($recurso->count("recurso_id = ".Recurso::COMODIN." AND perfil_id= $perfil")) {
-            $perfil = NULL; //Para que liste todos los submenús
+        if(!empty($perfil)) {            
+            //Verifico si el perfil tiene el comodín
+            $recurso = new RecursoPerfil();
+            if($recurso->count("recurso_id = ".Recurso::COMODIN." AND perfil_id= $perfil")) {
+                $perfil = NULL; //Para que liste todos los submenús
+            }
+            $conditions.= (empty($perfil) OR $perfil==Perfil::SUPER_USUARIO) ? '' :  " AND recurso_perfil.perfil_id = $perfil";
         }
-        $conditions.= (empty($perfil) OR $perfil==Perfil::SUPER_USUARIO) ? '' :  " AND recurso_perfil.perfil_id = $perfil";
         $group = 'menu.id';
         $order = 'menu.posicion ASC';        
         return $this->find("columns: $columns", "join: $join", "conditions: $conditions", "group: $group", "order: $order"); 

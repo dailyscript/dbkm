@@ -68,20 +68,45 @@ class DwMessage {
     }
     
     /**
-     * Muestra los mensajes dw-flash
-     */    
-    public static function output() {            
+     * Método para limpiar los mensajes almacenados
+     */
+    public static function clean() {
+        //Reinicio la variable de los mensajes
+        self::$_contentMsj = array();
+        //Elimino los almacenados en sesión
+        Session::delete('dw-messages');
+    }
+
+    /**
+     * Muestra los mensajes
+     */
+    public static function output() {
         //Asigno los mensajes almacenados en sesión en una variable temporal
         $tmp = Session::get('dw-messages');
-        //Recorro los mensajes        
+        //Recorro los mensajes
         foreach($tmp as $msg) {
             // Imprimo los mensajes
             echo $msg;
-        }                        
-        //Reinicio la variable de los mensajes
-        self::$_contentMsj = array();        
-        //Elimino los almacenados en sesión        
-        Session::delete('dw-messages');       
+        }
+        self::clean();
+    }
+    
+    /**
+     * Retorna los mensajes cargados como string
+     */
+    public static function toString() {
+        //Asigno los mensajes almacenados en sesión en una variable temporal
+        $tmp = self::has() ? Session::get('dw-messages') : array();
+        $msg = array();
+        //Recorro los mensajes
+        foreach($tmp as $item) {
+            //Limpio los mensajes
+            $msg[] = str_replace('×', '', Filter::get($item, 'striptags'));
+        }
+        $flash = Filter::get(ob_get_clean(), 'striptags', 'trim'); //Almaceno los mensajes que hay en el buffer por el Flash::
+        $msg = Filter::get(join('<br />', $msg), 'trim');
+        self::clean(); //Limpio los mensajes de la sesión               
+        return ($flash) ? $flash.'<br />'.$msg : $msg;
     }
 
     /**

@@ -127,6 +127,7 @@
          * Y los carga en un contenedor
          */
         cFRemote: function(event){
+            DwSpinner('hide');
             event.preventDefault();
             este = $(this);
             var val = true;
@@ -140,7 +141,8 @@
                 try { val = eval(before_send); } catch(e) { }
             }
             if(!val) {
-                return false
+                button.removeAttr('disabled');
+                return false;
             }
             if(este.hasClass('dw-validate')) { //Para validar el formulario antes de enviarlo
                 confirmation = este.hasClass('dw-confirm') ? true : false;
@@ -149,6 +151,7 @@
                     return false;
                 }
             }
+            DwSpinner('show');
             $.post(url, este.serialize(), function(data, status){
                 var capa = $('#'+div);
                 if(after_send!=null) {

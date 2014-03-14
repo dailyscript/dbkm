@@ -70,7 +70,7 @@ class DwForm extends Form {
      */
     protected static function _getAttrsClass($attrs, $type) {
         if($type=='form' or $type=='form-multipart') {
-            $formAjax = true;
+            $formAjax = (APP_AJAX && Session::get('app_ajax')) ? TRUE : FALSE;
             if(isset($attrs['class'])) {
                 if(preg_match("/\bno-ajax\b/i", $attrs['class'])){
                     $formAjax = false;
@@ -79,8 +79,12 @@ class DwForm extends Form {
                 if(!preg_match("/\bdw-form\b/i", $attrs['class'])) {
                     $attrs['class'] = 'dw-form '.$attrs['class'];
                 }
+                //Verifico si está definida la clase para ajax, pero si no se encuentra el aplicativo para ajax
+                if(preg_match("/\bjs-remote\b/i", $attrs['class']) && !$formAjax) {
+                    $formAjax = TRUE;
+                }
                 //Verifico si el aplicativo está con ajax
-                if(APP_AJAX && $formAjax) {
+                if($formAjax) {
                     //Verifico si está definida la clase para ajax
                     if(!preg_match("/\bjs-remote\b/i", $attrs['class'])) {
                         $attrs['class'] = 'js-remote '.$attrs['class'];
@@ -91,10 +95,10 @@ class DwForm extends Form {
                 }
             } else {
                 //Asigno que pertenece a la clase dw-form y si utiliza ajax
-                $attrs['class'] = (APP_AJAX) ? 'dw-form dw-validate js-remote' : 'dw-form';
+                $attrs['class'] = ($formAjax) ? 'dw-form dw-validate js-remote' : 'dw-form';
             }
 
-            if(APP_AJAX && $formAjax && !isset($attrs['data-to'])) { //Si es un form con ajax verifico si está definido el data-div
+            if($formAjax && !isset($attrs['data-to'])) { //Si es un form con ajax verifico si está definido el data-div
                 $attrs['data-to'] = 'dw-shell-content';
             }
             if(!isset($attrs['id'])) { //Verifico si está definido el id
@@ -259,7 +263,7 @@ class DwForm extends Form {
         $form = '';
         $attrs = self::_getAttrsClass($attrs, 'form'); //Verifico los atributos
         //Verifico si se valida
-        if(preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) {
+        if( (preg_match("/\bdw-validate\b/i", $attrs['class']) OR $validate) && !preg_match("/\bjs-remote\b/i", $attrs['class']) ) {           
             $form.= self::_getValidationForm();
         }
         if($method=='') {

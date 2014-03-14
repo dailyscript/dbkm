@@ -1,7 +1,8 @@
 <?php
-$ruta = APP_PATH . 'temp/backup/' . $backup->archivo;
+$file = APP_PATH . 'temp/backup/' . $backup->archivo;
 
-header( "Content-Disposition: attachment; filename=".$backup->archivo."");
-header( "Content-type: application/octet-stream" );
-header("Content-Length: ".$backup->tamano); //header que envia al navegador el tamaño del archivo.
-readfile($ruta);
+$name = str_replace(' ', '_', APP_NAME.'-'.APP_CLIENT).'-'.$backup->archivo;
+header( "Content-Disposition: attachment; filename=".$name."");
+header( "Content-type: application/x-compressed" );
+header( "Content-Length: ".filesize($file) ); //header que envia al navegador el tamaño del archivo.
+readfile($file);

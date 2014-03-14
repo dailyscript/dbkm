@@ -29,13 +29,19 @@ class DwMenu {
      */
     protected static $_entorno;
     
+    /**
+     * Variable para indicar el perfil
+     */
+    protected static $_perfil;
+    
     
     /**
      * Método para cargar en variables los menús
      * @param type $perfil
      */
     public static function load($entorno, $perfil) {        
-        self::$_entorno = $entorno;        
+        self::$_entorno = $entorno;
+        self::$_perfil = $perfil;
         $menu = new Menu();
         if(self::$_main==NULL) {                        
             self::$_main = $menu->getListadoMenuPorPerfil($entorno, $perfil);
@@ -59,7 +65,7 @@ class DwMenu {
             foreach(self::$_main as $main) {         
                 $active = ($main->url==$route) ? 'active' : null;
                 if(self::$_entorno==Menu::BACKEND) {
-                    $html.= '<li class="'.$active.'">'.DwHtml::link($main->url, $main->menu, array('class'=>'main-menu-link', 'data-filter'=>"sub-menu-".strtolower($main->menu)), $main->icono).'</li>'.PHP_EOL;
+                    $html.= '<li class="'.$active.'">'.DwHtml::link($main->url, $main->menu, array('class'=>'main-menu-link', 'data-filter'=>"sub-menu-".DwUtils::getSlug($main->menu)), $main->icono).'</li>'.PHP_EOL;
                 } else {
                     if(!array_key_exists($main->menu, self::$_items)) {
                         $text = $main->menu.'<b class="caret"></b>';
@@ -95,13 +101,13 @@ class DwMenu {
                 $html.= '<li class="dropdown">';
                 $html.= DwHtml::link('#', $text, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), NULL, FALSE);
                 if(array_key_exists($main->menu, self::$_items)) {
-                    $html.= '<ul class="dropdown-menu">';
+                    $html.= '<ul class="dropdown-menu" style="position: relative;">';
                     foreach(self::$_items[$main->menu] as $item) { 
                         if(!APP_OFFICE && $item->id == Menu::SUCURSAL) {
                             continue;
                         }
                         $active = ($item->url==$route) ? 'active' : null;                        
-                        $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, NULL, $item->icon, FALSE).'</li>';
+                        $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, NULL, $item->icon, TRUE).'</li>';
                     }
                     $html.= '</ul>';
                 }
@@ -120,15 +126,27 @@ class DwMenu {
         $route = trim(Router::get('route'), '/');
         $html = '';        
         foreach(self::$_items as $menu => $items) {
-            $html.= '<div id="sub-menu-'.strtolower($menu).'" class="subnav hidden">'.PHP_EOL;
+            $html.= '<div id="sub-menu-'.DwUtils::getSlug($menu).'" class="subnav hidden">'.PHP_EOL;
             $html.= '<ul class="nav nav-pills">'.PHP_EOL;
             if(array_key_exists($menu, self::$_items)) {
                 foreach(self::$_items[$menu] as $item) {
                     if(!APP_OFFICE && $item->id == Menu::SUCURSAL) {
                         continue;
                     }
-                    $active = ($item->url==$route or $item->url=='principal') ? 'active' : null;
-                    $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icono).'</li>'.PHP_EOL;
+                    $active = ($item->url==$route or $item->url=='principal') ? 'active' : null;                    
+                    $submenu = $item->getListadoSubmenuPorPerfil(self::$_entorno, self::$_perfil, $item->id);
+                    if($submenu) {
+                        $html.= '<li class="'.$active.'dropdown">';
+                        $html.= DwHtml::link($item->url, $item->menu.' <b class="caret"></b>', array('class'=>'dropdown-toggle', 'role'=>"button", "data-toggle"=>"dropdown"), $item->icono);                        
+                        $html.= '<ul class="dropdown-menu" role="menu">';
+                        foreach($submenu as $tmp) {
+                            $html.= '<li>'.DwHtml::link($tmp->url, $tmp->menu, null, $tmp->icono).'</li>'.PHP_EOL;
+                        }
+                        $html.= '</ul>';
+                        $html.= '</li>';
+                    } else {
+                        $html.= '<li class="'.$active.'">'.DwHtml::link($item->url, $item->menu, null, $item->icono).'</li>'.PHP_EOL;
+                    }                                        
                 }
             }
             $html.= '</ul>'.PHP_EOL;

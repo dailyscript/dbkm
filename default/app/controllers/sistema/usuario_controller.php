@@ -111,7 +111,7 @@ class UsuarioController extends BackendController {
                 } 
             }
         }        
-        $this->temas = DwUtils::getFolders(dirname(APP_PATH).'/public/css/themes/');
+        $this->temas = DwUtils::getFolders(dirname(APP_PATH).'/public/css/backend/themes/');
         $this->usuario = $usuario;
         $this->page_title = 'Actualizar usuario';
         

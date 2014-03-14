@@ -18,39 +18,7 @@ class ActiveRecord extends KumbiaActiveRecord  {
     
     //Se indica si se crear los archivos log
     public $logger = APP_LOGGER;
-    
-    /**
-     * Updates Data in the Relational Table
-     *
-     * @param mixed $values
-     * @return boolean sucess
-     */
-    public function update() {
-        if (func_num_args() > 0) {
-            $params = Util::getParams(func_get_args());
-            $values = (isset($params[0]) && is_array($params[0])) ? $params[0] : $params;
-            foreach ($this->fields as $field) {
-                if (isset($values[$field])) {
-                    $this->$field = $values[$field];
-                }
-            }
-        }
-        if(empty($this->id)) {
-            DwMessage::error('No se puede actualizar porque el registro no existe');
-            return false;
-        }
-        $data = $this->to_array(); //Almaceno los datos nuevos previamente autocargados
-        //Elimino las key del array innecesarias        
-        foreach($data as $key => $value) {
-            if(preg_match('/\*/i', $key)) {
-                unset($data[$key]);
-            }
-        }
-        $this->find_first(); //Cargo el objeto con los datos registrados en la bd        
-        $this->dump_result_self($data); //Se aplica el merge con los datos anteriores para actualizar
-        return parent::update();        
-    }
-    
+           
     /**
      * Método que devuelve el order en SQL tomado de la url
      * @param string $s

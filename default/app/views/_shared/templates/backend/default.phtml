@@ -6,9 +6,14 @@
         <meta charset="<?php echo APP_CHARSET; ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="noindex,nofollow" />
+        <?php if(!APP_LOCAL) { ?>        
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+        <?php } else { ?>
         <?php Tag::css('bootstrap/default/css/bootstrap.min'); ?>
-        <?php Tag::css('bootstrap/datepicker'); ?>
         <?php Tag::css('font-awesome.min'); ?>
+        <?php } ?>
+        <?php Tag::css('bootstrap/datepicker'); ?>
         <?php Tag::css('style'); ?>
         <?php Tag::css('backend/base'); ?>
         <?php Tag::css('backend/style'); ?>
