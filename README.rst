@@ -7,10 +7,8 @@ Con el DBKM podrás gestionar de manera rápida y segura los usuarios, perfiles,
 
 .. image:: http://soyprogramador.liz.mx/wp-content/uploads/2013/01/image5.png
 
-Demo
--------------------
-
 `Demo <http://dbkm.dailyscript.com.co>`_
+-------------------
 
 Usuario: admin
 
