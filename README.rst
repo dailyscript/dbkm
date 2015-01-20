@@ -7,4 +7,4 @@ Con el DBKM podrás gestionar de manera rápida y segura los usuarios, perfiles,
 
 .. image:: http://soyprogramador.liz.mx/wp-content/uploads/2013/01/image5.png
 
-`Ver <http://github.com/argordmel/dbkm/>`_
+`Nuevo Repositorio https://github.com/argordmel/dbkm/ <http://github.com/argordmel/dbkm/>`_
