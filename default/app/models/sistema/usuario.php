@@ -29,7 +29,7 @@ class Usuario extends ActiveRecord {
      * @return string
      */
     public static function getInnerEstado() {
-        return "INNER JOIN (SELECT usuario_id, CASE estado_usuario WHEN ".EstadoUsuario::COD_ACTIVO." THEN '".EstadoUsuario::ACTIVO."' WHEN ".EstadoUsuario::COD_BLOQUEADO." THEN '".EstadoUsuario::BLOQUEADO."' ELSE 'INDEFINIDO' END AS estado_usuario, descripcion, fecha_estado_at FROM (SELECT * FROM estado_usuario ORDER BY estado_usuario.id DESC ) AS estado_usuario GROUP BY estado_usuario.usuario_id ) AS estado_usuario ON estado_usuario.usuario_id = usuario.id ";        
+        return "INNER JOIN (SELECT id, usuario_id, CASE estado_usuario WHEN ".EstadoUsuario::COD_ACTIVO." THEN '".EstadoUsuario::ACTIVO."' WHEN ".EstadoUsuario::COD_BLOQUEADO." THEN '".EstadoUsuario::BLOQUEADO."' ELSE 'INDEFINIDO' END AS estado_usuario, descripcion, fecha_estado_at FROM estado_usuario) AS estado_usuario ON estado_usuario.usuario_id = usuario.id AND estado_usuario.id = (SELECT MAX(id) FROM estado_usuario WHERE estado_usuario.usuario_id = usuario.id) ";        
     }
     
     /**
